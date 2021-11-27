@@ -1,1 +1,1 @@
-from app.data._mysql.models.store import Store, OnlineStore, PhysicalStore
+from app.data._mysql.models.store import Store, StoreType, OnlineStore, PhysicalStore
