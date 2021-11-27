@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 
 from app.data._mysql.models import BaseModel
 
@@ -11,3 +12,5 @@ class ContactPerson(BaseModel):
     last_name = Column(String(length=45), nullable=False)
     phone = Column(String(length=25), nullable=False)
     email = Column(String(length=100), nullable=False)
+
+    supplier = relationship("Supplier", backref="contact_person", lazy=True, uselist=False)

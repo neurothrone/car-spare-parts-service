@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 
 from app.data._mysql.models import BaseModel
 
@@ -11,4 +11,4 @@ class Supplier(BaseModel):
     head_office_phone = Column(String(length=25), nullable=False)
     head_office_address = Column(String(length=100), nullable=False)
 
-    # fk contact_person (one-to-one, dashed)
+    contact_person_id = Column(Integer, ForeignKey("contact_persons.contact_person_id"), nullable=True)
