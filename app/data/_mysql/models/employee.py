@@ -1,4 +1,4 @@
-from sqlalchemy import CHAR, Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app.data._mysql.models import BaseModel
@@ -14,4 +14,5 @@ class Employee(BaseModel):
     phone = Column(String(length=25), nullable=False)
     email = Column(String(length=100), nullable=False)
 
-    # fk store_id
+    store_id = Column(Integer, ForeignKey("stores.store_id"))
+    store = relationship("Store", back_populates="employees")
