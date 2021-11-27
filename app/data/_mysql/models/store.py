@@ -1,7 +1,12 @@
 from sqlalchemy import CHAR, Column, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import backref, relationship
 
 from app.data._mysql.models import BaseModel
+
+
+class StoreType:
+    ONLINE = "o"
+    PHYSICAL = "p"
 
 
 class Store(BaseModel):
@@ -14,11 +19,18 @@ class Store(BaseModel):
 
     employees = relationship("Employee", back_populates="store")
 
-    # back_populates = StoreHasProduct.store
-    # products will be a list of StoreHasProduct (accessible through StoreHasProduct.product)
+    # back_populates=StoreHasProduct.store
     products = relationship("StoreHasProduct", back_populates="store")
 
     # UNIQUE (store_id, store_type)
+
+
+class OnlineStore:
+    pass
+
+
+class PhysicalStore:
+    pass
 
 # class OnlineStore(BaseModel):
 #     __tablename__ = "online_stores"
