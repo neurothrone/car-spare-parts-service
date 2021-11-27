@@ -25,6 +25,12 @@ class BaseController:
 
     @staticmethod
     def pprint(obj: T) -> None:
+        if not obj:
+            return
+
+        if not isinstance(obj, BaseModel):
+            raise TypeError("The object is not an instance of BaseModel.")
+
         pprint(obj.to_dict(), sort_dicts=False)
 
     @classmethod
