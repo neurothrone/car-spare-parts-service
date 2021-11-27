@@ -2,6 +2,7 @@ from sqlalchemy import CHAR, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import backref, relationship
 
 from app.data._mysql.models import BaseModel
+from app.data._mysql.models.associations.store_has_supplier import stores_has_suppliers
 
 
 class StoreType:
@@ -21,6 +22,12 @@ class Store(BaseModel):
 
     # back_populates=StoreHasProduct.store
     products = relationship("StoreHasProduct", back_populates="store")
+
+    suppliers = relationship(
+        "Supplier",
+        secondary=stores_has_suppliers,
+        back_populates="stores"
+    )
 
     # UNIQUE (store_id, store_type)
 
