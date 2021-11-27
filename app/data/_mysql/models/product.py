@@ -17,5 +17,9 @@ class Product(BaseModel):
     # CHECK (price >= 0)
     price = Column(DECIMAL(7, 2), nullable=False)
 
+    # back_populates = StoreHasProduct.product
+    # stores will be a list of StoreHasProduct (accessible through StoreHasProduct.store)
+    stores = relationship("StoreHasProduct", back_populates="product")
+
     # CONSTRAINT products_chk_price_gt_cost
     #   CHECK (price >= cost)
