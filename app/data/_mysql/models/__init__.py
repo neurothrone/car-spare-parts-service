@@ -7,7 +7,8 @@ T = TypeVar("T", bound="BaseModel")
 
 class BaseModel(Base, Generic[T]):
     __abstract__ = True
-    __table_args__ = {"schema": Config.DB_NAME}
+
+    # __table_args__ = {"schema": Config.DB_NAME}
 
     def __repr__(self) -> str:
         attributes = ", ".join(f"{k}={v}" for k, v in self.to_dict().items())
@@ -19,3 +20,9 @@ class BaseModel(Base, Generic[T]):
 
     def to_dict(self) -> dict:
         return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}
+
+
+from app.data._mysql.models.store import Store
+from app.data._mysql.models.employee import Employee
+from app.data._mysql.models.product import Product
+from app.data._mysql.models.associations.store_has_product import StoreHasProduct
