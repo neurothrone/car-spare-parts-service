@@ -12,9 +12,8 @@ class SupplierController(BaseController):
         return SupplierRepository.find_by_id(_id)
 
     @staticmethod
-    def add_contact_person(supplier: Supplier, contact_person: ContactPerson,
-                           remove_existing: bool = False) -> None:
-        SupplierRepository.add_contact_person(supplier, contact_person, remove_existing)
+    def add_contact_person(supplier: Supplier, contact_person: ContactPerson) -> None:
+        SupplierRepository.add_contact_person(supplier, contact_person)
 
     @staticmethod
     def remove_contact_person(supplier: Supplier) -> None:
