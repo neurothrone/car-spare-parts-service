@@ -1,6 +1,6 @@
 from app.controllers import BaseController
 from app.data.models.product import Product
-from app.data.models.store import Store
+from app.data.models.store import Store, StoreType
 from app.data.models.supplier import Supplier
 from app.data.repositories.store import StoreRepository
 
@@ -9,9 +9,17 @@ class StoreController(BaseController):
     model = Store
 
     @classmethod
-    def create(cls, store_type: str, phone: str, email: str) -> Store:
+    def create(cls, store_type: str, phone: str, email: str,
+               address: str = None, zip_code: str = None, city: str = None) -> Store:
+        if store_type == StoreType.PHYSICAL and None in [address, zip_code, city]:
+            raise TypeError("A physical store must have an address, zip code or city.")
+
+        if store_type == StoreType.ONLINE and None not in [address, zip_code, city]:
+            raise TypeError("An online store must not have an address, zip code or city.")
+
         return StoreRepository.create(cls.model, store_type=store_type, phone=phone,
-                                      email=email)
+                                      email=email, address=address,
+                                      zip_code=zip_code, city=city)
 
     @staticmethod
     def find_by_id(_id: int) -> Store:
