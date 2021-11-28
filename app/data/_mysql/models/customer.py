@@ -14,7 +14,7 @@ class Customer(BaseModel):
     customer_name = Column(String(length=100), nullable=False)
     phone = Column(String(length=25), nullable=False)
     email = Column(String(length=100), nullable=False)
-    address = Column(String(length=125), nullable=False)
+    address = Column(String(length=100), nullable=False)
     zip_code = Column(String(length=7), nullable=False)
     city = Column(String(length=50), nullable=False)
 
