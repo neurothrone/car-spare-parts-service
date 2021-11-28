@@ -5,19 +5,25 @@ from app.data.models.store import Store, StoreType
 from shared.validators import validate_length
 
 
+# TODO: create a decorator for validating string lengths
+# TODO: move validation to controllers
+
+
 class StoreGenerator:
     STORE_TYPE_MAX_LEN = 1
     PHONE_MAX_LEN = 25
     EMAIL_MAX_LEN = 100
 
     @staticmethod
-    def generate(store_type: str, phone: str, email: str) -> Store:
+    def generate(store_type: str, phone: str, email: str,
+                 address: str = None, zip_code: str = None, city: str = None) -> Store:
         validate_length(store_type, StoreGenerator.STORE_TYPE_MAX_LEN)
         validate_length(phone, StoreGenerator.PHONE_MAX_LEN)
         validate_length(email, StoreGenerator.EMAIL_MAX_LEN)
 
         return StoreController.create(
-            store_type=store_type, phone=phone, email=email)
+            store_type=store_type, phone=phone, email=email,
+            address=address, zip_code=zip_code, city=city)
 
 
 def test_store_supplier():
@@ -38,19 +44,39 @@ def test_store_supplier():
     print(store)
 
 
+def test_store_fail():
+    # store = StoreController.create(store_type=StoreType.PHYSICAL,
+    #                                phone="+64 70 722 88 88",
+    #                                email="store@example.se")
+    store = StoreController.create(store_type=StoreType.ONLINE,
+                                   phone="+64 70 722 88 88",
+                                   email="store@example.se",
+                                   address="Tarbergsgatan 25",
+                                   zip_code="172 41",
+                                   city="Karlstad")
+
+
 def test_store_product():
     # TODO: creation
     # store = StoreController.create(store_type=StoreType.PHYSICAL,
     #                                phone="+64 70 722 88 88",
+    #                                email="store@example.se",
+    #                                address="Tarbergsgatan 25",
+    #                                zip_code="172 41",
+    #                                city="Karlstad")
+    # store = StoreController.create(store_type=StoreType.ONLINE,
+    #                                phone="+64 70 722 88 88",
     #                                email="store@example.se")
+
     # product = ProductController.create(name="Product Name",
     #                                    description="Description",
     #                                    cost=15,
     #                                    price=20)
 
     # TODO: retrieval
-    store = StoreController.find_by_id(2)
-    product = ProductController.find_by_id(2)
+    store = StoreController.find_by_id(1)
+    print(store)
+    product = ProductController.find_by_id(1)
 
     # TODO: adding (with defaults and with custom)
     # StoreController.add_product_to_store(store, product)
@@ -73,12 +99,7 @@ def test_store_product():
 
 
 def main():
-    # store = StoreGenerator.generate(
-    #     store_type=StoreType.PHYSICAL,
-    #     phone="+64 70 991 73 41",
-    #     email="location@store.com"
-    # )
-
+    # test_store_fail()
     test_store_product()
     # test_store_supplier()
 
