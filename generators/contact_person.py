@@ -23,6 +23,25 @@ class ContactPersonGenerator:
             phone=phone, email=email)
 
 
+def test_supplier_contact_person():
+    contact_person = ContactPersonController.find_by_id(2)
+    supplier = SupplierController.find_by_id(3)
+
+    print(contact_person)
+    print(supplier)
+
+    print()
+    print(contact_person.supplier)
+    print(f"Supplier, contact_person_id: {supplier.contact_person_id}")
+
+    SupplierController.add_contact_person(supplier, contact_person)
+    # SupplierController.remove_contact_person(supplier)
+
+    print()
+    print(contact_person.supplier)
+    print(f"Supplier, contact_person_id: {supplier.contact_person_id}")
+
+
 def main():
     # cp = ContactPersonGenerator.generate(
     #     first_name="Mary",
@@ -31,22 +50,7 @@ def main():
     #     email="contact_person@supply_parts.se"
     # )
 
-    cp = ContactPersonController.find_by_id(2)
-    supplier = SupplierController.find_by_id(3)
-    # print(supplier)
-
-    print(cp.supplier)
-    print(f"Supplier, cp id: {supplier.contact_person_id}")
-
-    # setup contact person and supplier
-    # cp.supplier = supplier
-    # supplier.contact_person_id = cp.contact_person_id
-    # session.commit()
-
-    # print(cp.supplier is not None)
-    # print(supplier.contact_person_id is not None)
-
-    # ContactPersonController.pprint_all()
+    test_supplier_contact_person()
 
 
 if __name__ == "__main__":
