@@ -11,6 +11,9 @@ class StoreController(BaseController):
     @classmethod
     def create(cls, store_type: str, phone: str, email: str,
                address: str = None, zip_code: str = None, city: str = None) -> Store:
+        if store_type not in [StoreType.PHYSICAL, StoreType.ONLINE]:
+            raise ValueError("Store type can only be 'p' or 'o'.")
+
         if store_type == StoreType.PHYSICAL and None in [address, zip_code, city]:
             raise TypeError("A physical store must have an address, zip code or city.")
 
