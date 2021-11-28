@@ -50,7 +50,7 @@ ENGINE = InnoDB;
 -- Table `car-spare-parts-db`.`suppliers`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `car-spare-parts-db`.`suppliers` (
-  `supplier_id` INT NOT NULL,
+  `supplier_id` INT NOT NULL AUTO_INCREMENT,
   `company_name` VARCHAR(45) NOT NULL,
   `head_office_phone` VARCHAR(25) NOT NULL,
   `head_office_address` VARCHAR(100) NOT NULL,
