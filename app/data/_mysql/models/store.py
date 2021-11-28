@@ -1,4 +1,4 @@
-from sqlalchemy import CHAR, Column, ForeignKey, Integer, String
+from sqlalchemy import CHAR, Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.data._mysql.models import BaseModel
@@ -29,9 +29,3 @@ class Store(BaseModel):
         secondary=stores_has_suppliers,
         back_populates="stores"
     )
-
-# TODO:
-#       - remove Not Null constraint from address, zip_code, city
-#       - when creating a store, if store_type is online, only then can address, zip and city be null
-#       - update repository, controller, generator and add safeguard/differentiation for online, physical type
-#       - verify new changes work on generators and so on
