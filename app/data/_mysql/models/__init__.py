@@ -25,7 +25,8 @@ class BaseModel(Base, Generic[T]):
 from app.data._mysql.models.store import Store
 from app.data._mysql.models.employee import Employee
 from app.data._mysql.models.product import Product
-from app.data._mysql.models.associations.store_has_product import StoreHasProduct
 
 from app.data._mysql.models.supplier import Supplier
 from app.data._mysql.models.contact_person import ContactPerson
+
+from app.data._mysql.models.associations.store_has_product import StoreHasProduct

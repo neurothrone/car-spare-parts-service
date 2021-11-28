@@ -1,5 +1,3 @@
-from pprint import pprint
-
 from app.controllers.product import ProductController
 from app.data.models.product import Product
 
@@ -19,21 +17,20 @@ class ProductGenerator:
         if cost > price:
             raise ValueError(f"Cost is greater than price.")
 
-        return ProductController.create(name=name, description=description, cost=cost, price=price)
+        return ProductController.create(
+            name=name, description=description, cost=cost, price=price)
 
 
 def main():
-    # product = ProductGenerator.generate(
-    #     name="Part A",
-    #     description="Description about product",
-    #     cost=25.5,
-    #     price=40.9
-    # )
+    product = ProductGenerator.generate(
+        name="Part D",
+        description="Description about product",
+        cost=25,
+        price=30
+    )
 
-    product = ProductController.find_by_id(1)
-    ProductController.pprint(product)
-
-    ProductController.pprint_all()
+    product = ProductController.find_by_id(2)
+    print(product)
 
 
 if __name__ == "__main__":

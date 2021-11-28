@@ -1,5 +1,5 @@
 from sqlalchemy import CHAR, Column, ForeignKey, Integer, String
-from sqlalchemy.orm import backref, relationship
+from sqlalchemy.orm import relationship
 
 from app.data._mysql.models import BaseModel
 from app.data._mysql.models.associations.store_has_supplier import stores_has_suppliers
@@ -20,7 +20,6 @@ class Store(BaseModel):
 
     employees = relationship("Employee", back_populates="store")
 
-    # back_populates=StoreHasProduct.store
     products = relationship("StoreHasProduct", back_populates="store")
 
     suppliers = relationship(
