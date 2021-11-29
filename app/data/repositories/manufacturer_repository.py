@@ -1,0 +1,1 @@
+from app.data._mysql.repositories.manufacturer_repository import ManufacturerRepository

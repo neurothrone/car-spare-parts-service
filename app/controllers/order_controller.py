@@ -1,6 +1,6 @@
 from app.controllers import BaseController
 from app.data.models.order import Order
-from app.data.repositories.order import OrderRepository
+from app.data.repositories.order_repository import OrderRepository
 
 
 class OrderController(BaseController):

@@ -1,7 +1,7 @@
 from app.controllers import BaseController
 from app.data.models.contact_person import ContactPerson
 from app.data.models.supplier import Supplier
-from app.data.repositories.supplier import SupplierRepository
+from app.data.repositories.supplier_repository import SupplierRepository
 
 
 class SupplierController(BaseController):

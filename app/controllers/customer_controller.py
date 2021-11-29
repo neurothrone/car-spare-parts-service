@@ -1,6 +1,6 @@
 from app.controllers import BaseController
 from app.data.models.customer import Customer
-from app.data.repositories.customer import CustomerRepository
+from app.data.repositories.customer_repository import CustomerRepository
 
 
 class CustomerController(BaseController):

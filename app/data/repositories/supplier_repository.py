@@ -1,0 +1,1 @@
+from app.data._mysql.repositories.supplier_repository import SupplierRepository

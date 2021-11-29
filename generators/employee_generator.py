@@ -1,4 +1,4 @@
-from app.controllers.employee import EmployeeController
+from app.controllers.employee_controller import EmployeeController
 from app.data.models.employee import Employee
 from shared.validators import validate_length
 

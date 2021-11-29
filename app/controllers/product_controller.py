@@ -1,6 +1,6 @@
 from app.controllers import BaseController
 from app.data.models.product import Product
-from app.data.repositories.product import ProductRepository
+from app.data.repositories.product_repository import ProductRepository
 
 
 class ProductController(BaseController):

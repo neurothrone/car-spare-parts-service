@@ -1,5 +1,5 @@
-from app.controllers.contact_person import ContactPersonController
-from app.controllers.supplier import SupplierController
+from app.controllers.contact_person_controller import ContactPersonController
+from app.controllers.supplier_controller import SupplierController
 from app.data.models.contact_person import ContactPerson
 from shared.validators import validate_length
 

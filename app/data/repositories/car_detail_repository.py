@@ -1,0 +1,1 @@
+from app.data._mysql.repositories.car_detail_repository import CarDetailRepository

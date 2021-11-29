@@ -1,4 +1,4 @@
-from app.controllers.supplier import SupplierController
+from app.controllers.supplier_controller import SupplierController
 from app.data.models.supplier import Supplier
 from shared.validators import validate_length
 

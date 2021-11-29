@@ -1,6 +1,6 @@
 from app.controllers import BaseController
 from app.data.models.manufacturer import Manufacturer
-from app.data.repositories.manufacturer import ManufacturerRepository
+from app.data.repositories.manufacturer_repository import ManufacturerRepository
 
 
 class ManufacturerController(BaseController):

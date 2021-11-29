@@ -2,7 +2,7 @@ from app.controllers import BaseController
 from app.data.models.product import Product
 from app.data.models.store import Store, StoreType
 from app.data.models.supplier import Supplier
-from app.data.repositories.store import StoreRepository
+from app.data.repositories.store_repository import StoreRepository
 
 
 class StoreController(BaseController):

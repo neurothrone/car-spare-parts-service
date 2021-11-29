@@ -1,6 +1,6 @@
 from app.controllers import BaseController
 from app.data.models.employee import Employee
-from app.data.repositories.employee import EmployeeRepository
+from app.data.repositories.employee_repository import EmployeeRepository
 
 
 class EmployeeController(BaseController):

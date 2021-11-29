@@ -1,6 +1,6 @@
-from app.controllers.product import ProductController
-from app.controllers.store import StoreController
-from app.controllers.supplier import SupplierController
+from app.controllers.product_controller import ProductController
+from app.controllers.store_controller import StoreController
+from app.controllers.supplier_controller import SupplierController
 from app.data.models.store import Store, StoreType
 from shared.validators import validate_length
 

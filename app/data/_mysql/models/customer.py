@@ -18,41 +18,6 @@ class Customer(BaseModel):
     zip_code = Column(String(length=7), nullable=False)
     city = Column(String(length=50), nullable=False)
 
-    # fk employee_id @ employees table
-    # UNIQUE (customer_id, customer_type)
-
-
-class CorporateCustomer(BaseModel):
-    __tablename__ = "customers"
-
-    customer_id = Column(Integer, autoincrement=True, primary_key=True)
-    customer_type = Column(CHAR(length=1), nullable=False)
-    organization_number = Column(Integer, nullable=False, unique=True)
-    organization_name = Column(String(length=45), nullable=False)
-
-    # customer_id         INT AUTO_INCREMENT PRIMARY KEY,
-    # customer_type       CHAR(1) NOT NULL DEFAULT 'c' check (customer_type = 'c'),
-    # organization_number INT     NOT NULL UNIQUE,
-    # organization_name   VARCHAR(45) NOT NULL
-
-    # FOREIGN KEY (customer_id, customer_type)
-    # REFERENCES customers (customer_id, customer_type) ON DELETE CASCADE
-    pass
-
-
-class PrivateCustomer(BaseModel):
-    __tablename__ = "customers"
-
-    customer_id = Column(Integer, autoincrement=True, primary_key=True)
-    customer_type = Column(CHAR(length=1), nullable=False)
-    first_name = Column(String(length=45), nullable=False)
-    last_name = Column(String(length=45), nullable=False)
-
-    # customer_id   INT AUTO_INCREMENT PRIMARY KEY,
-    # customer_type CHAR(1)     NOT NULL DEFAULT 'p' check (customer_type = 'p'),
-    # first_name    VARCHAR(45) NOT NULL,
-    # last_name     VARCHAR(45) NOT NULL,
-
-    # FOREIGN KEY (customer_id, customer_type)
-    # REFERENCES customers (customer_id, customer_type) ON DELETE CASCADE
-    pass
+    # customer One-to-Many (optional) order
+    # employee (optional) One-to-Many (optional) customer
+    # customer One-to-Many (optional) car

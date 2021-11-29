@@ -1,4 +1,4 @@
-from app.controllers.product import ProductController
+from app.controllers.product_controller import ProductController
 from app.data.models.product import Product
 
 
