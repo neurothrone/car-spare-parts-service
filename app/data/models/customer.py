@@ -1,1 +1,1 @@
-from app.data._mysql.models.customer import Customer, CorporateCustomer, PrivateCustomer
+from app.data._mysql.models.customer import Customer
