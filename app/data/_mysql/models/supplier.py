@@ -12,6 +12,6 @@ class Supplier(Base):
     head_office_address = Column(String(100), nullable=False)
     contact_person_id = Column(Integer, ForeignKey("contact_persons.contact_person_id"), nullable=True)
 
-    contact_person = relationship("ContactPerson", back_populates="suppliers")
+    contact_person = relationship("ContactPerson", back_populates="supplier")
     products = relationship("ProductHasSupplier", back_populates="supplier")
     stores = relationship("StoreHasSupplier", back_populates="supplier")
