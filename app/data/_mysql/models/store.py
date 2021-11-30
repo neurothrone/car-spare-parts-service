@@ -14,13 +14,13 @@ class Store(BaseModel):
     __tablename__ = "stores"
 
     store_id = Column(Integer, autoincrement=True, primary_key=True)
-    store_type = Column(CHAR(length=1), nullable=False)
-    phone = Column(String(length=25), nullable=False)
-    email = Column(String(length=100), nullable=False)
+    store_type = Column(CHAR(1), nullable=False)
+    phone = Column(String(25), nullable=False)
+    email = Column(String(100), nullable=False)
 
-    address = Column(String(length=100), nullable=True)
-    zip_code = Column(String(length=7), nullable=True)
-    city = Column(String(length=45), nullable=True)
+    address = Column(String(100), nullable=True)
+    zip_code = Column(String(7), nullable=True)
+    city = Column(String(45), nullable=True)
 
     employees = relationship("Employee", back_populates="store")
     products = relationship("StoreHasProduct", back_populates="store")

@@ -10,4 +10,4 @@ class Order(BaseModel):
     ordered_date = Column(TIMESTAMP, nullable=False)
     shipped_date = Column(TIMESTAMP, nullable=False)
     delivery_date = Column(Date)
-    status = Column(String(length=15), nullable=False)
+    status = Column(String(15), nullable=False)

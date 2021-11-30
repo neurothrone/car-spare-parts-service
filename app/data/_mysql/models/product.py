@@ -8,8 +8,8 @@ class Product(BaseModel):
     __tablename__ = "products"
 
     product_id = Column(Integer, autoincrement=True, primary_key=True)
-    name = Column(String(length=45), nullable=False)
-    description = Column(String(length=255))
+    name = Column(String(45), nullable=False)
+    description = Column(String(255))
     cost = Column(DECIMAL(7, 2), nullable=False)  # CHECK (cost >= 0)
     price = Column(DECIMAL(7, 2), nullable=False)  # CHECK (price >= 0)
 
