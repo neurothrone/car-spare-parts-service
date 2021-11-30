@@ -12,8 +12,5 @@ class ContactPerson(Base):
     phone = Column(String(25), nullable=False)
     email = Column(String(100), nullable=False)
 
-    supplier = relationship("Supplier", back_populates="contact_persons")
-    manufacturer = relationship("ManuFacturer", back_populates="contact_persons")
-
-    # supplier = relationship("Supplier", backref="contact_person", uselist=False)
-    # manufacturer = relationship("ManuFacturer", backref="contact_person", uselist=False)
+    supplier = relationship("Supplier", back_populates="contact_persons", uselist=False)
+    manufacturer = relationship("ManuFacturer", back_populates="contact_persons", uselist=False)
