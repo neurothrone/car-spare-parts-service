@@ -24,8 +24,8 @@ class ContactPersonGenerator:
 
 
 def test_supplier_contact_person():
-    contact_person = ContactPersonController.find_by_id(2)
-    supplier = SupplierController.find_by_id(3)
+    contact_person = ContactPersonController.find_by_id(1)
+    supplier = SupplierController.find_by_id(1)
 
     print(contact_person)
     print(supplier)
@@ -49,6 +49,9 @@ def main():
     #     phone="+64 70 772 23 23",
     #     email="contact_person@supply_parts.se"
     # )
+
+    # cp = ContactPersonController.find_by_id(1)
+    # print(cp)
 
     test_supplier_contact_person()
 

@@ -26,8 +26,11 @@ def main():
     #     head_office_address="Karbegsgatan 23, 173 43 Nattberg"
     # )
 
+    supplier = SupplierController.find_by_id(1)
+    print(supplier)
+
     # SupplierController.pprint(supplier)
-    SupplierController.pprint_all()
+    # SupplierController.pprint_all()
 
 
 if __name__ == "__main__":

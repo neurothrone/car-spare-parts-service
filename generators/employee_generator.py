@@ -1,3 +1,5 @@
+from faker import Faker
+
 from app.controllers.employee_controller import EmployeeController
 from app.data.models.employee import Employee
 from shared.validators import validate_length
@@ -18,11 +20,19 @@ class EmployeeGenerator:
 
         return EmployeeController.create(
             first_name=first_name, last_name=last_name, phone=phone,
-            email=email, store_id=store_id)
+            email=email)
 
 
-def main():
-    # employee = EmployeeGenerator.generate(
+def create_employees():
+    EmployeeGenerator.generate(
+        first_name="John",
+        last_name="Henry",
+        phone="+64 072 113 46 92",
+        email="john.henry@store.se",
+        store_id=1
+    )
+
+    # EmployeeGenerator.generate(
     #     first_name="John",
     #     last_name="Henry",
     #     phone="+64 072 113 46 92",
@@ -30,10 +40,35 @@ def main():
     #     store_id=1
     # )
 
-    employee = EmployeeController.find_by_id(1)
-    EmployeeController.pprint(employee)
+    # EmployeeGenerator.generate(
+    #     first_name="Mary",
+    #     last_name="Washington",
+    #     phone="+64 070 991 75 42",
+    #     email="mary.washington@store.se",
+    #     store_id=2
+    # )
 
+# TODO: step 1: models
+# TODO: step 2: test that it works
+
+
+def test_store_employee():
+    employee = EmployeeController.find_by_id(1)
+    print(employee)
+    # EmployeeController.pprint(employee)
+
+
+def test_employee_customer():
+    pass
+
+
+def main():
+    test_store_employee()
+
+    # create_employees()
     # EmployeeController.pprint_all()
+    # test_store_employee()
+    # test_employee_customer()
 
 
 if __name__ == "__main__":
