@@ -13,4 +13,4 @@ class ContactPerson(BaseModel):
     phone = Column(String(length=25), nullable=False)
     email = Column(String(length=100), nullable=False)
 
-    supplier = relationship("Supplier", backref="contact_person", lazy=True, uselist=False)
+    supplier = relationship("Supplier", back_populates="contact_person", uselist=False)
