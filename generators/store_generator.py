@@ -58,16 +58,7 @@ def test_store_fail():
 
 def test_store_product():
     # TODO: creation
-    # store = StoreController.create(store_type=StoreType.PHYSICAL,
-    #                                phone="+64 70 722 88 88",
-    #                                email="store@example.se",
-    #                                address="Tarbergsgatan 25",
-    #                                zip_code="172 41",
-    #                                city="Karlstad")
-    # store = StoreController.create(store_type=StoreType.ONLINE,
-    #                                phone="+64 70 722 88 88",
-    #                                email="store@example.se")
-
+    # create_stores()
     # product = ProductController.create(name="Product Name",
     #                                    description="Description",
     #                                    cost=15,
@@ -98,9 +89,22 @@ def test_store_product():
         print(shp.store)
 
 
+def create_stores():
+    StoreController.create(store_type=StoreType.PHYSICAL,
+                           phone="+64 70 722 88 88",
+                           email="store@example.se",
+                           address="Tarbergsgatan 25",
+                           zip_code="172 41",
+                           city="Karlstad")
+    StoreController.create(store_type=StoreType.ONLINE,
+                           phone="+64 70 722 88 88",
+                           email="store@example.se")
+
+
 def main():
+    create_stores()
     # test_store_fail()
-    test_store_product()
+    # test_store_product()
     # test_store_supplier()
 
 
