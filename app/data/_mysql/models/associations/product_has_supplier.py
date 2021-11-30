@@ -1,9 +1,9 @@
 from sqlalchemy import Column, ForeignKey, Integer
 from sqlalchemy.orm import relationship
-from app.data._mysql.models import BaseModel
+from app.data._mysql.models import Base
 
 
-class ProductHasSupplier(BaseModel):
+class ProductHasSupplier(Base):
     __tablename__ = "products_has_suppliers"
 
     product_id = Column(Integer, ForeignKey("products.product_id"), primary_key=True)
