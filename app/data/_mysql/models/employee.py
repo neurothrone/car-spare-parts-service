@@ -16,3 +16,5 @@ class Employee(BaseModel):
 
     store_id = Column(Integer, ForeignKey("stores.store_id"))
     store = relationship("Store", back_populates="employees")
+
+    customers = relationship("Customer", back_populates="employee")
