@@ -1,9 +1,18 @@
 import datetime
-import json
 from random import randint
 
 from faker import Faker
 from faker_vehicle import VehicleProvider
+from faker.providers import DynamicProvider
+
+product_provider = DynamicProvider(
+    provider_name="product",
+    elements=["battery", "steering-wheel", "tail-light", "head-light"]
+)
+
+product_description_list = [
+    "test1", "test2", "test3", "test4"
+]
 
 
 class CarData:
@@ -37,6 +46,7 @@ class Location:
 class FakeData:
     _faker: Faker = Faker("sv_SE")
     _faker.add_provider(VehicleProvider)
+    _faker.add_provider(product_provider)
 
     MIN_AGE = 18
     MAX_AGE = 72
@@ -147,13 +157,20 @@ class FakeData:
     def generate_company(cls) -> str:
         return cls._faker.company()
 
-    # TODO: add suffix param, e.g. Suppliers, or whatever for Manufacturer
     @classmethod
     def generate_companies(cls, amount: int) -> list[str]:
         companies = set()
         while len(companies) < amount:
             companies.add(FakeData.generate_company())
         return list(companies)
+
+    @classmethod
+    def generate_product(cls) -> str:
+        return cls._faker.product().capitalize()
+
+    @classmethod
+    def generate_product_description(cls) -> str:
+        return cls._faker.sentence(ext_word_list=product_description_list).capitalize()
 
 
 def print_sequence(sequence: list) -> None:
@@ -208,6 +225,14 @@ def test_company_generation():
     print_sequence(FakeData.generate_companies(500))
 
 
+def test_product_generation():
+    print(FakeData.generate_product())
+
+
+def test_product_description_generation():
+    print(FakeData.generate_product_description())
+
+
 def main():
     # test_name_generation()
     # test_email_generation()
@@ -216,8 +241,10 @@ def main():
     # test_reg_no_generation()
     # test_color_generation()
     # test_date_generation()
-    test_car_generation()
+    # test_car_generation()
     # test_company_generation()
+    # test_product_generation()
+    test_product_description_generation()
 
 
 if __name__ == "__main__":
