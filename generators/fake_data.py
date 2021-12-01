@@ -60,6 +60,10 @@ class FakeData:
         return randint(min_, max_)
 
     @classmethod
+    def generate_full_name(cls) -> str:
+        return cls._faker.name()
+
+    @classmethod
     def generate_full_names(cls, amount: int, unique: bool = True) -> list[str]:
         if unique:
             full_names_set = set()
