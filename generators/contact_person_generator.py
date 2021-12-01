@@ -1,6 +1,7 @@
 from app.controllers.contact_person_controller import ContactPersonController
 from app.controllers.supplier_controller import SupplierController
 from app.data.models.contact_person import ContactPerson
+from generators.fake_data import FakeData
 from shared.validators import validate_length
 
 
@@ -21,6 +22,21 @@ class ContactPersonGenerator:
         return ContactPersonController.create(
             first_name=first_name, last_name=last_name,
             phone=phone, email=email)
+
+    @classmethod
+    def populate_database(cls, amount: int) -> None:
+        full_names = FakeData.generate_full_names(amount, unique=True)
+        phone_numbers = FakeData.generate_phone_numbers(amount)
+        emails = FakeData.generate_emails(full_names, amount)
+
+        for i in range(amount):
+            first_name, last_name = full_names[i].split(" ")
+            cls.generate(
+                first_name=first_name,
+                last_name=last_name,
+                phone=phone_numbers[i],
+                email=emails[i]
+            )
 
 
 def test_supplier_contact_person():
@@ -53,7 +69,9 @@ def main():
     # cp = ContactPersonController.find_by_id(1)
     # print(cp)
 
-    test_supplier_contact_person()
+    # test_supplier_contact_person()
+
+    ContactPersonGenerator.populate_database(amount=100)
 
 
 if __name__ == "__main__":
