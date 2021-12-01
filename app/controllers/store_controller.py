@@ -1,7 +1,7 @@
 from app.controllers import BaseController
 from app.data.models.product import Product
 from app.data.models.store import Store, StoreType
-from app.data.models.supplier import Supplier
+from app.data.models.supplier import Manufacturer
 from app.data.repositories.store_repository import StoreRepository
 
 
@@ -56,11 +56,11 @@ class StoreController(BaseController):
     # region Stores-Suppliers
 
     @staticmethod
-    def add_supplier_to_store(store: Store, supplier: Supplier) -> None:
+    def add_supplier_to_store(store: Store, supplier: Manufacturer) -> None:
         StoreRepository.add_supplier_to_store(store, supplier)
 
     @staticmethod
-    def remove_supplier_from_store(store: Store, supplier: Supplier) -> None:
+    def remove_supplier_from_store(store: Store, supplier: Manufacturer) -> None:
         StoreRepository.remove_supplier_from_store(store, supplier)
 
     # endregion Stores-Suppliers
