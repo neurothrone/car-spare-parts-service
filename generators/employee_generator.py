@@ -11,7 +11,7 @@ class EmployeeGenerator:
 
     @staticmethod
     def generate(first_name: str, last_name: str, phone: str, email: str,
-                 store_id: int = None, commit: bool = True) -> None:
+                 store_id: int = None) -> None:
         validate_length(first_name, EmployeeGenerator.FIRST_NAME_LEN)
         validate_length(last_name, EmployeeGenerator.LAST_NAME_LEN)
         validate_length(phone, EmployeeGenerator.PHONE_MAX_LEN)
@@ -19,69 +19,29 @@ class EmployeeGenerator:
 
         EmployeeController.create(
             first_name=first_name, last_name=last_name, phone=phone,
-            email=email, store_id=store_id, commit=commit)
+            email=email, store_id=store_id)
 
+    @classmethod
+    def populate_database(cls, amount: int) -> None:
+        full_names = FakeData.generate_full_names(amount)
+        phone_numbers = FakeData.generate_phone_numbers(amount)
 
-def create_employees():
-    EmployeeGenerator.generate(
-        first_name="John",
-        last_name="Henry",
-        phone="+64 072 113 46 92",
-        email="john.henry@store.se",
-        store_id=1
-    )
+        for i in range(amount):
+            first_name, last_name = full_names[i].split(" ")
+            email = FakeData.generate_email(
+                username=f"{first_name}.{last_name}",
+                domain_name="store",
+                domain="se")
 
-    # EmployeeGenerator.generate(
-    #     first_name="John",
-    #     last_name="Henry",
-    #     phone="+64 072 113 46 92",
-    #     email="john.henry@store.se",
-    #     store_id=1
-    # )
-
-    # EmployeeGenerator.generate(
-    #     first_name="Mary",
-    #     last_name="Washington",
-    #     phone="+64 070 991 75 42",
-    #     email="mary.washington@store.se",
-    #     store_id=2
-    # )
-
-
-# TODO: step 1: models
-# TODO: step 2: test that it works
-
-
-def test_store_employee():
-    employee = EmployeeController.find_by_id(1)
-    print(employee)
-
-
-def test_employee_customer():
-    pass
+            cls.generate(
+                first_name=first_name,
+                last_name=last_name,
+                phone=phone_numbers[i],
+                email=email.lower())
 
 
 def main():
-    # test_store_employee()
-    first_name, last_name = FakeData.generate_full_name().split(" ")
-    # EmployeeGenerator.generate(
-    #     first_name=first_name,
-    #     last_name=last_name,
-    #     phone=FakeData.generate_phone_number(),
-    #     email=FakeData.generate_email(f"{first_name}.{last_name}")
-    # )
-
-    EmployeeGenerator.generate(
-        first_name=first_name,
-        last_name=last_name,
-        phone=FakeData.generate_phone_number(),
-        email=FakeData.generate_email(f"{first_name}.{last_name}"),
-    )
-
-    # create_employees()
-    # EmployeeController.pprint_all()
-    # test_store_employee()
-    # test_employee_customer()
+    EmployeeGenerator.populate_database(amount=100)
 
 
 if __name__ == "__main__":
