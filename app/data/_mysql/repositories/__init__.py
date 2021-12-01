@@ -8,10 +8,9 @@ T = TypeVar("T", bound=BaseModel)
 
 class BaseRepository:
     @staticmethod
-    def create(model: Type[T], **kwargs) -> T:
+    def create(model: Type[T], **kwargs) -> None:
         instance = model(**kwargs)
         BaseRepository.save_to_db(instance)
-        return instance
 
     @staticmethod
     def save_to_db(obj: Type[T]) -> None:

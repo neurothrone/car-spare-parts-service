@@ -10,7 +10,8 @@ class StoreController(BaseController):
 
     @classmethod
     def create(cls, store_type: str, phone: str, email: str,
-               address: str = None, zip_code: str = None, city: str = None) -> Store:
+               address: str = None, zip_code: str = None, city: str = None,
+               commit: bool = True) -> None:
         if store_type not in [StoreType.PHYSICAL, StoreType.ONLINE]:
             raise ValueError("Store type can only be 'p' or 'o'.")
 
@@ -20,9 +21,9 @@ class StoreController(BaseController):
         if store_type == StoreType.ONLINE and None not in [address, zip_code, city]:
             raise TypeError("An online store must not have an address, zip code or city.")
 
-        return StoreRepository.create(cls.model, store_type=store_type, phone=phone,
-                                      email=email, address=address,
-                                      zip_code=zip_code, city=city)
+        StoreRepository.create(cls.model, store_type=store_type, phone=phone,
+                               email=email, address=address,
+                               zip_code=zip_code, city=city, commit=commit)
 
     @staticmethod
     def find_by_id(_id: int) -> Store:

@@ -7,7 +7,7 @@ class ProductGenerator:
     DESCRIPTION_MAX_LEN = 255
 
     @staticmethod
-    def generate(name: str, description: str, cost: float, price: float) -> Product:
+    def generate(name: str, description: str, cost: float, price: float) -> None:
         if len(name) > ProductGenerator.NAME_MAX_LEN:
             raise ValueError(f"Max length of name is {ProductGenerator.NAME_MAX_LEN}.")
 
@@ -17,12 +17,12 @@ class ProductGenerator:
         if cost > price:
             raise ValueError(f"Cost is greater than price.")
 
-        return ProductController.create(
+        ProductController.create(
             name=name, description=description, cost=cost, price=price)
 
 
 def main():
-    product = ProductGenerator.generate(
+    ProductGenerator.generate(
         name="Part D",
         description="Description about product",
         cost=25,

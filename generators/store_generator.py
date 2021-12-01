@@ -1,7 +1,7 @@
 from app.controllers.product_controller import ProductController
 from app.controllers.store_controller import StoreController
 from app.controllers.supplier_controller import SupplierController
-from app.data.models.store import Store, StoreType
+from app.data.models.store import StoreType
 from generators.fake_data import FakeData
 from shared.validators import validate_length
 
@@ -13,12 +13,12 @@ class StoreGenerator:
 
     @staticmethod
     def generate(store_type: str, phone: str, email: str,
-                 address: str = None, zip_code: str = None, city: str = None) -> Store:
+                 address: str = None, zip_code: str = None, city: str = None) -> None:
         validate_length(store_type, StoreGenerator.STORE_TYPE_MAX_LEN)
         validate_length(phone, StoreGenerator.PHONE_MAX_LEN)
         validate_length(email, StoreGenerator.EMAIL_MAX_LEN)
 
-        return StoreController.create(
+        StoreController.create(
             store_type=store_type, phone=phone, email=email,
             address=address, zip_code=zip_code, city=city)
 

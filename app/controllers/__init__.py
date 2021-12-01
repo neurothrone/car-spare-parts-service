@@ -8,8 +8,8 @@ class BaseController:
     model = BaseModel
 
     @classmethod
-    def create(cls, **kwargs) -> T:
-        return BaseRepository.create(cls.model, **kwargs)
+    def create(cls, **kwargs) -> None:
+        BaseRepository.create(cls.model, **kwargs)
 
     @classmethod
     def find_all(cls) -> list[T]:

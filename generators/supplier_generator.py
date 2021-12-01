@@ -9,12 +9,12 @@ class SupplierGenerator:
     HEAD_OFFICE_ADDRESS_LEN = 100
 
     @staticmethod
-    def generate(company_name: str, head_office_phone: str, head_office_address: str) -> Supplier:
+    def generate(company_name: str, head_office_phone: str, head_office_address: str) -> None:
         validate_length(provided=company_name, limit=SupplierGenerator.COMPANY_NAME_MAX_LEN)
         validate_length(provided=head_office_phone, limit=SupplierGenerator.HEAD_OFFICE_PHONE_LEN)
         validate_length(provided=head_office_address, limit=SupplierGenerator.HEAD_OFFICE_ADDRESS_LEN)
 
-        return SupplierController.create(
+        SupplierController.create(
             company_name=company_name, head_office_phone=head_office_phone,
             head_office_address=head_office_address)
 

@@ -1,7 +1,5 @@
-from faker import Faker
-
 from app.controllers.employee_controller import EmployeeController
-from app.data.models.employee import Employee
+from generators.fake_data import FakeData
 from shared.validators import validate_length
 
 
@@ -12,15 +10,16 @@ class EmployeeGenerator:
     EMAIL_MAX_LEN = 100
 
     @staticmethod
-    def generate(first_name: str, last_name: str, phone: str, email: str, store_id: int) -> Employee:
+    def generate(first_name: str, last_name: str, phone: str, email: str,
+                 store_id: int = None, commit: bool = True) -> None:
         validate_length(first_name, EmployeeGenerator.FIRST_NAME_LEN)
         validate_length(last_name, EmployeeGenerator.LAST_NAME_LEN)
         validate_length(phone, EmployeeGenerator.PHONE_MAX_LEN)
         validate_length(email, EmployeeGenerator.EMAIL_MAX_LEN)
 
-        return EmployeeController.create(
+        EmployeeController.create(
             first_name=first_name, last_name=last_name, phone=phone,
-            email=email)
+            email=email, store_id=store_id, commit=commit)
 
 
 def create_employees():
@@ -48,6 +47,7 @@ def create_employees():
     #     store_id=2
     # )
 
+
 # TODO: step 1: models
 # TODO: step 2: test that it works
 
@@ -55,7 +55,6 @@ def create_employees():
 def test_store_employee():
     employee = EmployeeController.find_by_id(1)
     print(employee)
-    # EmployeeController.pprint(employee)
 
 
 def test_employee_customer():
@@ -63,7 +62,21 @@ def test_employee_customer():
 
 
 def main():
-    test_store_employee()
+    # test_store_employee()
+    first_name, last_name = FakeData.generate_full_name().split(" ")
+    # EmployeeGenerator.generate(
+    #     first_name=first_name,
+    #     last_name=last_name,
+    #     phone=FakeData.generate_phone_number(),
+    #     email=FakeData.generate_email(f"{first_name}.{last_name}")
+    # )
+
+    EmployeeGenerator.generate(
+        first_name=first_name,
+        last_name=last_name,
+        phone=FakeData.generate_phone_number(),
+        email=FakeData.generate_email(f"{first_name}.{last_name}"),
+    )
 
     # create_employees()
     # EmployeeController.pprint_all()

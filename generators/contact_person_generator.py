@@ -1,6 +1,5 @@
 from app.controllers.contact_person_controller import ContactPersonController
 from app.controllers.supplier_controller import SupplierController
-from app.data.models.contact_person import ContactPerson
 from generators.fake_data import FakeData
 from shared.validators import validate_length
 
@@ -13,13 +12,13 @@ class ContactPersonGenerator:
     EMAIL_MAX_LEN = 100
 
     @staticmethod
-    def generate(first_name: str, last_name: str, phone: str, email: str) -> ContactPerson:
+    def generate(first_name: str, last_name: str, phone: str, email: str) -> None:
         validate_length(provided=first_name, limit=ContactPersonGenerator.FIRST_NAME_MAX_LEN)
         validate_length(provided=last_name, limit=ContactPersonGenerator.LAST_NAME_MAX_LEN)
         validate_length(provided=phone, limit=ContactPersonGenerator.PHONE_MAX_LEN)
         validate_length(provided=email, limit=ContactPersonGenerator.EMAIL_MAX_LEN)
 
-        return ContactPersonController.create(
+        ContactPersonController.create(
             first_name=first_name, last_name=last_name,
             phone=phone, email=email)
 
