@@ -1,12 +1,22 @@
 import datetime
+import json
 from random import randint
 
 from faker import Faker
+from faker_vehicle import VehicleProvider
 
 
-# from faker.providers import address
-# from faker.providers import company
-# from faker.exceptions import UniquenessException
+class CarData:
+    def __init__(self, make: str, model: str, year: int) -> None:
+        self.make = make
+        self.model = model
+        self.year = year
+
+    def __repr__(self) -> str:
+        return f"CarData(make={self.make}, model={self.model}, year={self.year}"
+
+    def __str__(self) -> str:
+        return f"{self.year} {self.make} {self.model}"
 
 
 class Location:
@@ -26,6 +36,7 @@ class Location:
 
 class FakeData:
     _faker: Faker = Faker("sv_SE")
+    _faker.add_provider(VehicleProvider)
 
     MIN_AGE = 18
     MAX_AGE = 72
@@ -122,12 +133,27 @@ class FakeData:
         return [cls.generate_date() for _ in range(amount)]
 
     @classmethod
-    def generate_car(cls):
-        pass
+    def generate_car(cls) -> CarData:
+        # .vehicle_object() generates a dict with capitalized keys
+        # convert keys to lowercase before using them
+        data = {key.lower(): value for (key, value) in cls._faker.vehicle_object().items() if key != "Category"}
+        return CarData(**data)
 
     @classmethod
-    def generate_cars(cls):
-        pass
+    def generate_cars(cls, amount: int) -> list[CarData]:
+        return [cls.generate_car() for _ in range(amount)]
+
+    @classmethod
+    def generate_company(cls) -> str:
+        return cls._faker.company()
+
+    # TODO: add suffix param, e.g. Suppliers, or whatever for Manufacturer
+    @classmethod
+    def generate_companies(cls, amount: int) -> list[str]:
+        companies = set()
+        while len(companies) < amount:
+            companies.add(FakeData.generate_company())
+        return list(companies)
 
 
 def print_sequence(sequence: list) -> None:
@@ -172,6 +198,16 @@ def test_date_generation():
     print_sequence(FakeData.generates_dates(500))
 
 
+def test_car_generation():
+    # print(FakeData.generate_car())
+    print_sequence(FakeData.generate_cars(500))
+
+
+def test_company_generation():
+    # print(FakeData.generate_company())
+    print_sequence(FakeData.generate_companies(500))
+
+
 def main():
     # test_name_generation()
     # test_email_generation()
@@ -179,7 +215,9 @@ def main():
     # test_address_generation()
     # test_reg_no_generation()
     # test_color_generation()
-    test_date_generation()
+    # test_date_generation()
+    test_car_generation()
+    # test_company_generation()
 
 
 if __name__ == "__main__":
