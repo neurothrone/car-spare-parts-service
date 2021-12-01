@@ -8,14 +8,13 @@ class EmployeeController(BaseController):
 
     @classmethod
     def create(cls, first_name: str, last_name: str, phone: str, email: str,
-               store_id: int = None, commit: bool = True) -> None:
+               store_id: int = None) -> None:
         EmployeeRepository.create(cls.model,
                                   first_name=first_name,
                                   last_name=last_name,
                                   phone=phone,
                                   email=email,
-                                  store_id=store_id,
-                                  commit=commit)
+                                  store_id=store_id)
 
     @staticmethod
     def find_by_id(_id: int) -> Employee:
