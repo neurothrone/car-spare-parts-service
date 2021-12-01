@@ -40,7 +40,7 @@ class Location:
                f" zip_code={self.zip_code}, city={self.city})"
 
     def __str__(self) -> str:
-        return f"{self.address} {self.street_no}\n{self.zip_code} {self.city}"
+        return f"{self.address} {self.street_no}, {self.zip_code} {self.city}"
 
 
 class FakeData:
