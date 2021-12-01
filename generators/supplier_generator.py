@@ -20,13 +20,13 @@ class SupplierGenerator:
 
 
 def main():
-    # supplier = SupplierGenerator.generate(
-    #     company_name="Supply Parts AB",
-    #     head_office_phone="+64 73 944 71 23",
-    #     head_office_address="Karbegsgatan 23, 173 43 Nattberg"
-    # )
+    supplier = SupplierGenerator.generate(
+        company_name="Supply Parts AB",
+        head_office_phone="+64 73 944 71 23",
+        head_office_address="Karbegsgatan 23, 173 43 Nattberg"
+    )
 
-    # SupplierController.pprint(supplier)
+    SupplierController.pprint(supplier)
     SupplierController.pprint_all()
 
 
