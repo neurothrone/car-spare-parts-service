@@ -59,19 +59,9 @@ def test_supplier_contact_person():
 
 
 def main():
-    # cp = ContactPersonGenerator.generate(
-    #     first_name="Mary",
-    #     last_name="Pattersson",
-    #     phone="+64 70 772 23 23",
-    #     email="contact_person@supply_parts.se"
-    # )
-
-    # cp = ContactPersonController.find_by_id(1)
-    # print(cp)
-
-    # test_supplier_contact_person()
-
     ContactPersonGenerator.populate_database(amount=100)
+    # TODO: populate suppliers
+    # test_supplier_contact_person()
 
 
 if __name__ == "__main__":
