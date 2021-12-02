@@ -11,12 +11,12 @@ class StoreGenerator:
     PHONE_MAX_LEN = 25
     EMAIL_MAX_LEN = 100
 
-    @staticmethod
-    def generate(store_type: str, phone: str, email: str,
+    @classmethod
+    def generate(cls, store_type: str, phone: str, email: str,
                  address: str = None, zip_code: str = None, city: str = None) -> None:
-        validate_length(store_type, StoreGenerator.STORE_TYPE_MAX_LEN)
-        validate_length(phone, StoreGenerator.PHONE_MAX_LEN)
-        validate_length(email, StoreGenerator.EMAIL_MAX_LEN)
+        validate_length(store_type, cls.STORE_TYPE_MAX_LEN)
+        validate_length(phone, cls.PHONE_MAX_LEN)
+        validate_length(email, cls.EMAIL_MAX_LEN)
 
         StoreController.create(
             store_type=store_type, phone=phone, email=email,
