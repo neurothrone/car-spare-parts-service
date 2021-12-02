@@ -56,6 +56,9 @@ class EmployeeController(BaseController):
 
             try:
                 for _ in range(employees_in_store):
+                    if stores[store_index].store_type == StoreType.ONLINE:
+                        continue
+
                     cls.change_store(
                         employee=employees[employee_index],
                         store_id=stores[store_index].store_id)
