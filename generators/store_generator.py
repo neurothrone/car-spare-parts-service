@@ -30,6 +30,9 @@ class StoreGenerator:
 
     @classmethod
     def populate_database(cls, amount: int) -> None:
+        if not StoreController.find_by_store_type(StoreType.ONLINE):
+            cls.generate_online_store()
+
         phone_numbers = FakeData.generate_phone_numbers(amount)
         locations = FakeData.generate_locations(amount)
 
@@ -43,6 +46,8 @@ class StoreGenerator:
                          address=f"{locations[i].address} {locations[i].street_no}",
                          zip_code=str(locations[i].zip_code),
                          city=locations[i].city)
+
+        print("----- Stores generated -----")
 
 
 def test_store_fail():
