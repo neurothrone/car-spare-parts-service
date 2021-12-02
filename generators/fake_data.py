@@ -1,5 +1,5 @@
 import datetime
-from random import randint
+from random import randint, uniform
 
 from faker import Faker
 from faker_vehicle import VehicleProvider
@@ -43,6 +43,21 @@ class Location:
         return f"{self.address} {self.street_no}, {self.zip_code} {self.city}"
 
 
+class ProductData:
+    def __init__(self, name: str, description: str, cost: float, price: float) -> None:
+        self.name = name
+        self.description = description
+        self.cost = cost
+        self.price = price
+
+    def __repr__(self) -> str:
+        return f"ProductData(name={self.name}, description={self.description}," \
+               f"cost={self.cost}, price={self.price})"
+
+    def __str__(self) -> str:
+        return f"{self.name}: {self.description}\ncost: {self.cost}, price: {self.price}"
+
+
 class FakeData:
     _faker: Faker = Faker("sv_SE")
     _faker.add_provider(VehicleProvider)
@@ -56,8 +71,13 @@ class FakeData:
         cls._faker = Faker(locale=locale)
 
     @staticmethod
-    def generate_random_number(min_: int, max_: int) -> int:
+    def generate_random_int(min_: int, max_: int) -> int:
         return randint(min_, max_)
+
+    @staticmethod
+    def generate_random_float(min_: float, max_: float,
+                              scale: int = 2) -> float:
+        return round(uniform(min_, max_), scale)
 
     @classmethod
     def generate_full_name(cls) -> str:
@@ -169,12 +189,22 @@ class FakeData:
         return list(companies)
 
     @classmethod
-    def generate_product(cls) -> str:
+    def generate_product_name(cls) -> str:
         return cls._faker.product().capitalize()
 
     @classmethod
     def generate_product_description(cls) -> str:
         return cls._faker.sentence(ext_word_list=product_description_list).capitalize()
+
+    @classmethod
+    def generate_product(cls, cost_scale: int = 1) -> ProductData:
+        cost = FakeData.generate_random_float(10, 100, scale=cost_scale)
+        price = round(cost * 1.25, cost_scale)
+        return ProductData(
+            name=FakeData.generate_product_name(),
+            description=FakeData.generate_product_description(),
+            cost=cost,
+            price=price)
 
 
 def print_sequence(sequence: list) -> None:
@@ -229,12 +259,17 @@ def test_company_generation():
     print_sequence(FakeData.generate_companies(500))
 
 
-def test_product_generation():
-    print(FakeData.generate_product())
+def test_product_name_generation():
+    print(FakeData.generate_product_name())
 
 
 def test_product_description_generation():
     print(FakeData.generate_product_description())
+
+
+def test_product_generation():
+    for _ in range(10):
+        print(FakeData.generate_product())
 
 
 def main():
@@ -247,8 +282,9 @@ def main():
     # test_date_generation()
     # test_car_generation()
     # test_company_generation()
-    # test_product_generation()
-    test_product_description_generation()
+    # test_product_name_generation()
+    # test_product_description_generation()
+    test_product_generation()
 
 
 if __name__ == "__main__":
