@@ -1,1 +1,1 @@
-from app.data._mysql.models.customer import Customer
+from app.data._mysql.models.customer import Customer, CustomerType
