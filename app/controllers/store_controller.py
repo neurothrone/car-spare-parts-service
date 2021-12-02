@@ -37,6 +37,8 @@ class StoreController(BaseController):
     def find_all_by_store_type(store_type: str) -> list[Store]:
         return StoreRepository.find_all_by_store_type(store_type)
 
+    # region Stores-Products
+
     @staticmethod
     def add_product_to_store(store: Store, product: Product,
                              stock_number: int = 0,
@@ -49,6 +51,10 @@ class StoreController(BaseController):
     def remove_product_from_store(store: Store, product: Product) -> None:
         StoreRepository.remove_product_from_store(store, product)
 
+    # endregion Stores-Products
+
+    # region Stores-Suppliers
+
     @staticmethod
     def add_supplier_to_store(store: Store, supplier: Supplier) -> None:
         StoreRepository.add_supplier_to_store(store, supplier)
@@ -56,3 +62,5 @@ class StoreController(BaseController):
     @staticmethod
     def remove_supplier_from_store(store: Store, supplier: Supplier) -> None:
         StoreRepository.remove_supplier_from_store(store, supplier)
+
+    # endregion Stores-Suppliers
