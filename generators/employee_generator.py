@@ -39,6 +39,8 @@ class EmployeeGenerator:
                 phone=phone_numbers[i],
                 email=email.lower())
 
+        print("----- Employees generated -----")
+
 
 def main():
     EmployeeGenerator.populate_database(amount=100)
