@@ -9,13 +9,13 @@ class EmployeeGenerator:
     PHONE_MAX_LEN = 25
     EMAIL_MAX_LEN = 100
 
-    @staticmethod
-    def generate(first_name: str, last_name: str, phone: str, email: str,
+    @classmethod
+    def generate(cls, first_name: str, last_name: str, phone: str, email: str,
                  store_id: int = None) -> None:
-        validate_length(first_name, EmployeeGenerator.FIRST_NAME_LEN)
-        validate_length(last_name, EmployeeGenerator.LAST_NAME_LEN)
-        validate_length(phone, EmployeeGenerator.PHONE_MAX_LEN)
-        validate_length(email, EmployeeGenerator.EMAIL_MAX_LEN)
+        validate_length(first_name, cls.FIRST_NAME_LEN)
+        validate_length(last_name, cls.LAST_NAME_LEN)
+        validate_length(phone, cls.PHONE_MAX_LEN)
+        validate_length(email, cls.EMAIL_MAX_LEN)
 
         EmployeeController.create(
             first_name=first_name, last_name=last_name, phone=phone,
