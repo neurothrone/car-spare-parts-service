@@ -10,6 +10,14 @@ class StoreRepository(BaseRepository):
         return session.query(Store).filter_by(store_id=_id).first()
 
     @staticmethod
+    def find_by_store_type(store_type: str) -> Store:
+        return session.query(Store).filter_by(store_type=store_type).first()
+
+    @staticmethod
+    def find_all_by_store_type(store_type: str) -> list[Store]:
+        return session.query(Store).filter_by(store_type=store_type).all()
+
+    @staticmethod
     def add_product_to_store(store: Store,
                              product: Product,
                              stock_number: int = 0,

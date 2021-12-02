@@ -30,6 +30,14 @@ class StoreController(BaseController):
         return StoreRepository.find_by_id(_id)
 
     @staticmethod
+    def find_by_store_type(store_type: str) -> Store:
+        return StoreRepository.find_by_store_type(store_type)
+
+    @staticmethod
+    def find_all_by_store_type(store_type: str) -> list[Store]:
+        return StoreRepository.find_all_by_store_type(store_type)
+
+    @staticmethod
     def add_product_to_store(store: Store, product: Product,
                              stock_number: int = 0,
                              critical_threshold: int = 0,
