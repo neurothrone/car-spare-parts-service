@@ -45,6 +45,10 @@ class EmployeeController(BaseController):
     def connect_employees_to_stores(cls, min_: int, max_: int) -> None:
         employees: list[Employee] = cls.find_all()
         stores: list[Store] = StoreController.find_all()
+
+        if not employees or not stores:
+            raise ValueError("There are either no employees or no stores to connect.")
+
         total_employees = len(employees)
         total_stores = len(stores)
 
