@@ -39,7 +39,7 @@ class EmployeeGenerator:
                 phone=phone_numbers[i],
                 email=email.lower())
 
-        print("----- Employees generated -----")
+        print(f"----- {amount} Employees generated -----")
 
 
 def main():

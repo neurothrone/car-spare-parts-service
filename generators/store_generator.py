@@ -47,7 +47,7 @@ class StoreGenerator:
                          zip_code=str(locations[i].zip_code),
                          city=locations[i].city)
 
-        print("----- Stores generated -----")
+        print(f"----- {amount} Stores generated -----")
 
 
 def test_store_fail():
