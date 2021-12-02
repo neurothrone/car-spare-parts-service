@@ -13,24 +13,24 @@ class BaseRepository:
         BaseRepository.save_to_db(instance)
 
     @staticmethod
-    def save_to_db(obj: Type[T]) -> None:
+    def save_to_db(obj: T) -> None:
         session.add(obj)
         session.commit()
 
     @staticmethod
-    def delete_from_db(obj: Type[T]) -> None:
+    def delete_from_db(obj: T) -> None:
         session.delete(obj)
         session.commit()
 
     @staticmethod
-    def delete_all(model: Type[T]) -> None:
+    def delete_all(model: T) -> None:
         session.query(model).delete()
         session.commit()
 
     @staticmethod
-    def find_all(model: Type[T]) -> list[T]:
+    def find_all(model: T) -> list[T]:
         return session.query(model).all()
 
     @staticmethod
-    def all_to_dict(model: Type[T], items: list[T] = None) -> list[dict]:
+    def all_to_dict(model: T, items: list[T] = None) -> list[dict]:
         return [item.to_dict() for item in (items if items else model.find_all())]
