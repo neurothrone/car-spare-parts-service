@@ -34,7 +34,7 @@ class SupplierGenerator:
             cls.generate(company_name=company_names[i],
                          head_office_phone=phone_numbers[i],
                          head_office_address=locations[i].__str__())
-        print("----- Supplier generated -----")
+        print("----- Suppliers generated -----")
 
 
 def main():
