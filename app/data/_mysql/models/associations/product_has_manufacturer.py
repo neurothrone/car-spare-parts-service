@@ -9,5 +9,5 @@ class ProductHasManufacturer(BaseModel):
     product_id = Column(Integer, ForeignKey("products.product_id"), primary_key=True)
     manufacturer_id = Column(Integer, ForeignKey("manufacturers.manufacturer_id"), primary_key=True)
 
-    manufacturer = relationship("Manufacturer", back_populates="manufacturers")
-    product = relationship("Product", back_populates="suppliers")
+    manufacturer = relationship("Manufacturer", back_populates="products")
+    product = relationship("Product", back_populates="manufacturers")
