@@ -14,3 +14,5 @@ class Product(BaseModel):
     price = Column(DECIMAL(7, 2), nullable=False)  # CHECK (price >= 0)
 
     stores = relationship("StoreHasProduct", back_populates="product")
+    suppliers = relationship("ProductHasSupplier", back_populates="product")
+    manufacturers = relationship("ProductHasManufacturer", back_populates="product")
