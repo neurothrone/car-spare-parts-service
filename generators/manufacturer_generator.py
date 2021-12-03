@@ -1,8 +1,5 @@
-from app.data.models.manufacturer import Manufacturer
 from shared.validators import validate_length
-from app.controllers.product_controller import ProductController
 from app.controllers.manufacturer_controller import ManufacturerController
-from app.data.models.store import StoreType
 from generators.fake_data import FakeData
 
 
@@ -36,9 +33,6 @@ class ManufacturerGenerator:
 
 def main():
     ManufacturerGenerator.populate_database(amount=100)
-
-    # ManufacturerController.pprint(manufacturer)
-    # ManufacturerController.pprint_all()
 
 
 if __name__ == "__main__":
