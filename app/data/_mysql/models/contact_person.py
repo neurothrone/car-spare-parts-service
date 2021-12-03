@@ -14,4 +14,4 @@ class ContactPerson(BaseModel):
     email = Column(String(100), nullable=False)
 
     supplier = relationship("Supplier", back_populates="contact_person", uselist=False)
-    manufacturer = relationship("ManuFacturer", back_populates="contact_persons", uselist=False)
+    manufacturer = relationship("Manufacturer", back_populates="contact_person", uselist=False)
