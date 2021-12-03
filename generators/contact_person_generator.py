@@ -62,7 +62,7 @@ def test_supplier_contact_person():
 def main():
     ContactPersonGenerator.populate_database(amount=100)
     # TODO: populate suppliers
-    # test_supplier_contact_person()
+    test_supplier_contact_person()
 
 
 if __name__ == "__main__":
