@@ -19,4 +19,4 @@ class Store(BaseModel["Store"]):
 
     employees = relationship("Employee", back_populates="store")
     products = relationship("StoreHasProduct", back_populates="store")
-    suppliers = relationship("Supplier", back_populates="stores")
+    suppliers = relationship("StoreHasSupplier", back_populates="store")
