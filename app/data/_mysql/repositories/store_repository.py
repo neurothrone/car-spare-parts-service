@@ -1,5 +1,5 @@
 from app.data._mysql.db import session
-from app.data._mysql.models import Product, Manufacturer, StoreHasProduct
+from app.data._mysql.models import Product, Supplier, StoreHasProduct
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.models.store import Store
 
@@ -52,7 +52,7 @@ class StoreRepository(BaseRepository):
                 return
 
     @staticmethod
-    def add_supplier_to_store(store: Store, supplier: Manufacturer) -> None:
+    def add_supplier_to_store(store: Store, supplier: Supplier) -> None:
         if StoreRepository.has_supplier(store, supplier):
             return
 
@@ -60,7 +60,7 @@ class StoreRepository(BaseRepository):
         session.commit()
 
     @staticmethod
-    def remove_supplier_from_store(store: Store, supplier: Manufacturer) -> None:
+    def remove_supplier_from_store(store: Store, supplier: Supplier) -> None:
         if not StoreRepository.has_supplier(store, supplier):
             return
 
@@ -75,7 +75,7 @@ class StoreRepository(BaseRepository):
         return False
 
     @staticmethod
-    def has_supplier(store: Store, supplier: Manufacturer) -> bool:
+    def has_supplier(store: Store, supplier: Supplier) -> bool:
         for supp in store.suppliers:
             if supp.supplier_id == supplier.supplier_id:
                 return True

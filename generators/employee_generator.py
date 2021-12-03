@@ -1,3 +1,5 @@
+import random
+
 from app.controllers.employee_controller import EmployeeController
 from generators.fake_data import FakeData
 from shared.validators import validate_length
@@ -11,11 +13,13 @@ class EmployeeGenerator:
 
     @classmethod
     def generate(cls, first_name: str, last_name: str, phone: str, email: str,
-                 store_id: int = None) -> None:
+                 amount: int) -> None:
         validate_length(first_name, cls.FIRST_NAME_LEN)
         validate_length(last_name, cls.LAST_NAME_LEN)
         validate_length(phone, cls.PHONE_MAX_LEN)
         validate_length(email, cls.EMAIL_MAX_LEN)
+
+        store_id = random.randint(1, amount)
 
         EmployeeController.create(
             first_name=first_name, last_name=last_name, phone=phone,
@@ -37,7 +41,8 @@ class EmployeeGenerator:
                 first_name=first_name,
                 last_name=last_name,
                 phone=phone_numbers[i],
-                email=email.lower())
+                email=email.lower(),
+                amount=amount)
 
         print("----- Employees generated -----")
 
