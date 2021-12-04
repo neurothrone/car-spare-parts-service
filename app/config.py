@@ -2,27 +2,35 @@
 Config classes and logic for reading environment variables
 for mongo and mysql databases.
 
-Create two files in the same directory as this file 'config.py' and name them:
-.env.mongo
-.env.mysql
+1. Create a file directory in the root directory, same directory as the file .gitignore, and name it '.env'.
+2. Write down these variables in the files:
 
-Write down these variables in the files and replace ... with the corresponding values:
-DB_NAME=...
-DB_PROTOCOL=...
-DB_USER=...
-DB_PASS=...
-HOST=...
-PORT=...
+MONGO_DB_NAME=...
+MONGO_DB_PROTOCOL=...
+MONGO_DB_USER=...
+MONGO_DB_PASS=...
+MONGO_DB_HOST=...
+MONGO_DB_PORT=...
+
+MYSQL_DB_NAME=...
+MYSQL_DB_PROTOCOL=...
+MYSQL_DB_USER=...
+MYSQL_DB_PASS=...
+MYSQL_DB_HOST=...
+MYSQL_DB_PORT=...
+
+3. Replace ... with corresponding values.
 """
 
 from abc import ABC, abstractmethod
+import os
 
-from dotenv import dotenv_values
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Config(ABC):
-    _data: dict
-
     DB_NAME: str
     DB_PROTOCOL: str
     DB_USER: str
@@ -30,14 +38,9 @@ class Config(ABC):
     HOST: str
     PORT: str
 
-    @classmethod
-    def read_env_values(cls) -> None:
-        cls.DB_NAME: str = cls._data.get("DB_NAME", None)
-        cls.DB_PROTOCOL: str = cls._data.get("DB_PROTOCOL", None)
-        cls.DB_USER: str = cls._data.get("DB_USER", None)
-        cls.DB_PASS: str = cls._data.get("DB_PASS", None)
-        cls.HOST: str = cls._data.get("HOST", None)
-        cls.PORT: str = cls._data.get("PORT", None)
+    @abstractmethod
+    def read_env_values(self) -> None:
+        pass
 
     @abstractmethod
     def base_config(self) -> str:
@@ -49,7 +52,14 @@ class Config(ABC):
 
 
 class MongoConfig(Config):
-    _data = {**dotenv_values(".env.mongo")}
+    @classmethod
+    def read_env_values(cls) -> None:
+        cls.DB_NAME = os.getenv("MONGO_DB_NAME", "DB_NAME")
+        cls.DB_PROTOCOL = os.getenv("MONGO_DB_PROTOCOL", "DB_PROTOCOL")
+        cls.DB_USER = os.getenv("MONGO_DB_USER", "DB_USER")
+        cls.DB_PASS = os.getenv("MONGO_DB_PASS", "DB_PASS")
+        cls.HOST = os.getenv("MONGO_DB_HOST", "HOST")
+        cls.PORT = os.getenv("MONGO_DB_PORT", "PORT")
 
     @classmethod
     def base_config(cls) -> str:
@@ -62,7 +72,14 @@ class MongoConfig(Config):
 
 
 class MysqlConfig(Config):
-    _data = {**dotenv_values(".env.mysql")}
+    @classmethod
+    def read_env_values(cls) -> None:
+        cls.DB_NAME = os.getenv("MYSQL_DB_NAME", "DB_NAME")
+        cls.DB_PROTOCOL = os.getenv("MYSQL_DB_PROTOCOL", "DB_PROTOCOL")
+        cls.DB_USER = os.getenv("MYSQL_DB_USER", "DB_USER")
+        cls.DB_PASS = os.getenv("MYSQL_DB_PASS", "DB_PASS")
+        cls.HOST = os.getenv("MYSQL_DB_HOST", "HOST")
+        cls.PORT = os.getenv("MYSQL_DB_PORT", "PORT")
 
     @classmethod
     def base_config(cls) -> str:
@@ -72,13 +89,3 @@ class MysqlConfig(Config):
     @classmethod
     def test_config(cls) -> str:
         raise NotImplementedError("test_config() is not implemented.")
-
-
-def main():
-    print(MongoConfig.base_config())
-    print(MongoConfig.DB_NAME)
-    print(MysqlConfig.base_config())
-
-
-if __name__ == "__main__":
-    main()
