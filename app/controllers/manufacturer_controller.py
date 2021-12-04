@@ -1,15 +1,20 @@
-from typing import Optional
-
 from app.controllers import BaseController
 from app.data.models.manufacturer import Manufacturer
 from app.data.repositories.manufacturer_repository import ManufacturerRepository
+from app.data.models.contact_person import ContactPerson
 
 
 class ManufacturerController(BaseController):
-    repository = ManufacturerRepository
-    required_attributes = {"company_name", "head_office_phone",
-                           "head_office_address", "contact_person_id"}
+    model = Manufacturer
 
-    @classmethod
-    def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
-        return cls.repository.find_by_id(_id)
+    @staticmethod
+    def find_by_id(_id: int) -> Manufacturer:
+        return ManufacturerRepository.find_by_id(_id)
+
+    @staticmethod
+    def add_contact_person(manufacturer: Manufacturer, contact_person: ContactPerson) -> None:
+        ManufacturerRepository.add_contact_person(manufacturer, contact_person)
+
+    @staticmethod
+    def remove_contact_person(manufacturer: Manufacturer) -> None:
+        ManufacturerRepository.remove_contact_person(manufacturer)
