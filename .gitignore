@@ -133,6 +133,3 @@ dmypy.json
 
 # mac os
 .DS_Store
-
-# custom env files
-.env*
