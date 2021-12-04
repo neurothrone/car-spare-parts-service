@@ -1,3 +1,4 @@
+from random import randint
 from shared.validators import validate_length
 from app.controllers.manufacturer_controller import ManufacturerController
 from generators.fake_data import FakeData
@@ -14,9 +15,17 @@ class ManufacturerGenerator:
         validate_length(provided=head_office_phone, limit=ManufacturerGenerator.HEAD_OFFICE_PHONE_LEN)
         validate_length(provided=head_office_address, limit=ManufacturerGenerator.HEAD_OFFICE_ADDRESS_LEN)
 
+        cpi = randint(1, 101)
+        if cpi >= 80:
+            contact_person_id = None
+        else:
+            contact_person_id = cpi
+
         ManufacturerController.create(
-            company_name=company_name, head_office_phone=head_office_phone,
-            head_office_address=head_office_address)
+            company_name=company_name,
+            head_office_phone=head_office_phone,
+            head_office_address=head_office_address,
+            contact_person_id=contact_person_id)
 
     @classmethod
     def populate_database(cls, amount: int) -> None:
