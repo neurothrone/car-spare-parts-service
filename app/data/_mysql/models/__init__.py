@@ -1,14 +1,12 @@
 from typing import Generic, TypeVar
 
-from app.data._mysql.db import Base, Config
+from app.data._mysql.db import Base
 
 T = TypeVar("T", bound="BaseModel")
 
 
 class BaseModel(Base, Generic[T]):
     __abstract__ = True
-
-    # __table_args__ = {"schema": Config.DB_NAME}
 
     def __repr__(self) -> str:
         attributes = ", ".join(f"{k}={v}" for k, v in self.to_dict().items())
