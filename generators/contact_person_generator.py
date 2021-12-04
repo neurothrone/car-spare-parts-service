@@ -1,4 +1,5 @@
 from app.controllers.contact_person_controller import ContactPersonController
+from app.controllers.manufacturer_controller import ManufacturerController
 from app.controllers.supplier_controller import SupplierController
 from generators.fake_data import FakeData
 from shared.validators import validate_length
@@ -37,13 +38,16 @@ class ContactPersonGenerator:
                 email=emails[i]
             )
 
+        print("----- Contact persons generated -----")
 
 def test_supplier_contact_person():
     contact_person = ContactPersonController.find_by_id(1)
     supplier = SupplierController.find_by_id(1)
+    manufacturer = ManufacturerController.find_by_id(1)
 
     print(contact_person)
     print(supplier)
+    print(manufacturer)
 
     print()
     print(contact_person.supplier)
@@ -53,14 +57,17 @@ def test_supplier_contact_person():
     # SupplierController.remove_contact_person(supplier)
 
     print()
-    print(contact_person.supplier)
-    print(f"Supplier, contact_person_id: {supplier.contact_person_id}")
+    print(contact_person.manufacturer)
+    print(f"Manufacturer, contact_person_id: {manufacturer.contact_person_id}")
+
+    ManufacturerController.add_contact_person(manufacturer, contact_person)
+    # ManufacturerController.remove_contact_person(manufacturer)
 
 
 def main():
     ContactPersonGenerator.populate_database(amount=100)
     # TODO: populate suppliers
-    test_supplier_contact_person()
+    #test_supplier_contact_person()
 
 
 if __name__ == "__main__":
