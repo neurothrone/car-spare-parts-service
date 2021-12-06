@@ -3,8 +3,8 @@ from random import randint, shuffle
 from app.controllers.product_controller import ProductController
 from app.controllers.store_controller import StoreController
 from app.controllers.supplier_controller import SupplierController
-from app.data.models.store import StoreType
 from generators.fake_data import FakeData
+from shared.models.types import StoreType
 from shared.validators import validate_length
 
 
@@ -32,8 +32,11 @@ class StoreGenerator:
 
     @classmethod
     def populate_database(cls, amount: int) -> None:
+        stores_generated = amount
+
         if not StoreController.find_by_store_type(StoreType.ONLINE):
             cls.generate_online_store()
+            stores_generated += 1
 
         phone_numbers = FakeData.generate_phone_numbers(amount)
         locations = FakeData.generate_locations(amount)
@@ -49,7 +52,7 @@ class StoreGenerator:
                          zip_code=str(locations[i].zip_code),
                          city=locations[i].city)
 
-        print(f"----- {amount} Stores generated -----")
+        print(f"----- {stores_generated} Stores generated -----")
 
     @classmethod
     def add_products_to_stores(cls, min_per_store: int, max_per_store: int) -> None:
@@ -159,12 +162,6 @@ def test_store_supplier():
 
 def main():
     StoreGenerator.populate_database(amount=100)
-    StoreGenerator.generate_online_store()
-
-    # create_stores()
-    # test_store_fail()
-    # test_store_product()
-    # test_store_supplier()
 
 
 if __name__ == "__main__":

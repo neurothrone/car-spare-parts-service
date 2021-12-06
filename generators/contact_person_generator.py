@@ -37,6 +37,8 @@ class ContactPersonGenerator:
                 email=emails[i]
             )
 
+        print(f"----- {amount} Contact Persons generated -----")
+
 
 def test_supplier_contact_person():
     contact_person = ContactPersonController.find_by_id(1)

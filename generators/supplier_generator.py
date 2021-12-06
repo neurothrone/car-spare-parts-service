@@ -35,6 +35,8 @@ class SupplierGenerator:
                          head_office_phone=phone_numbers[i],
                          head_office_address=locations[i].__str__())
 
+        print(f"----- {amount} Suppliers generated -----")
+
 
 def main():
     SupplierGenerator.populate_database(amount=100)
