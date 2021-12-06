@@ -1,35 +1,46 @@
+from abc import ABC
 from pprint import pprint
 
-from app.data.models import BaseModel, T
-from app.data.repositories import BaseRepository
+from app.settings import Database, Settings
+
+if Settings.DATABASE == Database.MONGO:
+    from app.data._mongo.repositories import BaseRepository
+else:
+    from app.data._mysql.repositories import BaseRepository
 
 
-class BaseController:
-    model = BaseModel
+class BaseController(ABC):
+    repository = None
+    required_attributes = {}
+
+    @classmethod
+    def validate(cls, store_data: dict) -> None:
+        for attribute in cls.required_attributes:
+            if attribute not in store_data:
+                raise ValueError(f"Missing data when calling "
+                                 f"{cls.validate.__name__}() "
+                                 f"function on {cls.__name__}.")
 
     @classmethod
     def create(cls, **kwargs) -> None:
-        BaseRepository.create(cls.model, **kwargs)
+        cls.repository.create(**kwargs)
 
     @classmethod
-    def find_all(cls) -> list[T]:
-        return BaseRepository.find_all(cls.model)
+    def find_all(cls) -> list:
+        return cls.repository.find_all()
 
     @classmethod
-    def delete_all(cls) -> None:
-        BaseRepository.delete_all(cls.model)
+    def delete_all(cls) -> int:
+        return cls.repository.delete_all()
 
     @classmethod
-    def all_to_dict(cls, items: list[T] = None) -> list[dict]:
+    def all_to_dict(cls, items: list = None) -> list[dict]:
         return [item.to_dict() for item in (items if items else cls.find_all())]
 
     @staticmethod
-    def pprint(obj: T) -> None:
+    def pprint(obj) -> None:
         if not obj:
             return
-
-        if not isinstance(obj, BaseModel):
-            raise TypeError("The object is not an instance of BaseModel.")
 
         pprint(obj.to_dict(), sort_dicts=False)
 

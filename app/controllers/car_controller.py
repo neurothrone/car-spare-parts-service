@@ -1,11 +1,14 @@
+from typing import Optional
+
 from app.controllers import BaseController
 from app.data.models.car import Car
 from app.data.repositories.car_repository import CarRepository
 
 
 class CarController(BaseController):
-    model = Car
+    repository = CarRepository
+    required_attributes = {"reg_no", "color", "car_detail_id", "customer_id"}
 
-    @staticmethod
-    def find_by_reg_no(reg_no: str) -> Car:
-        return CarRepository.find_by_reg_no(reg_no)
+    @classmethod
+    def find_by_reg_no(cls, reg_no: str) -> Optional[Car]:
+        return cls.repository.find_by_reg_no(reg_no)

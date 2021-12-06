@@ -1,3 +1,5 @@
+from typing import Optional
+
 from app.controllers import BaseController
 from app.data.models.contact_person import ContactPerson
 from app.data.models.supplier import Supplier
@@ -5,16 +7,18 @@ from app.data.repositories.supplier_repository import SupplierRepository
 
 
 class SupplierController(BaseController):
-    model = Supplier
+    repository = SupplierRepository
+    required_attributes = {"company_name", "head_office_phone",
+                           "head_office_address", "contact_person_id"}
 
-    @staticmethod
-    def find_by_id(_id: int) -> Supplier:
-        return SupplierRepository.find_by_id(_id)
+    @classmethod
+    def find_by_id(cls, _id: int) -> Optional[Supplier]:
+        return cls.repository.find_by_id(_id)
 
-    @staticmethod
-    def add_contact_person(supplier: Supplier, contact_person: ContactPerson) -> None:
-        SupplierRepository.add_contact_person(supplier, contact_person)
+    @classmethod
+    def add_contact_person(cls, supplier: Supplier, contact_person: ContactPerson) -> None:
+        cls.repository.add_contact_person(supplier, contact_person)
 
-    @staticmethod
-    def remove_contact_person(supplier: Supplier) -> None:
-        SupplierRepository.remove_contact_person(supplier)
+    @classmethod
+    def remove_contact_person(cls, supplier: Supplier) -> None:
+        cls.repository.remove_contact_person(supplier)

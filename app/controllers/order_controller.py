@@ -1,11 +1,15 @@
+from typing import Optional
+
 from app.controllers import BaseController
 from app.data.models.order import Order
 from app.data.repositories.order_repository import OrderRepository
 
 
 class OrderController(BaseController):
-    model = Order
+    repository = OrderRepository
+    required_attributes = {"ordered_date", "shipped_date",
+                           "delivery_date", "status", "customer_id"}
 
-    @staticmethod
-    def find_by_id(_id: int) -> Order:
-        return OrderRepository.find_by_id(_id)
+    @classmethod
+    def find_by_id(cls, _id: int) -> Optional[Order]:
+        return cls.repository.find_by_id(_id)

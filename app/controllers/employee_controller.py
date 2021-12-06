@@ -3,26 +3,27 @@ from typing import Optional
 
 from app.controllers import BaseController
 from app.controllers.store_controller import StoreController
-from app.data.models.store import Store, StoreType
+from app.data.models.store import Store
 from app.data.models.employee import Employee
 from app.data.repositories.employee_repository import EmployeeRepository
+from shared.models.types import StoreType
 
 
 class EmployeeController(BaseController):
-    model = Employee
+    repository = EmployeeRepository
+    required_attributes = {"first_name", "last_name", "phone", "email", "store_id"}
 
     @classmethod
     def create(cls, first_name: str, last_name: str, phone: str, email: str,
                store_id: Optional[int] = None) -> None:
-        EmployeeRepository.create(cls.model,
-                                  first_name=first_name,
+        EmployeeRepository.create(first_name=first_name,
                                   last_name=last_name,
                                   phone=phone,
                                   email=email,
                                   store_id=store_id)
 
     @staticmethod
-    def find_by_id(_id: int) -> Employee:
+    def find_by_id(_id: int) -> Optional[Employee]:
         return EmployeeRepository.find_by_id(_id)
 
     @staticmethod
@@ -52,6 +53,9 @@ class EmployeeController(BaseController):
         total_employees = len(employees)
         total_stores = len(stores)
 
+        employees_connected = 0
+        stores_with_employees = 0
+
         employee_index = 0
         store_index = 0
 
@@ -66,15 +70,24 @@ class EmployeeController(BaseController):
                     cls.change_store(
                         employee=employees[employee_index],
                         store_id=stores[store_index].store_id)
+                    employees_connected += 1
                     employee_index += 1
             except IndexError:
                 break
 
             store_index += 1
+            stores_with_employees += 1
+
+        print(f"----- {employees_connected} Employees connected to {stores_with_employees} Stores -----")
 
     @classmethod
-    def reset_all_employees_store(cls):
+    def reset_all_employees_store(cls) -> None:
         employees: list[Employee] = cls.find_all()
+        employees_count = 0
 
         for employee in employees:
-            cls.change_store(employee, None)
+            if employee.store_id:
+                cls.change_store(employee, None)
+                employees_count += 1
+
+        print(f"----- {employees_count} Employees store has been reset -----")
