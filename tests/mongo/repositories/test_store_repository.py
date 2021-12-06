@@ -6,12 +6,14 @@ from app.settings import Settings
 Settings.TESTING = True
 
 from app.data._mongo.repositories.store_repository import StoreRepository
+from shared.models.types import StoreType
 from shared.tests.test_printer import TestPrinter
+from tests.data import store_data, stores_data
 
 
 class StoreRepositoryTestCase(unittest.TestCase):
     def setUp(self) -> None:
-        self.create_single_store()
+        StoreRepository.delete_all()
 
     def tearDown(self) -> None:
         StoreRepository.delete_all()
@@ -26,47 +28,14 @@ class StoreRepositoryTestCase(unittest.TestCase):
 
     @classmethod
     def create_single_store(cls) -> None:
-        data = {
-            "store_type": "p",
-            "phone": "071 234 56 78",
-            "email": "testcity@store.se",
-            "address": "TestStreet 22",
-            "zip_code": "123 45",
-            "city": "TestCity"
-        }
-        StoreRepository.create(**data)
+        StoreRepository.create(**store_data)
 
     @classmethod
     def create_many_stores(cls) -> None:
-        data = [
-            {
-                "store_type": "p",
-                "phone": "076 433 24 53",
-                "email": "bjarnby@store.se",
-                "address": "Granberg 54",
-                "zip_code": "173 42",
-                "city": "Bjarnby"
-            },
-            {
-                "store_type": "p",
-                "phone": "072 46 22 44",
-                "email": "fjorden@store.se",
-                "address": "Falkensten 23",
-                "zip_code": "342 11",
-                "city": "Fjorden"
-            },
-            {
-                "store_type": "o",
-                "phone": "076 433 24 53",
-                "email": "web@store.se",
-                "address": None,
-                "zip_code": None,
-                "city": None
-            }
-        ]
-        StoreRepository.create_many(data)
+        StoreRepository.create_many(stores_data)
 
     def test_create_one_store(self):
+        self.create_single_store()
         store = StoreRepository.find_by_city("TestCity")
         self.assertIsNotNone(store)
         TestPrinter.add(self.test_create_one_store.__name__)
@@ -85,7 +54,7 @@ class StoreRepositoryTestCase(unittest.TestCase):
         TestPrinter.add(self.test_find_by_id_found.__name__)
 
     def test_find_by_id_not_found(self):
-        store = StoreRepository.find_by_id("1")
+        store = StoreRepository.find_by_id("61acd805a1dca9c019999999")
         self.assertIsNone(store)
         TestPrinter.add(self.test_find_by_id_not_found.__name__)
 
@@ -113,12 +82,12 @@ class StoreRepositoryTestCase(unittest.TestCase):
 
     def test_find_by_store_type_found(self):
         self.create_single_store()
-        store = StoreRepository.find_by_store_type("p")
+        store = StoreRepository.find_by_store_type(StoreType.PHYSICAL)
         self.assertIsNotNone(store)
         TestPrinter.add(self.test_find_by_store_type_found.__name__)
 
     def test_find_by_store_type_not_found(self):
-        store = StoreRepository.find_by_store_type("o")
+        store = StoreRepository.find_by_store_type(StoreType.ONLINE)
         self.assertIsNone(store)
         TestPrinter.add(self.test_find_by_store_type_not_found.__name__)
 
@@ -136,13 +105,15 @@ class StoreRepositoryTestCase(unittest.TestCase):
 
     def test_delete_one_by_found(self):
         self.create_single_store()
-        count_deleted = StoreRepository.delete_by({'store_type': 'p'}, many=False)
+        count_deleted = StoreRepository.delete_by(
+            {'store_type': StoreType.PHYSICAL}, many=False)
         self.assertTrue(count_deleted == 1)
         TestPrinter.add(self.test_delete_one_by_found.__name__)
 
     def test_delete_one_by_not_found(self):
         StoreRepository.delete_all()
-        count_deleted = StoreRepository.delete_by({'store_type': 'p'}, many=False)
+        count_deleted = StoreRepository.delete_by(
+            {'store_type': StoreType.PHYSICAL}, many=False)
         self.assertFalse(count_deleted == 1)
         TestPrinter.add(self.test_delete_one_by_not_found.__name__)
 
