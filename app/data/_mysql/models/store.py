@@ -5,12 +5,7 @@ from app.data._mysql.models import BaseModel
 from app.data._mysql.models.associations.store_has_supplier import stores_has_suppliers
 
 
-class StoreType:
-    ONLINE = "o"
-    PHYSICAL = "p"
-
-
-class Store(BaseModel):
+class Store(BaseModel["Store"]):
     __tablename__ = "stores"
 
     store_id = Column(Integer, autoincrement=True, primary_key=True)
