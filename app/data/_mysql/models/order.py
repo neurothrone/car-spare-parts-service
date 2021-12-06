@@ -14,5 +14,5 @@ class Order(BaseModel):
     status = Column(String(15), nullable=False)
     customer_id = Column(Integer, ForeignKey("customers.customer_id"), nullable=True)
 
-    customer = relationship("Customer", back_populates="order")
+    customer = relationship("Customer", back_populates="orders")
     order_detail = relationship("OrderDetail", back_populates="order")

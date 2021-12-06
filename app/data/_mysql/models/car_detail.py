@@ -12,4 +12,4 @@ class CarDetail(BaseModel):
     year = Column(Integer, nullable=False)
 
     car = relationship("Car", back_populates="car_detail", uselist=False)
-    product = relationship("OrderDetail", back_populates="product")
+    product = relationship("OrderDetail", back_populates="products")
