@@ -273,17 +273,17 @@ def test_product_generation():
 
 
 def main():
-    test_name_generation()
-    test_email_generation()
-    test_phone_generation()
-    test_address_generation()
-    test_reg_no_generation()
-    test_color_generation()
-    test_date_generation()
-    test_car_generation()
-    test_company_generation()
-    test_product_name_generation()
-    test_product_description_generation()
+    # test_name_generation()
+    # test_email_generation()
+    # test_phone_generation()
+    # test_address_generation()
+    # test_reg_no_generation()
+    # test_color_generation()
+    # test_date_generation()
+    # test_car_generation()
+    # test_company_generation()
+    # test_product_name_generation()
+    # test_product_description_generation()
     test_product_generation()
 
 

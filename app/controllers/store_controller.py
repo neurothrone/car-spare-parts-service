@@ -4,7 +4,7 @@ from typing import Optional
 from app.controllers import BaseController
 from app.data.models.product import Product
 from app.data.models.store import Store
-from app.data.models.supplier import Manufacturer
+from app.data.models.supplier import Supplier
 from app.data.repositories.store_repository import StoreRepository
 from shared.models.types import StoreType
 
@@ -76,11 +76,11 @@ class StoreController(BaseController):
     # region Stores-Suppliers
 
     @classmethod
-    def add_supplier_to_store(cls, store: Store, supplier: Manufacturer) -> None:
+    def add_supplier_to_store(cls, store: Store, supplier: Supplier) -> None:
         cls.repository.add_supplier_to_store(store, supplier)
 
     @classmethod
-    def remove_supplier_from_store(cls, store: Store, supplier: Manufacturer) -> None:
+    def remove_supplier_from_store(cls, store: Store, supplier: Supplier) -> None:
         cls.repository.remove_supplier_from_store(store, supplier)
 
     # endregion Stores-Suppliers
