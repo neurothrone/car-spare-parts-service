@@ -2,7 +2,7 @@ from typing import Optional
 
 from app.controllers import BaseController
 from app.data.models.contact_person import ContactPerson
-from app.data.models.supplier import Supplier
+from app.data.models.supplier import Manufacturer
 from app.data.repositories.supplier_repository import SupplierRepository
 
 
@@ -12,13 +12,13 @@ class SupplierController(BaseController):
                            "head_office_address", "contact_person_id"}
 
     @classmethod
-    def find_by_id(cls, _id: int) -> Optional[Supplier]:
+    def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
         return cls.repository.find_by_id(_id)
 
     @classmethod
-    def add_contact_person(cls, supplier: Supplier, contact_person: ContactPerson) -> None:
+    def add_contact_person(cls, supplier: Manufacturer, contact_person: ContactPerson) -> None:
         cls.repository.add_contact_person(supplier, contact_person)
 
     @classmethod
-    def remove_contact_person(cls, supplier: Supplier) -> None:
+    def remove_contact_person(cls, supplier: Manufacturer) -> None:
         cls.repository.remove_contact_person(supplier)
