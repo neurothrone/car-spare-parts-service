@@ -9,7 +9,7 @@ def populate_db():
     StoreGenerator.populate_database(amount=100)
     EmployeeGenerator.populate_database(amount=100)
     # dependent on above
-    EmployeeController.connect_employees_to_stores(min_=1, max_=3)
+    # EmployeeController.connect_employees_to_stores(min_=1, max_=3)
 
     # CustomerGenerator.populate_database(amount=100)
 
@@ -19,8 +19,8 @@ def populate_db():
 
 def main():
     populate_db()
-    # EmployeeController.connect_employees_to_stores(min_=1, max_=3)
-    # EmployeeController.reset_all_employees_store()
+    EmployeeController.connect_employees_to_stores(min_=1, max_=3)
+    EmployeeController.reset_all_employees_store()
 
     # StoreGenerator.populate_database(amount=100)
     # StoreGenerator.add_products_to_stores(min_per_store=1, max_per_store=5)
