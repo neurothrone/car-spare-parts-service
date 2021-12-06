@@ -10,7 +10,7 @@ class Order(BaseModel):
     order_id = Column(Integer, autoincrement=True, primary_key=True)
     ordered_date = Column(TIMESTAMP, nullable=False)
     shipped_date = Column(TIMESTAMP, nullable=False)
-    delivery_date = Column(Date)
+    delivery_date = Column(Date,nullable=True)
     status = Column(String(15), nullable=False)
     customer_id = Column(Integer, ForeignKey("customers.customer_id"), nullable=True)
 
