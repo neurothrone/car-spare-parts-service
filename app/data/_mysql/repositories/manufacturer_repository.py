@@ -1,38 +1,39 @@
+from typing import Optional
 from app.data._mysql.db import session
-from app.data._mysql.models import ContactPerson
 from app.data._mysql.models.manufacturer import Manufacturer
+from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.repositories.contact_person_repository import ContactPersonRepository
 
 
 class ManufacturerRepository(BaseRepository):
-    @staticmethod
-    def find_by_id(_id: int) -> Manufacturer:
-        return session.query(Manufacturer).filter_by(manufacturer_id=_id).first()
+    model = Manufacturer
 
     @staticmethod
-    def add_contact_person(manufacturer: Manufacturer, contact_person: ContactPerson) -> None:
-        if ManufacturerRepository.has_contact_person(manufacturer) or ManufacturerRepository.has_supplier(contact_person):
+    def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
+        return session.query(cls.model).filter_by(manufacturer_id=_id).first()
+
+    @staticmethod
+    def add_product_to_manufacturer(manufacturer: Manufacturer,
+                                    product: Product) -> None:
+        if ManufacturerRepository.has_product(manufacturer, product):
             return
 
-        manufacturer.contact_person_id = contact_person.contact_person_id
-        contact_person.manufacturer = manufacturer
+        manufacturer.products.append(product)
         session.commit()
 
     @staticmethod
-    def remove_contact_person(manufacturer: Manufacturer) -> None:
-        if not ManufacturerRepository.has_contact_person(manufacturer):
+    def remove_product_from_manufacturer(manufacturer: Manufacturer,
+                                         product: Product) -> None:
+        if ManufacturerRepository.has_product(manufacturer, product):
             return
 
-        contact_person = ContactPersonRepository.find_by_id(manufacturer.contact_person_id)
-        contact_person.manufacturer = None
-        manufacturer.contact_person_id = None
+        manufacturer.products.remove(product)
         session.commit()
 
     @staticmethod
-    def has_contact_person(manufacturer: Manufacturer) -> bool:
-        return manufacturer.contact_person_id is not None
-
-    @staticmethod
-    def has_supplier(contact_person: ContactPerson) -> bool:
-        return contact_person.manufacturer is not None
+    def has_product(manufacturer: Manufacturer, product: Product) -> bool:
+        for mhp in manufacturer.products:
+            if mhp.product.product_id == product.product_id:
+                return True
+        return False

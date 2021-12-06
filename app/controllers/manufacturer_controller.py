@@ -1,20 +1,23 @@
 from app.controllers import BaseController
 from app.data.models.manufacturer import Manufacturer
 from app.data.repositories.manufacturer_repository import ManufacturerRepository
-from app.data.models.contact_person import ContactPerson
+from app.data.models.product import Product
+from typing import Optional
 
 
 class ManufacturerController(BaseController):
-    model = Manufacturer
+    repository = ManufacturerRepository
 
     @staticmethod
-    def find_by_id(_id: int) -> Manufacturer:
-        return ManufacturerRepository.find_by_id(_id)
+    def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
+        return cls.repository.find_by_id(_id)
 
-    @staticmethod
-    def add_contact_person(manufacturer: Manufacturer, contact_person: ContactPerson) -> None:
-        ManufacturerRepository.add_contact_person(manufacturer, contact_person)
+    @classmethod
+    def add_product_to_manufacturer(cls, manufacturer: Manufacturer,
+                                    product: Product) -> None:
+        cls.repository.add_product_to_manufacturer(manufacturer, product)
 
-    @staticmethod
-    def remove_contact_person(manufacturer: Manufacturer) -> None:
-        ManufacturerRepository.remove_contact_person(manufacturer)
+    @classmethod
+    def remove_product_from_manufacturer(cls, manufacturer: Manufacturer,
+                                         product: Product) -> None:
+        cls.repository.remove_product_from_manufacturer(manufacturer, product)

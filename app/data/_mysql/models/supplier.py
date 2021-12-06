@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from app.data._mysql.models import BaseModel
 
 
-class Supplier(BaseModel):
+class Supplier(BaseModel['Supplier']):
     __tablename__ = "suppliers"
 
     supplier_id = Column(Integer, autoincrement=True, primary_key=True)

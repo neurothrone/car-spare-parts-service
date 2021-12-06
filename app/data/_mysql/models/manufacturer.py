@@ -3,7 +3,7 @@ from app.data._mysql.models import BaseModel
 from sqlalchemy.orm import relationship
 
 
-class Manufacturer(BaseModel):
+class Manufacturer(BaseModel["Manufacturer"]):
     __tablename__ = "manufacturers"
 
     manufacturer_id = Column(Integer, autoincrement=True, primary_key=True)

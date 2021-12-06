@@ -14,25 +14,6 @@ class SupplierRepository(BaseRepository):
     def find_by_id(cls, _id: int) -> Optional[Supplier]:
         return session.query(cls.model).filter_by(supplier_id=_id).first()
 
-    @classmethod
-    def add_contact_person(cls, supplier: Supplier, contact_person: ContactPerson) -> None:
-        if cls.has_contact_person(supplier):
-            return
-
-        supplier.contact_person_id = contact_person.contact_person_id
-        contact_person.supplier = supplier
-        session.commit()
-
-    @classmethod
-    def remove_contact_person(cls, supplier: Supplier) -> None:
-        if not cls.has_contact_person(supplier):
-            return
-
-        contact_person = ContactPersonRepository.find_by_id(supplier.contact_person_id)
-        contact_person.supplier = None
-        supplier.contact_person_id = None
-        session.commit()
-
     @staticmethod
     def add_product_to_supplier(supplier: Supplier,
                                 product: Product) -> None:
@@ -50,10 +31,6 @@ class SupplierRepository(BaseRepository):
 
         supplier.products.remove(product)
         session.commit()
-
-    @classmethod
-    def has_contact_person(cls, supplier: Supplier) -> bool:
-        return supplier.contact_person_id is not None
 
     @staticmethod
     def has_product(supplier: Supplier, product: Product) -> bool:
