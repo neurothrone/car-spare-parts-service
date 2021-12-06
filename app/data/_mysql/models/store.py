@@ -2,7 +2,7 @@ from sqlalchemy import CHAR, Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.data._mysql.models import BaseModel
-from app.data._mysql.models.associations.store_has_supplier import stores_has_suppliers
+from app.data._mysql.models.associations.store_has_supplier import StoreHasSupplier
 
 
 class Store(BaseModel["Store"]):
@@ -19,8 +19,4 @@ class Store(BaseModel["Store"]):
 
     employees = relationship("Employee", back_populates="store")
     products = relationship("StoreHasProduct", back_populates="store")
-    suppliers = relationship(
-        "Supplier",
-        secondary=stores_has_suppliers,
-        back_populates="stores"
-    )
+    suppliers = relationship("StoreHasSupplier", back_populates="store")
