@@ -2,10 +2,10 @@ from typing import Generic, TypeVar
 
 from app.data._mysql.db import Base
 
-T = TypeVar("T", bound="BaseModel")
+TBaseModel = TypeVar("TBaseModel", bound="BaseModel")
 
 
-class BaseModel(Base, Generic[T]):
+class BaseModel(Generic[TBaseModel], Base):
     __abstract__ = True
 
     def __repr__(self) -> str:
