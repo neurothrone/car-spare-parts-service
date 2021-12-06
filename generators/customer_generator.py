@@ -2,8 +2,8 @@ from random import randint
 from typing import Optional
 
 from app.controllers.customer_controller import CustomerController
-from app.data.models.customer import CustomerType
 from generators.fake_data import FakeData
+from shared.models.types import CustomerType
 from shared.validators import validate_length
 
 
