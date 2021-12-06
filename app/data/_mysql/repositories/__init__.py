@@ -1,36 +1,38 @@
-from typing import Type, TypeVar
+from abc import ABC
+from typing import Optional
 
 from app.data._mysql.db import session
-from app.data.models import BaseModel
-
-T = TypeVar("T", bound=BaseModel)
+from app.data._mysql.models import TBaseModel
 
 
-class BaseRepository:
+class BaseRepository(ABC):
+    model = None
+
+    @classmethod
+    def create(cls, **kwargs) -> None:
+        instance = cls.model(**kwargs)
+        cls.save_to_db(instance)
+
     @staticmethod
-    def create(model: Type[T], **kwargs) -> None:
-        instance = model(**kwargs)
-        BaseRepository.save_to_db(instance)
-
-    @staticmethod
-    def save_to_db(obj: T) -> None:
+    def save_to_db(obj: TBaseModel) -> None:
         session.add(obj)
         session.commit()
 
     @staticmethod
-    def delete_from_db(obj: T) -> None:
+    def delete_from_db(obj: TBaseModel) -> None:
         session.delete(obj)
         session.commit()
 
-    @staticmethod
-    def delete_all(model: T) -> None:
-        session.query(model).delete()
+    @classmethod
+    def delete_all(cls) -> int:
+        deleted_count = session.query(cls.model).delete()
         session.commit()
+        return deleted_count
 
-    @staticmethod
-    def find_all(model: T) -> list[T]:
-        return session.query(model).all()
+    @classmethod
+    def find_all(cls) -> Optional[list[TBaseModel]]:
+        return session.query(cls.model).all()
 
-    @staticmethod
-    def all_to_dict(model: T, items: list[T] = None) -> list[dict]:
-        return [item.to_dict() for item in (items if items else model.find_all())]
+    @classmethod
+    def all_to_dict(cls, items: list[TBaseModel] = None) -> Optional[list[dict]]:
+        return [item.to_dict() for item in (items if items else cls.model.find_all())]

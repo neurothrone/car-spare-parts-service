@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import Optional
+
 from app.data._mysql.db import session
 from app.data._mysql.models import Product, Supplier, StoreHasProduct
 from app.data._mysql.repositories import BaseRepository
@@ -5,17 +8,31 @@ from app.data._mysql.models.store import Store
 
 
 class StoreRepository(BaseRepository):
-    @staticmethod
-    def find_by_id(_id: int) -> Store:
-        return session.query(Store).filter_by(store_id=_id).first()
+    model = Store
 
-    @staticmethod
-    def find_by_store_type(store_type: str) -> Store:
-        return session.query(Store).filter_by(store_type=store_type).first()
+    @classmethod
+    def find_by_id(cls, _id: int | str) -> Optional[Store]:
+        if isinstance(_id, str):
+            _id = int(_id)
+        return session.query(cls.model).filter_by(store_id=_id).first()
 
-    @staticmethod
-    def find_all_by_store_type(store_type: str) -> list[Store]:
-        return session.query(Store).filter_by(store_type=store_type).all()
+    @classmethod
+    def find_by_city(cls, city: str, many: bool = False) -> Optional[Store | list[Store]]:
+        if many:
+            return session.query(cls.model).filter_by(city=city)
+        return session.query(cls.model).filter_by(city=city).first()
+
+    @classmethod
+    def find_by_email(cls, email: str, many: bool = False) -> Optional[Store | list[Store]]:
+        if many:
+            return session.query(cls.model).filter_by(email=email)
+        return session.query(cls.model).filter_by(email=email).first()
+
+    @classmethod
+    def find_by_store_type(cls, store_type: str, many: bool = False) -> Optional[Store | list[Store]]:
+        if many:
+            return session.query(cls.model).filter_by(store_type=store_type)
+        return session.query(cls.model).filter_by(store_type=store_type).first()
 
     @staticmethod
     def add_product_to_store(store: Store,
