@@ -4,11 +4,6 @@ from sqlalchemy.orm import relationship
 from app.data._mysql.models import BaseModel
 
 
-class CustomerType:
-    PRIVATE = "p"
-    CORPORATE = "c"
-
-
 class Customer(BaseModel):
     __tablename__ = "customers"
 
