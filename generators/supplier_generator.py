@@ -1,3 +1,4 @@
+import random
 from app.controllers.supplier_controller import SupplierController
 from generators.fake_data import FakeData
 from shared.validators import validate_length
@@ -7,6 +8,7 @@ class SupplierGenerator:
     COMPANY_NAME_MAX_LEN = 45
     HEAD_OFFICE_PHONE_LEN = 25
     HEAD_OFFICE_ADDRESS_LEN = 100
+    cpi = list(range(1, 101))
 
     @staticmethod
     def generate(company_name: str,
@@ -19,10 +21,17 @@ class SupplierGenerator:
         validate_length(provided=head_office_address,
                         limit=SupplierGenerator.HEAD_OFFICE_ADDRESS_LEN)
 
+        cpi_new = SupplierGenerator.cpi.pop()
+        if cpi_new >= 90:
+            contact_person_id = None
+        else:
+            contact_person_id = cpi_new
+
         SupplierController.create(
             company_name=company_name,
             head_office_phone=head_office_phone,
-            head_office_address=head_office_address)
+            head_office_address=head_office_address,
+            contact_person_id=contact_person_id)
 
     @classmethod
     def populate_database(cls, amount: int) -> None:
@@ -30,10 +39,13 @@ class SupplierGenerator:
         locations = FakeData.generate_locations(amount)
         company_names = FakeData.generate_companies(amount)
 
+        random.shuffle(SupplierGenerator.cpi)
+
         for i in range(amount):
             cls.generate(company_name=company_names[i],
                          head_office_phone=phone_numbers[i],
                          head_office_address=locations[i].__str__())
+
         print("----- Suppliers generated -----")
 
 
