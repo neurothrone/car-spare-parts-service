@@ -1,15 +1,15 @@
 from __future__ import annotations
 from abc import ABC
-from typing import Optional, Type
+from typing import Generic, Optional
 
 import bson.errors
 from bson import ObjectId
 
-from app.data._mongo.models import ResultList, T
+from app.data._mongo.models import ResultList, TBaseDocument
 
 
 class BaseRepository(ABC):
-    model: Type[T]
+    model: Generic[TBaseDocument] = None
 
     @classmethod
     def create(cls, **kwargs) -> None:
@@ -20,6 +20,38 @@ class BaseRepository(ABC):
     def create_many(cls, data: list[dict]) -> int:
         insertions = cls.model.collection.insert_many(data)
         return len(insertions.inserted_ids)
+
+    @classmethod
+    def find(cls, many: bool = False,
+             **kwargs) -> Optional[TBaseDocument | list[TBaseDocument]]:
+        result = ResultList(cls.model(**item) for item in
+                            cls.model.collection.find(kwargs))
+        if many:
+            return result
+        return result.first_or_none()
+
+    @classmethod
+    def find_by_id(cls, _id: str) -> Optional[TBaseDocument]:
+        try:
+            return cls.find(_id=ObjectId(_id))
+        except bson.errors.InvalidId:
+            print(f"Error (bson.errors.InvalidId): That is not a valid "
+                  f"ObjectId in function -> {cls.find_by_id.__name__}() "
+                  f"on class -> {cls.__name__}.")
+
+    @classmethod
+    def find_all(cls, **kwargs) -> Optional[list[TBaseDocument]]:
+        return cls.find(many=True, **kwargs)
+
+    @classmethod
+    def find_all_sort_by(cls, attribute: str, ascending: bool = True,
+                         limit: Optional[int] = None) -> Optional[TBaseDocument | list[TBaseDocument]]:
+        sort_in = 1 if ascending else -1
+        if limit:
+            return ResultList(cls.model(**item) for item in
+                              cls.model.collection.find().sort(attribute, sort_in).limit())
+        return ResultList(cls.model(**item) for item in
+                          cls.model.collection.find().sort(attribute, sort_in))
 
     @classmethod
     def delete_by(cls, query: Optional[dict] = None, many: bool = True) -> int:
@@ -37,33 +69,3 @@ class BaseRepository(ABC):
     @classmethod
     def delete_all(cls) -> int:
         return cls.delete_by()
-
-    @classmethod
-    def find(cls, many: bool = False, **kwargs) -> Optional[T | list[T]]:
-        result = ResultList(cls.model(**item) for item in cls.model.collection.find(kwargs))
-        if many:
-            return result
-        return result.first_or_none()
-
-    @classmethod
-    def find_by_id(cls, _id: str) -> Optional[T]:
-        try:
-            return cls.find(_id=ObjectId(_id))
-        except bson.errors.InvalidId:
-            print(f"Error (bson.errors.InvalidId): That is not a valid "
-                  f"ObjectId in function -> {cls.find_by_id.__name__}() "
-                  f"on class -> {cls.__name__}.")
-
-    @classmethod
-    def find_all(cls, **kwargs) -> Optional[list[T]]:
-        return cls.find(many=True, **kwargs)
-
-    @classmethod
-    def find_all_sort_by(cls, attribute: str, ascending: bool = True,
-                         limit: Optional[int] = None) -> Optional[T | list[T]]:
-        sort_in = 1 if ascending else -1
-        if limit:
-            return ResultList(cls.model(**item) for item in
-                              cls.model.collection.find().sort(attribute, sort_in).limit())
-        return ResultList(cls.model(**item) for item in
-                          cls.model.collection.find().sort(attribute, sort_in))
