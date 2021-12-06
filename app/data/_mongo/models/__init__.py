@@ -1,11 +1,11 @@
 from __future__ import annotations
 from abc import ABC
-from typing import Optional, TypeVar
+from typing import Generic, Optional, TypeVar
 
-T = TypeVar("T", bound="Document")
+TBaseDocument = TypeVar("TBaseDocument", bound="BaseDocument")
 
 
-class Document(dict, ABC):
+class BaseDocument(ABC, Generic[TBaseDocument], dict):
     collection = None
 
     def __init__(self, **data) -> None:
@@ -35,9 +35,9 @@ class Document(dict, ABC):
         cls.collection.replace_one(query, new_values)
 
 
-class ResultList(list[T]):
-    def first_or_none(self) -> Optional[T]:
+class ResultList(list[Generic[TBaseDocument]]):
+    def first_or_none(self) -> Optional[Generic[TBaseDocument]]:
         return self[0] if len(self) > 0 else None
 
-    def last_or_none(self) -> Optional[T]:
+    def last_or_none(self) -> Optional[Generic[TBaseDocument]]:
         return self[-1] if len(self) > 0 else None
