@@ -11,7 +11,7 @@ class ManufacturerController(BaseController):
     required_attributes = {"company_name", "head_office_phone",
                            "head_office_address", "contact_person_id"}
 
-    @staticmethod
+    @classmethod
     def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
         return cls.repository.find_by_id(_id)
 
