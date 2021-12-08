@@ -8,6 +8,8 @@ from app.data.models.contact_person import ContactPerson
 
 class ManufacturerController(BaseController):
     repository = ManufacturerRepository
+    required_attributes = {"company_name", "head_office_phone",
+                           "head_office_address", "contact_person_id"}
 
     @staticmethod
     def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
