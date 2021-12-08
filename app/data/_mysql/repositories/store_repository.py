@@ -55,6 +55,13 @@ class StoreRepository(BaseRepository):
         session.commit()
 
     @staticmethod
+    def has_product(store: Store, product: Product) -> bool:
+        for shp in store.products:
+            if shp.product.product_id == product.product_id:
+                return True
+        return False
+
+    @staticmethod
     def remove_product_from_store(store: Store, product: Product) -> None:
         if not StoreRepository.has_product(store, product):
             return
@@ -83,13 +90,6 @@ class StoreRepository(BaseRepository):
 
         store.suppliers.remove(supplier)
         session.commit()
-
-    @staticmethod
-    def has_product(store: Store, product: Product) -> bool:
-        for shp in store.products:
-            if shp.product.product_id == product.product_id:
-                return True
-        return False
 
     @staticmethod
     def has_supplier(store: Store, supplier: Supplier) -> bool:
