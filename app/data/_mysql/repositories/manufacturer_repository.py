@@ -1,6 +1,8 @@
 from typing import Optional
-
 from app.data._mysql.db import session
+from app.data._mysql.models import ContactPerson
+from app.data._mysql.models.manufacturer import Manufacturer
+from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.models.contact_person import ContactPerson
 from app.data._mysql.models.manufacturer import Manufacturer
@@ -11,7 +13,7 @@ from app.data._mysql.repositories.contact_person_repository import ContactPerson
 class ManufacturerRepository(BaseRepository):
     model = Manufacturer
 
-    @classmethod
+    @staticmethod
     def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
         return session.query(cls.model).filter_by(manufacturer_id=_id).first()
 

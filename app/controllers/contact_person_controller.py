@@ -10,6 +10,10 @@ class ContactPersonController(BaseController):
     repository = ContactPersonRepository
     required_attributes = {"first_name", "last_name", "phone", "email"}
 
+    @staticmethod
+    def find_by_id(_id: int) -> Optional[ContactPerson]:
+        return ContactPersonRepository.find_by_id(_id)
+
     @classmethod
     def find_by_id(cls, _id: int | str) -> Optional[ContactPerson]:
         return cls.repository.find_by_id(_id)
