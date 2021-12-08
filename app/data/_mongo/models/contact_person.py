@@ -7,5 +7,5 @@ else:
     from app.data._mongo.db import db
 
 
-class Manufacturer(BaseDocument['Manufacturer']):
-    collection = db.manufacturers
+class ContactPerson(BaseDocument['ContactPerson']):
+    collection = db.contact_persons
