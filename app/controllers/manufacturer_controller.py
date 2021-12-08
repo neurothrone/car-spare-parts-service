@@ -30,3 +30,12 @@ class ManufacturerController(BaseController):
     @classmethod
     def remove_contact_person(cls, manufacturer: Manufacturer) -> None:
         cls.repository.remove_contact_person(manufacturer)
+
+    @classmethod
+    def has_contact_person(cls, manufacturer: Manufacturer) -> bool:
+        return manufacturer.contact_person_id is not None
+
+    @classmethod
+    def has_manufacturer(cls, contact_person: ContactPerson) -> bool:
+        return contact_person.manufacturer is not None
+    
