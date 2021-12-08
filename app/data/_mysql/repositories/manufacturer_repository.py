@@ -1,5 +1,6 @@
 from typing import Optional
 from app.data._mysql.db import session
+from app.data._mysql.models import ContactPerson
 from app.data._mysql.models.manufacturer import Manufacturer
 from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
@@ -37,7 +38,7 @@ class ManufacturerRepository(BaseRepository):
             return
 
         manufacturer.contact_person_id = contact_person.contact_person_id
-        contact_person.supplier = manufacturer
+        contact_person.manufacturer = manufacturer
         session.commit()
 
     @classmethod
