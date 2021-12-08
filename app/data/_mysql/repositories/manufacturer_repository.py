@@ -31,6 +31,33 @@ class ManufacturerRepository(BaseRepository):
         manufacturer.products.remove(product)
         session.commit()
 
+    @classmethod
+    def add_contact_person(cls, manufacturer: Manufacturer, contact_person: ContactPerson) -> None:
+        if cls.has_contact_person(manufacturer) or ManufacturerRepository.has_manufacturer(contact_person):
+            return
+
+        manufacturer.contact_person_id = contact_person.contact_person_id
+        contact_person.supplier = manufacturer
+        session.commit()
+
+    @classmethod
+    def remove_contact_person(cls, manufacturer: Manufacturer) -> None:
+        if not cls.has_contact_person(manufacturer):
+            return
+
+        contact_person = ContactPersonRepository.find_by_id(manufacturer.contact_person_id)
+        contact_person.manufacturer = None
+        manufacturer.contact_person_id = None
+        session.commit()
+
+    @classmethod
+    def has_contact_person(cls, manufacturer: Manufacturer) -> bool:
+        return manufacturer.contact_person_id is not None
+
+    @classmethod
+    def has_manufacturer(cls, contact_person: ContactPerson) -> bool:
+        return contact_person.manufacturer is not None
+
     @staticmethod
     def has_product(manufacturer: Manufacturer, product: Product) -> bool:
         for mhp in manufacturer.products:
