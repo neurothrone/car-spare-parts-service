@@ -40,6 +40,7 @@ class ContactPersonGenerator:
         print(f"----- {amount} Contact Persons generated -----")
 
 
+
 def test_supplier_contact_person():
     contact_person = ContactPersonController.find_by_id(1)
     supplier = SupplierController.find_by_id(1)
