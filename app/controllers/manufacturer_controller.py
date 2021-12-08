@@ -38,4 +38,3 @@ class ManufacturerController(BaseController):
     @classmethod
     def has_manufacturer(cls, contact_person: ContactPerson) -> bool:
         return contact_person.manufacturer is not None
-    
