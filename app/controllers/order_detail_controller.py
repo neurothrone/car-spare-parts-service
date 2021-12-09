@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Optional
 
 from app.controllers import BaseController
@@ -11,5 +12,5 @@ class OrderDetailController(BaseController):
                            "quantity_ordered", "price_each"}
 
     @classmethod
-    def find_by_id(cls, _id: int) -> Optional[OrderDetail]:
+    def find_by_id(cls, _id: int | str) -> Optional[OrderDetail]:
         return cls.repository.find_by_id(_id)

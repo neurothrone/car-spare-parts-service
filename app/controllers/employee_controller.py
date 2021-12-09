@@ -1,3 +1,4 @@
+from __future__ import annotations
 from random import randint
 from typing import Optional
 
@@ -13,6 +14,10 @@ class EmployeeController(BaseController):
     repository = EmployeeRepository
     required_attributes = {"first_name", "last_name", "phone", "email", "store_id"}
 
+    @staticmethod
+    def find_by_id(_id: int | str) -> Optional[Employee]:
+        return EmployeeRepository.find_by_id(_id)
+
     @classmethod
     def create(cls, first_name: str, last_name: str, phone: str, email: str,
                store_id: Optional[int] = None) -> None:
@@ -21,10 +26,6 @@ class EmployeeController(BaseController):
                                   phone=phone,
                                   email=email,
                                   store_id=store_id)
-
-    @staticmethod
-    def find_by_id(_id: int) -> Optional[Employee]:
-        return EmployeeRepository.find_by_id(_id)
 
     @staticmethod
     def change_store(employee: Employee, store_id: Optional[int]) -> None:

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Optional
 
 from app.controllers import BaseController
@@ -10,5 +11,5 @@ class CarDetailController(BaseController):
     required_attributes = {"brand", "model", "year"}
 
     @classmethod
-    def find_by_id(cls, _id: int) -> Optional[CarDetail]:
+    def find_by_id(cls, _id: int | str) -> Optional[CarDetail]:
         return CarDetailRepository.find_by_id(_id)
