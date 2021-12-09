@@ -30,14 +30,6 @@ class StoreController(BaseController):
                               zip_code=zip_code, city=city)
 
     @classmethod
-    def create_many(cls, data: list[dict]) -> None:
-        for store_data in data:
-            cls.validate(store_data)
-
-        for store_data in data:
-            cls.create(**store_data)
-
-    @classmethod
     def find_by_id(cls, _id: int | str) -> Optional[Store]:
         return cls.repository.find_by_id(_id)
 
