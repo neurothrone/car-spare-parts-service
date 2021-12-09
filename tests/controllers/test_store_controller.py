@@ -1,13 +1,18 @@
 import unittest
 
-from app.controllers.store_controller import StoreController
 from app.settings import Database, Settings
+
+Settings.TESTING = True
+
+from app.controllers.store_controller import StoreController
 from shared.models.types import StoreType
 from shared.tests.test_printer import TestPrinter
-from tests.data import store_data, stores_data
+from tests.store_test_data import store_data, stores_data
 
 
 class StoreControllerTestCase(unittest.TestCase):
+    # region Setup & Cleanup
+
     def setUp(self) -> None:
         StoreController.delete_all()
 
@@ -22,6 +27,10 @@ class StoreControllerTestCase(unittest.TestCase):
     def tearDownClass(cls) -> None:
         TestPrinter.print_passed_tests()
 
+    # endregion Setup & Cleanup
+
+    # region Utility
+
     @classmethod
     def create_single_store(cls) -> None:
         StoreController.create(**store_data)
@@ -29,6 +38,8 @@ class StoreControllerTestCase(unittest.TestCase):
     @classmethod
     def create_many_stores(cls) -> None:
         StoreController.create_many(stores_data)
+
+    # region Utility
 
     def test_find_by_id_found(self):
         self.create_single_store()

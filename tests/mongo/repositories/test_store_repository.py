@@ -1,4 +1,3 @@
-from __future__ import annotations
 import unittest
 
 from app.settings import Settings
@@ -8,10 +7,12 @@ Settings.TESTING = True
 from app.data._mongo.repositories.store_repository import StoreRepository
 from shared.models.types import StoreType
 from shared.tests.test_printer import TestPrinter
-from tests.data import store_data, stores_data
+from tests.store_test_data import store_data, stores_data
 
 
 class StoreRepositoryTestCase(unittest.TestCase):
+    # region Setup & Cleanup
+
     def setUp(self) -> None:
         StoreRepository.delete_all()
 
@@ -21,10 +22,15 @@ class StoreRepositoryTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         TestPrinter.reset()
+        cls.create_many_stores()
 
     @classmethod
     def tearDownClass(cls) -> None:
         TestPrinter.print_passed_tests()
+
+    # endregion Setup & Cleanup
+
+    # region Utility
 
     @classmethod
     def create_single_store(cls) -> None:
@@ -33,6 +39,10 @@ class StoreRepositoryTestCase(unittest.TestCase):
     @classmethod
     def create_many_stores(cls) -> None:
         StoreRepository.create_many(stores_data)
+
+    # endregion Utility
+
+    # region Tests
 
     def test_create_one_store(self):
         self.create_single_store()
@@ -175,6 +185,8 @@ class StoreRepositoryTestCase(unittest.TestCase):
         stores = StoreRepository.find_all()
         self.assertNotEqual(stores[0].city, None)
         TestPrinter.add(self.test_find_all_sort_by_not_sorted.__name__)
+
+    # endregion Tests
 
 
 def main():
