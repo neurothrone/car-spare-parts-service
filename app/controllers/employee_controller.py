@@ -29,7 +29,7 @@ class EmployeeController(BaseController):
 
     @classmethod
     def change_store(cls, employee: Employee, store: Optional[Store]) -> None:
-        if store.store_type == StoreType.ONLINE:
+        if store and store.store_type == StoreType.ONLINE:
             raise ValueError("Employee can't work at online store.")
 
         cls.repository.change_store(employee, store)
