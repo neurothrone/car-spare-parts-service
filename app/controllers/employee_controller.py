@@ -20,28 +20,19 @@ class EmployeeController(BaseController):
 
     @classmethod
     def create(cls, first_name: str, last_name: str, phone: str, email: str,
-               store_id: Optional[int] = None) -> None:
+               store_id: Optional[int | str] = None) -> None:
         EmployeeRepository.create(first_name=first_name,
                                   last_name=last_name,
                                   phone=phone,
                                   email=email,
                                   store_id=store_id)
 
-    @staticmethod
-    def change_store(employee: Employee, store_id: Optional[int]) -> None:
-        if store_id is not None:
-            if store_id < 1:
-                raise ValueError("Invalid value for store_id. Can not be zero or negative.")
+    @classmethod
+    def change_store(cls, employee: Employee, store: Optional[Store]) -> None:
+        if store.store_type == StoreType.ONLINE:
+            raise ValueError("Employee can't work at online store.")
 
-            store = StoreController.find_by_id(store_id)
-
-            if store.store_type == StoreType.ONLINE:
-                raise ValueError("Employee can't work at online store.")
-
-            if employee.store_id == store_id:
-                raise ValueError("Employee is already working there.")
-
-        EmployeeRepository.change_store(employee, store_id)
+        cls.repository.change_store(employee, store)
 
     @classmethod
     def connect_employees_to_stores(cls, min_: int, max_: int) -> None:
@@ -70,7 +61,7 @@ class EmployeeController(BaseController):
 
                     cls.change_store(
                         employee=employees[employee_index],
-                        store_id=stores[store_index].store_id)
+                        store=stores[store_index])
                     employees_connected += 1
                     employee_index += 1
             except IndexError:
