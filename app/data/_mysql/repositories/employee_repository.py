@@ -15,7 +15,12 @@ class EmployeeRepository(BaseRepository):
 
     @classmethod
     def change_store(cls, employee: Employee, store: Optional[Store]) -> None:
-        if store is not None:
+        if not store:
+            employee.store_id = None
+        else:
+            if not store.store_id:
+                raise ValueError("Store ID can not be None.")
+
             if store.store_id < 1:
                 raise ValueError("Invalid value for store_id. Can not be zero or negative.")
 
@@ -23,6 +28,5 @@ class EmployeeRepository(BaseRepository):
                 raise ValueError("Employee is already working there.")
 
             employee.store_id = store.store_id
-        else:
-            employee.store_id = None
+
         cls.save_to_db(employee)
