@@ -104,18 +104,6 @@ class StoreGenerator:
         print(f"----- {total_products} total products in all stores -----")
 
 
-def test_store_fail():
-    StoreController.create(store_type=StoreType.PHYSICAL,
-                           phone="+64 70 722 88 88",
-                           email="store@example.se")
-    StoreController.create(store_type=StoreType.ONLINE,
-                           phone="+64 70 722 88 88",
-                           email="store@example.se",
-                           address="Tarbergsgatan 25",
-                           zip_code="172 41",
-                           city="Karlstad")
-
-
 def test_store_product():
     # TODO: retrieval
     store = StoreController.find_by_id(1)
