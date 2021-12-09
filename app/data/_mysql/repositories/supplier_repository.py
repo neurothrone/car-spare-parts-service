@@ -3,7 +3,6 @@ from app.data._mysql.db import session
 from app.data._mysql.models import ContactPerson
 from app.data._mysql.models.product import Product
 from app.data._mysql.models.supplier import Supplier
-from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.repositories.contact_person_repository import ContactPersonRepository
 

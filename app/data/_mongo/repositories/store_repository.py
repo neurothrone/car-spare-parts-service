@@ -11,7 +11,7 @@ from app.data._mongo.repositories import BaseRepository
 class StoreRepository(BaseRepository):
     model = Store
 
-    # region Stores
+    # region Store
 
     @classmethod
     def find_by_city(cls, city: str, many: bool = False) -> Optional[Store | list[Store]]:
@@ -25,7 +25,7 @@ class StoreRepository(BaseRepository):
     def find_by_store_type(cls, store_type: str, many: bool = False) -> Optional[Store | list[Store]]:
         return cls.find(many=many, store_type=store_type)
 
-    # endregion Stores
+    # endregion Store
 
     # region Stores-Products
 

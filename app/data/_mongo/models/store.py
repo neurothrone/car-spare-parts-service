@@ -1,4 +1,3 @@
-from __future__ import annotations
 from app.settings import Settings
 
 if Settings.TESTING:

@@ -1,19 +1,17 @@
 from typing import Optional
+
 from app.data._mysql.db import session
 from app.data._mysql.models import ContactPerson
 from app.data._mysql.models.manufacturer import Manufacturer
 from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
-from app.data._mysql.models.contact_person import ContactPerson
-from app.data._mysql.models.manufacturer import Manufacturer
-from app.data._mysql.models.product import Product
 from app.data._mysql.repositories.contact_person_repository import ContactPersonRepository
 
 
 class ManufacturerRepository(BaseRepository):
     model = Manufacturer
 
-    @staticmethod
+    @classmethod
     def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
         return session.query(cls.model).filter_by(manufacturer_id=_id).first()
 
@@ -21,7 +19,7 @@ class ManufacturerRepository(BaseRepository):
 
     @classmethod
     def add_contact_person(cls, manufacturer: Manufacturer, contact_person: ContactPerson) -> None:
-        if cls.has_contact_person(manufacturer) or ManufacturerRepository.has_manufacturer(contact_person):
+        if cls.has_contact_person(manufacturer) or cls.has_manufacturer(contact_person):
             return
 
         manufacturer.contact_person_id = contact_person.contact_person_id
@@ -50,19 +48,19 @@ class ManufacturerRepository(BaseRepository):
 
     # region Manufacturer-Product
 
-    @staticmethod
-    def add_product_to_manufacturer(manufacturer: Manufacturer,
+    @classmethod
+    def add_product_to_manufacturer(cls, manufacturer: Manufacturer,
                                     product: Product) -> None:
-        if ManufacturerRepository.has_product(manufacturer, product):
+        if cls.has_product(manufacturer, product):
             return
 
         manufacturer.products.append(product)
         session.commit()
 
-    @staticmethod
-    def remove_product_from_manufacturer(manufacturer: Manufacturer,
+    @classmethod
+    def remove_product_from_manufacturer(cls, manufacturer: Manufacturer,
                                          product: Product) -> None:
-        if ManufacturerRepository.has_product(manufacturer, product):
+        if cls.has_product(manufacturer, product):
             return
 
         manufacturer.products.remove(product)
