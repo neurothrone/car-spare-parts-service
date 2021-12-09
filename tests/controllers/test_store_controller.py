@@ -56,6 +56,23 @@ class StoreControllerTestCase(unittest.TestCase):
         self.assertIsNotNone(store)
         TestPrinter.add(self.test_create_one_store.__name__)
 
+    def test_create_physical_store_fail(self):
+        with self.assertRaises(ValueError):
+            StoreController.create(store_type=StoreType.PHYSICAL,
+                                   phone="+64 70 722 88 88",
+                                   email="store@example.se")
+        TestPrinter.add(self.test_create_physical_store_fail.__name__)
+
+    def test_create_online_store_fail(self):
+        with self.assertRaises(ValueError):
+            StoreController.create(store_type=StoreType.ONLINE,
+                                   phone="+64 70 722 88 88",
+                                   email="store@example.se",
+                                   address="Tarbergsgatan 25",
+                                   zip_code="172 41",
+                                   city="Karlstad")
+        TestPrinter.add(self.test_create_online_store_fail.__name__)
+
     def test_create_many_stores(self):
         self.create_many_stores()
         stores = StoreController.find_all()
