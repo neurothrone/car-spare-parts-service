@@ -20,10 +20,10 @@ class StoreController(BaseController):
             raise ValueError("Store type can only be 'p' or 'o'.")
 
         if store_type == StoreType.PHYSICAL and None in [address, zip_code, city]:
-            raise TypeError("A physical store must have an address, zip code or city.")
+            raise ValueError("A physical store must have an address, zip code or city.")
 
         if store_type == StoreType.ONLINE and None not in [address, zip_code, city]:
-            raise TypeError("An online store must not have an address, zip code or city.")
+            raise ValueError("An online store must not have an address, zip code or city.")
 
         cls.repository.create(store_type=store_type, phone=phone,
                               email=email, address=address,
