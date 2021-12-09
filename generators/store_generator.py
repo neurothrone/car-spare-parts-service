@@ -31,10 +31,10 @@ class StoreGenerator:
                      email=FakeData.generate_email(username="web", domain_name="store"))
 
     @classmethod
-    def populate_database(cls, amount: int) -> None:
+    def populate_database(cls, amount: int, online: bool = True) -> None:
         stores_generated = amount
 
-        if not StoreController.find_by_store_type(StoreType.ONLINE):
+        if not StoreController.find_by_store_type(StoreType.ONLINE) and online:
             cls.generate_online_store()
             stores_generated += 1
 
