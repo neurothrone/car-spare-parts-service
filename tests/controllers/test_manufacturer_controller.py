@@ -1,4 +1,5 @@
 import unittest
+from tests.helpers.dbutil import *
 
 from app.controllers.contact_person_controller import ContactPersonController
 from app.settings import Database, Settings
@@ -15,16 +16,18 @@ from shared.tests.test_printer import TestPrinter
 class ManufacturerControllerTestCase(unittest.TestCase):
 
     def setUp(self) -> None:
-        ManufacturerController.delete_all()
+        pass
+        #ManufacturerController.delete_all()
 
     @classmethod
     def setUpClass(cls) -> None:
+        create_db()
         ContactPersonGenerator.populate_database(amount=100)
         TestPrinter.reset()
 
     @classmethod
     def tearDownClass(cls) -> None:
-        ContactPersonController.delete_all()
+        delete_db()
         TestPrinter.print_passed_tests()
 
     def test_find_by_id_found(self):
