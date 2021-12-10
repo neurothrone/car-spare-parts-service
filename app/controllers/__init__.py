@@ -26,6 +26,14 @@ class BaseController(ABC):
         cls.repository.create(**kwargs)
 
     @classmethod
+    def create_many(cls, data: list[dict]) -> None:
+        for model_data in data:
+            cls.validate(model_data)
+
+        for model_data in data:
+            cls.create(**model_data)
+
+    @classmethod
     def find_all(cls) -> list:
         return cls.repository.find_all()
 

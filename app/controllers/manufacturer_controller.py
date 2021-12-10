@@ -1,3 +1,4 @@
+from __future__ import annotations
 from app.controllers import BaseController
 from app.data.models.manufacturer import Manufacturer
 from app.data.repositories.manufacturer_repository import ManufacturerRepository
@@ -11,9 +12,29 @@ class ManufacturerController(BaseController):
     required_attributes = {"company_name", "head_office_phone",
                            "head_office_address", "contact_person_id"}
 
-    @staticmethod
-    def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
+    @classmethod
+    def create(cls, company_name: str, head_office_phone: str, head_office_address: str,
+               contact_person_id: Optional[int | str] = None) -> None:
+        cls.repository.create(company_name=company_name,
+                              head_office_phone=head_office_phone,
+                              head_office_address=head_office_address,
+                              contact_person_id=contact_person_id)
+
+    @classmethod
+    def find_by_id(cls, _id: Optional[int | str]) -> Optional[Manufacturer]:
         return cls.repository.find_by_id(_id)
+
+    @classmethod
+    def find_by_company_name(cls, company_name: str) -> Optional[Manufacturer]:
+        return cls.repository.find_by_company_name(company_name)
+
+    @classmethod
+    def find_by_head_office_phone(cls, head_office_phone: str) -> Optional[Manufacturer]:
+        return cls.repository.find_by_head_office_phone(head_office_phone)
+
+    @classmethod
+    def find_by_head_office_address(cls, head_office_address: str) -> Optional[Manufacturer]:
+        return cls.repository.find_by_head_office_address(head_office_address)
 
     @classmethod
     def add_product_to_manufacturer(cls, manufacturer: Manufacturer,
@@ -32,11 +53,3 @@ class ManufacturerController(BaseController):
     @classmethod
     def remove_contact_person(cls, manufacturer: Manufacturer) -> None:
         cls.repository.remove_contact_person(manufacturer)
-
-    @classmethod
-    def has_contact_person(cls, manufacturer: Manufacturer) -> bool:
-        return manufacturer.contact_person_id is not None
-
-    @classmethod
-    def has_manufacturer(cls, contact_person: ContactPerson) -> bool:
-        return contact_person.manufacturer is not None

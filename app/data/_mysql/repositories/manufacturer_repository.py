@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from typing import Optional
 from app.data._mysql.db import session
-from app.data._mysql.models import ContactPerson
+from app.data._mysql.models import ContactPerson, ProductHasManufacturer
 from app.data._mysql.models.manufacturer import Manufacturer
 from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
@@ -10,26 +12,48 @@ from app.data._mysql.repositories.contact_person_repository import ContactPerson
 class ManufacturerRepository(BaseRepository):
     model = Manufacturer
 
-    @staticmethod
+    @classmethod
     def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
         return session.query(cls.model).filter_by(manufacturer_id=_id).first()
+
+    @classmethod
+    def find_by_company_name(cls, company_name: str, many: bool = False) -> Optional[Manufacturer | list[Manufacturer]]:
+        if many:
+            return session.query(cls.model).filter_by(company_name=company_name)
+        return session.query(cls.model).filter_by(company_name=company_name).first()
+
+    @classmethod
+    def find_by_head_office_phone(cls, head_office_phone: str, many: bool = False) -> Optional[Manufacturer | list[Manufacturer]]:
+        if many:
+            return session.query(cls.model).filter_by(head_office_phone=head_office_phone)
+        return session.query(cls.model).filter_by(head_office_phone=head_office_phone).first()
+
+    @classmethod
+    def find_by_head_office_address(cls, head_office_address: str, many: bool = False) -> Optional[Manufacturer | list[Manufacturer]]:
+        if many:
+            return session.query(cls.model).filter_by(head_office_address=head_office_address)
+        return session.query(cls.model).filter_by(head_office_address=head_office_address).first()
 
     @staticmethod
     def add_product_to_manufacturer(manufacturer: Manufacturer,
                                     product: Product) -> None:
         if ManufacturerRepository.has_product(manufacturer, product):
             return
+        product_has_manufacturer = ProductHasManufacturer()
 
-        manufacturer.products.append(product)
+        product_has_manufacturer.product = product
+        manufacturer.products.append(product_has_manufacturer)
         session.commit()
 
     @staticmethod
     def remove_product_from_manufacturer(manufacturer: Manufacturer,
                                          product: Product) -> None:
-        if ManufacturerRepository.has_product(manufacturer, product):
+        if not ManufacturerRepository.has_product(manufacturer, product):
             return
+        product_has_manufacturer = ProductHasManufacturer()
 
-        manufacturer.products.remove(product)
+        product_has_manufacturer.product = product
+        manufacturer.products.remove(product_has_manufacturer)
         session.commit()
 
     @classmethod
