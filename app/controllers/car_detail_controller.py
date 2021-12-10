@@ -12,3 +12,7 @@ class CarDetailController(BaseController):
     @classmethod
     def find_by_id(cls, _id: int) -> Optional[CarDetail]:
         return CarDetailRepository.find_by_id(_id)
+
+    @classmethod
+    def create(cls, brand: str, model: str, year: str) -> None:
+        CarDetailRepository.create(brand=brand, model=model, year=year)

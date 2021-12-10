@@ -14,5 +14,9 @@ class CarController(BaseController):
         return cls.repository.find_by_reg_no(reg_no)
 
     @classmethod
-    def create(cls, reg_no: str, color: str, car_detail_id, customer_id) -> None:
-        CarRepository.create(reg_no=reg_no, color=color, car_detail_id=car_detail_id, customer_id=customer_id)
+    def create_car(cls, reg_no: str, color: str,
+                   car_detail_id: Optional[int] = None, customer_id: Optional[int] = None) -> None:
+        CarRepository.create(reg_no=reg_no,
+                             color=color,
+                             car_detail_id=car_detail_id,
+                             customer_id=customer_id)
