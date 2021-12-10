@@ -2,11 +2,10 @@ from __future__ import annotations
 
 from typing import Optional
 from app.data._mysql.db import session
-from app.data._mysql.models import ContactPerson, ProductHasManufacturer
+from app.data._mysql.models import ProductHasManufacturer
 from app.data._mysql.models.manufacturer import Manufacturer
 from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
-from app.data._mysql.repositories.contact_person_repository import ContactPersonRepository
 
 
 class ManufacturerRepository(BaseRepository):
@@ -21,7 +20,6 @@ class ManufacturerRepository(BaseRepository):
         if many:
             return session.query(cls.model).filter_by(company_name=company_name)
         return session.query(cls.model).filter_by(company_name=company_name).first()
-
 
     @classmethod
     def find_by_head_office_phone(cls, head_office_phone: str, many: bool = False) -> Optional[Manufacturer | list[Manufacturer]]:
@@ -44,6 +42,9 @@ class ManufacturerRepository(BaseRepository):
 
         product_has_manufacturer.product = product
         manufacturer.products.append(product_has_manufacturer)
+
+        session.add(manufacturer)
+        session.add(product)
         session.commit()
 
     @staticmethod
@@ -51,38 +52,15 @@ class ManufacturerRepository(BaseRepository):
                                          product: Product) -> None:
         if not ManufacturerRepository.has_product(manufacturer, product):
             return
-        product_has_manufacturer = ProductHasManufacturer()
 
-        product_has_manufacturer.product = product
-        manufacturer.products.remove(product_has_manufacturer)
-        session.commit()
-
-    @classmethod
-    def add_contact_person(cls, manufacturer: Manufacturer, contact_person: ContactPerson) -> None:
-        if cls.has_contact_person(manufacturer) or ManufacturerRepository.has_manufacturer(contact_person):
+        if not manufacturer.products:
             return
 
-        manufacturer.contact_person_id = contact_person.contact_person_id
-        contact_person.manufacturer = manufacturer
-        session.commit()
-
-    @classmethod
-    def remove_contact_person(cls, manufacturer: Manufacturer) -> None:
-        if not cls.has_contact_person(manufacturer):
-            return
-
-        contact_person = ContactPersonRepository.find_by_id(manufacturer.contact_person_id)
-        contact_person.manufacturer = None
-        manufacturer.contact_person_id = None
-        session.commit()
-
-    @classmethod
-    def has_contact_person(cls, manufacturer: Manufacturer) -> bool:
-        return manufacturer.contact_person_id is not None
-
-    @classmethod
-    def has_manufacturer(cls, contact_person: ContactPerson) -> bool:
-        return contact_person.manufacturer is not None
+        for mhp in manufacturer.products:
+            if mhp.product.product_id == product.product_id:
+                session.delete(mhp)
+                session.commit()
+                return
 
     @staticmethod
     def has_product(manufacturer: Manufacturer, product: Product) -> bool:

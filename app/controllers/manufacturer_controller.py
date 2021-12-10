@@ -45,11 +45,3 @@ class ManufacturerController(BaseController):
     def remove_product_from_manufacturer(cls, manufacturer: Manufacturer,
                                          product: Product) -> None:
         cls.repository.remove_product_from_manufacturer(manufacturer, product)
-
-    @classmethod
-    def add_contact_person(cls, manufacturer: Manufacturer, contact_person: ContactPerson) -> None:
-        cls.repository.add_contact_person(manufacturer, contact_person)
-
-    @classmethod
-    def remove_contact_person(cls, manufacturer: Manufacturer) -> None:
-        cls.repository.remove_contact_person(manufacturer)

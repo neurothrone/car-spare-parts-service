@@ -1,13 +1,11 @@
 import unittest
 from tests.helpers.dbutil import *
-
-from app.controllers.contact_person_controller import ContactPersonController
 from app.settings import Database, Settings
-from generators.contact_person_generator import ContactPersonGenerator
 
 Settings.TESTING = True
-
-# from tests.data import store_data, stores_data
+from app.controllers.product_controller import ProductController
+from generators.product_generator import ProductGenerator
+from generators.contact_person_generator import ContactPersonGenerator
 from app.controllers.manufacturer_controller import ManufacturerController
 from generators.manufacturer_generator import ManufacturerGenerator
 from shared.tests.test_printer import TestPrinter
@@ -19,11 +17,13 @@ class ManufacturerControllerTestCase(unittest.TestCase):
     def setUpClass(cls) -> None:
         create_db()
         ContactPersonGenerator.populate_database(amount=100)
+        ManufacturerGenerator.populate_database(amount=1)
+        ProductGenerator.populate_database(amount=1)
         TestPrinter.reset()
 
     @classmethod
     def tearDownClass(cls) -> None:
-        #delete_db()
+        delete_db()
         TestPrinter.print_passed_tests()
 
     def test_find_by_id_found(self):
@@ -49,50 +49,61 @@ class ManufacturerControllerTestCase(unittest.TestCase):
 
     def test_find_by_company_name(self):
         ManufacturerGenerator.populate_database(amount=1)
-        manufacturer_created = ManufacturerController.find_by_company_name('Anderson AB')
-
-        self.assertIsNotNone(manufacturer_created)
+        manufacturer_created = ManufacturerController.find_all()[0]
+        manufacturer = ManufacturerController.find_by_company_name(manufacturer_created.company_name)
+        self.assertIsNotNone(manufacturer)
         TestPrinter.add(self.test_find_by_company_name.__name__)
 
     def test_find_by_company_name_not_found(self):
-        manufacturer_created = ManufacturerController.find_by_company_name("DO THIS SHIT")
+        manufacturer = ManufacturerController.find_by_company_name("DO THIS SHIT")
 
-        self.assertIsNone(manufacturer_created)
+        self.assertIsNone(manufacturer)
         TestPrinter.add(self.test_find_by_company_name_not_found.__name__)
 
     def test_find_by_head_office_phone(self):
         ManufacturerGenerator.populate_database(amount=1)
-        manufacturer_created = ManufacturerController.find_by_head_office_phone('070 00 93 71 35')
+        manufacturer_created = ManufacturerController.find_all()[0]
+        manufacturer = ManufacturerController.find_by_head_office_phone(manufacturer_created.head_office_phone)
 
-        self.assertIsNotNone(manufacturer_created)
+        self.assertIsNotNone(manufacturer)
         TestPrinter.add(self.test_find_by_head_office_phone.__name__)
 
     def test_find_by_head_office_phone_not_found(self):
-        manufacturer_created = ManufacturerController.find_by_head_office_phone('070 00 93 71 35 25')
+        manufacturer = ManufacturerController.find_by_head_office_phone('070 00 93 71 35 25')
 
-        self.assertIsNone(manufacturer_created)
+        self.assertIsNone(manufacturer)
         TestPrinter.add(self.test_find_by_head_office_phone_not_found.__name__)
 
     def test_find_by_head_office_address(self):
         ManufacturerGenerator.populate_database(amount=1)
-        manufacturer_created = ManufacturerController.find_by_head_office_address('ALEBACKEN 7, 76856 Göteborg')
+        manufacturer_created = ManufacturerController.find_all()[0]
+        manufacturer = ManufacturerController.find_by_head_office_address(manufacturer_created.head_office_address)
 
-        self.assertIsNotNone(manufacturer_created)
+        self.assertIsNotNone(manufacturer)
         TestPrinter.add(self.test_find_by_head_office_address.__name__)
 
     def test_find_by_head_office_address_not_found(self):
-        manufacturer_created = ManufacturerController.find_by_head_office_address('ALEBACKENVÄGENGATAN 7')
+        manufacturer = ManufacturerController.find_by_head_office_address('ALEBACKENVÄGENGATAN 7')
 
-        self.assertIsNone(manufacturer_created)
+        self.assertIsNone(manufacturer)
         TestPrinter.add(self.test_find_by_head_office_address_not_found.__name__)
 
     def test_add_product_to_manufacturer(self):
-        pass
-        # ManufacturerController.add_product_to_manufacturer()
-        # product = ManufacturerController.find_by_id()
+        product = ProductController.find_all()[0]
+        manufacturer = ManufacturerController.find_all()[0]
+        ManufacturerController.add_product_to_manufacturer(manufacturer, product)
+        for manufacturers_product in manufacturer.products:
+            self.assertIsNotNone(manufacturers_product)
+        TestPrinter.add(self.test_add_product_to_manufacturer.__name__)
 
     def test_remove_product_from_manufacturer(self):
-        pass
+        product = ProductController.find_all()[0]
+        manufacturer = ManufacturerController.find_all()[0]
+        ManufacturerController.add_product_to_manufacturer(manufacturer, product)
+        ManufacturerController.remove_product_from_manufacturer(manufacturer, product)
+        for manufacturers_product in manufacturer.products:
+            self.assertIsNone(manufacturers_product)
+        TestPrinter.add(self.test_remove_product_from_manufacturer.__name__)
 
     def test_find_all_found(self):
         ManufacturerGenerator.populate_database(amount=3)
@@ -103,7 +114,7 @@ class ManufacturerControllerTestCase(unittest.TestCase):
     def test_find_all_not_found(self):
         ManufacturerController.delete_all()
         manufacturers = ManufacturerController.find_all()
-        self.assertTrue(manufacturers == [])
+        self.assertTrue(len(manufacturers) == 0)
         TestPrinter.add(self.test_find_all_not_found.__name__)
 
     def test_delete_all_found(self):
