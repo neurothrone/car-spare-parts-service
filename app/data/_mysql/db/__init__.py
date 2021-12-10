@@ -2,8 +2,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
 
 from app.config import MysqlConfig
+from app.settings import Settings
 
-engine = create_engine(url=MysqlConfig.base_config())
+if Settings.TESTING:
+    engine = create_engine(url=MysqlConfig.test_config())
+else:
+    engine = create_engine(url=MysqlConfig.base_config())
 
 Base = declarative_base()
 session_maker: sessionmaker = sessionmaker()
