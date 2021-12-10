@@ -13,5 +13,5 @@ class Product(BaseModel):
     cost = Column(DECIMAL(7, 2), nullable=False)  # CHECK (cost >= 0)
     price = Column(DECIMAL(7, 2), nullable=False)  # CHECK (price >= 0)
 
-    stores = relationship("StoreHasProduct", back_populates="product")
+    stores = relationship("Storage", back_populates="product")
     order_detail = relationship("OrderDetail", back_populates="product")
