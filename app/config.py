@@ -88,4 +88,4 @@ class MysqlConfig(Config):
 
     @classmethod
     def test_config(cls) -> str:
-        raise NotImplementedError("test_config() is not implemented.")
+        return cls.base_config() + "-test"
