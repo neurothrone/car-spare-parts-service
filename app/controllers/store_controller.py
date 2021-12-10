@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import Optional
 
 from app.controllers import BaseController
-from app.data.models.product import Product
 from app.data.models.store import Store
 from app.data.models.supplier import Supplier
 from app.data.repositories.store_repository import StoreRepository
@@ -12,6 +11,8 @@ from shared.models.types import StoreType
 class StoreController(BaseController):
     repository = StoreRepository
     required_attributes = {"store_type", "phone", "email", "address", "zip_code", "city"}
+
+    # region Store
 
     @classmethod
     def create(cls, store_type: str, phone: str, email: str,
@@ -49,21 +50,7 @@ class StoreController(BaseController):
     def find_all_by_store_type(cls, store_type: str) -> list[Store]:
         return cls.repository.find_by_store_type(store_type, many=True)
 
-    # region Store-Product
-
-    @classmethod
-    def add_product_to_store(cls, store: Store, product: Product,
-                             stock_number: int = 0,
-                             critical_threshold: int = 0,
-                             amount_automatic_order: int = 0) -> None:
-        cls.repository.add_product_to_store(store, product, stock_number,
-                                            critical_threshold, amount_automatic_order)
-
-    @classmethod
-    def remove_product_from_store(cls, store: Store, product: Product) -> None:
-        cls.repository.remove_product_from_store(store, product)
-
-    # endregion Store-Product
+    # endregion Store
 
     # region Store-Supplier
 
