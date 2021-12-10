@@ -1,1 +1,1 @@
-DROP SCHEMA IF EXISTS `test_database`;
+DROP SCHEMA IF EXISTS mysqltest;

@@ -1,5 +1,5 @@
-CREATE SCHEMA IF NOT EXISTS `test_database` DEFAULT CHARACTER SET utf8 ;
-USE `test_database` ;
+CREATE SCHEMA IF NOT EXISTS `mysqltest` DEFAULT CHARACTER SET utf8 ;
+USE `mysqltest`;
 
 create table car_details
 (
@@ -357,3 +357,9 @@ create index fk_suppliers_contact_persons1_idx
 create index fk_suppliers_contact_persons1_idxmanufacturers
     on suppliers (contact_person_id);
 
+####### INSERT DATA   ######
+insert into contact_persons(first_name, last_name, phone, email)
+values ('Anders', 'Bob', '070 00 93 71 35', 'andersbob@email.com');
+
+insert into manufacturers (company_name, head_office_phone, head_office_address, contact_person_id)
+values ('Anderson AB', '070 00 93 71 35', 'ALEBACKEN 7, 76856 Göteborg', '1');

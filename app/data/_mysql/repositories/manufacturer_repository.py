@@ -22,6 +22,7 @@ class ManufacturerRepository(BaseRepository):
             return session.query(cls.model).filter_by(company_name=company_name)
         return session.query(cls.model).filter_by(company_name=company_name).first()
 
+
     @classmethod
     def find_by_head_office_phone(cls, head_office_phone: str, many: bool = False) -> Optional[Manufacturer | list[Manufacturer]]:
         if many:

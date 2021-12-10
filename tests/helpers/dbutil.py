@@ -5,7 +5,7 @@ def create_db():
 
 
 def delete_db():
-    subprocess.call("mysqlsh -u root -psecret -f ..\helpers\delete_db.sql --sql", shell=True)
+    subprocess.call("start /MIN mysqlsh -u root -psecret -f ..\helpers\delete_db.sql --sql", shell=True)
 
 
 def main():
