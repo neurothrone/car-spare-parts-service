@@ -45,16 +45,16 @@ class ManufacturerGenerator:
 
     @classmethod
     def print_products_in_manufacturer(cls) -> None:
-        manufacturer = ManufacturerController.find_all()[0]
+        manufacturers = ManufacturerController.find_all()
         total_products = 0
 
-        for manufacturer in manufacturer:
-            for shp in manufacturer.products:
+        for manufacturer in manufacturers:
+            for mhp in manufacturer.products:
                 total_products += 1
-                print(shp.product)
-                print(shp.manufacturer)
+                print(mhp.product)
+                print(mhp.manufacturer)
 
-        print(f"----- {total_products} total products in one manufacturer -----")
+        print(f"----- {total_products} total products in manufacturers -----")
 
 
 def main():

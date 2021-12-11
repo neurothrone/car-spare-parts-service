@@ -26,9 +26,7 @@ class ManufacturerTestCase(unittest.TestCase):
         TestPrinter.print_passed_tests()
 
     def test_print_products_in_manufacturer(self):
-        product = ProductController.find_all()
-        manufacturer = ManufacturerGenerator.print_products_in_manufacturer()[0]
-
+        pass
 
     def test_add_product_to_manufacturer(self):
         product = ProductController.find_all()[0]
