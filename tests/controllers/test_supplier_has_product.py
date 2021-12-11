@@ -10,7 +10,7 @@ from app.settings import Settings
 Settings.TESTING = True
 
 
-class ManufacturerControllerTestCase(unittest.TestCase):
+class ManufacturerTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:

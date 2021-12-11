@@ -1,6 +1,5 @@
 import unittest
 from tests.helpers.dbutil import *
-from generators.product_generator import ProductGenerator
 from generators.contact_person_generator import ContactPersonGenerator
 from app.controllers.supplier_controller import SupplierController
 from generators.supplier_generator import SupplierGenerator
@@ -9,7 +8,7 @@ from app.settings import Database, Settings
 Settings.TESTING = True
 
 
-class SupplierControllerTestCase(unittest.TestCase):
+class SupplierTestCase(unittest.TestCase):
 
     def setUp(self) -> None:
         SupplierController.delete_all()
@@ -22,7 +21,6 @@ class SupplierControllerTestCase(unittest.TestCase):
         create_db()
         ContactPersonGenerator.populate_database(amount=100)
         SupplierGenerator.populate_database(amount=1)
-        ProductGenerator.populate_database(amount=1)
         TestPrinter.reset()
 
     @classmethod
