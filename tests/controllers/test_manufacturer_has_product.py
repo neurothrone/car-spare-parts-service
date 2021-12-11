@@ -22,8 +22,13 @@ class ManufacturerTestCase(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        delete_db()
+        # delete_db()
         TestPrinter.print_passed_tests()
+
+    def test_print_products_in_manufacturer(self):
+        product = ProductController.find_all()
+        manufacturer = ManufacturerGenerator.print_products_in_manufacturer()[0]
+
 
     def test_add_product_to_manufacturer(self):
         product = ProductController.find_all()[0]

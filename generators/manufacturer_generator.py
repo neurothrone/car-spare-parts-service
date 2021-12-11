@@ -44,7 +44,7 @@ class ManufacturerGenerator:
         print("----- Manufacturers generated -----")
 
     @classmethod
-    def print_products_in_supplier(cls) -> None:
+    def print_products_in_manufacturer(cls) -> None:
         manufacturer = ManufacturerController.find_all()[0]
         total_products = 0
 
