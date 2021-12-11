@@ -1,6 +1,6 @@
 from random import randint, shuffle
 
-from app.settings import Database, Settings
+from app.settings import Settings
 
 Settings.TESTING = True
 
@@ -36,7 +36,7 @@ class StorageGenerator:
             products_to_add = randint(min_per_store, max_per_store)
 
             for index in range(products_to_add):
-                StoreController.add_product_to_store(store, products[index])
+                StorageController.add_product_to_store(store, products[index])
                 products_added += 1
 
         print(f"----- {products_added} total products added to all stores -----")
@@ -47,8 +47,8 @@ class StorageGenerator:
         products_removed = 0
 
         for store in stores:
-            for shp in store.products:
-                StoreController.remove_product_from_store(store, shp.product)
+            for storage in store.products:
+                StorageController.remove_product_from_store(store, storage.product)
                 products_removed += 1
 
         print(f"----- {products_removed} products removed from all stores -----")
