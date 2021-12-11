@@ -1,10 +1,7 @@
-from random import randint, shuffle
-
-from app.settings import Database, Settings
+from app.settings import Settings
 
 Settings.TESTING = True
 
-from app.controllers.product_controller import ProductController
 from app.controllers.store_controller import StoreController
 from app.controllers.supplier_controller import SupplierController
 from generators.fake_data import FakeData
@@ -78,7 +75,7 @@ def test_store_supplier():
 
 
 def main():
-    StoreGenerator.populate_database(amount=100)
+    StoreGenerator.populate_database(amount=10)
 
 
 if __name__ == "__main__":
