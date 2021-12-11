@@ -1,17 +1,21 @@
 import unittest
 from tests.helpers.dbutil import *
-from app.settings import Database, Settings
-
-Settings.TESTING = True
-from app.controllers.product_controller import ProductController
 from generators.product_generator import ProductGenerator
 from generators.contact_person_generator import ContactPersonGenerator
 from app.controllers.manufacturer_controller import ManufacturerController
 from generators.manufacturer_generator import ManufacturerGenerator
 from shared.tests.test_printer import TestPrinter
+from app.settings import Database, Settings
+Settings.TESTING = True
 
 
 class ManufacturerControllerTestCase(unittest.TestCase):
+
+    def setUp(self) -> None:
+        ManufacturerController.delete_all()
+
+    def tearDown(self) -> None:
+        ManufacturerController.delete_all()
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -88,23 +92,6 @@ class ManufacturerControllerTestCase(unittest.TestCase):
         self.assertIsNone(manufacturer)
         TestPrinter.add(self.test_find_by_head_office_address_not_found.__name__)
 
-    def test_add_product_to_manufacturer(self):
-        product = ProductController.find_all()[0]
-        manufacturer = ManufacturerController.find_all()[0]
-        ManufacturerController.add_product_to_manufacturer(manufacturer, product)
-        for manufacturers_product in manufacturer.products:
-            self.assertIsNotNone(manufacturers_product)
-        TestPrinter.add(self.test_add_product_to_manufacturer.__name__)
-
-    def test_remove_product_from_manufacturer(self):
-        product = ProductController.find_all()[0]
-        manufacturer = ManufacturerController.find_all()[0]
-        ManufacturerController.add_product_to_manufacturer(manufacturer, product)
-        ManufacturerController.remove_product_from_manufacturer(manufacturer, product)
-        for manufacturers_product in manufacturer.products:
-            self.assertIsNone(manufacturers_product)
-        TestPrinter.add(self.test_remove_product_from_manufacturer.__name__)
-
     def test_find_all_found(self):
         ManufacturerGenerator.populate_database(amount=3)
         manufacturers = ManufacturerController.find_all()
@@ -112,7 +99,6 @@ class ManufacturerControllerTestCase(unittest.TestCase):
         TestPrinter.add(self.test_find_all_found.__name__)
 
     def test_find_all_not_found(self):
-        ManufacturerController.delete_all()
         manufacturers = ManufacturerController.find_all()
         self.assertTrue(len(manufacturers) == 0)
         TestPrinter.add(self.test_find_all_not_found.__name__)
@@ -124,7 +110,6 @@ class ManufacturerControllerTestCase(unittest.TestCase):
         TestPrinter.add(self.test_delete_all_found.__name__)
 
     def test_delete_all_not_found(self):
-        ManufacturerController.delete_all()
         count_deleted = ManufacturerController.delete_all()
         self.assertFalse(count_deleted > 0)
         TestPrinter.add(self.test_delete_all_not_found.__name__)

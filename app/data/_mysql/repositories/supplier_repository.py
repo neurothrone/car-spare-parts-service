@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 from typing import Optional
 from app.data._mysql.db import session
-from app.data._mysql.models import ContactPerson
+from app.data._mysql.models import SupplierHasProduct
 from app.data._mysql.models.supplier import Supplier
 from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
-from app.data._mysql.repositories.contact_person_repository import ContactPersonRepository
 
 
 class SupplierRepository(BaseRepository):
@@ -14,50 +15,54 @@ class SupplierRepository(BaseRepository):
     def find_by_id(cls, _id: int) -> Optional[Supplier]:
         return session.query(cls.model).filter_by(supplier_id=_id).first()
 
+    @classmethod
+    def find_by_company_name(cls, company_name: str, many: bool = False) -> Optional[Supplier | list[Supplier]]:
+        if many:
+            return session.query(cls.model).filter_by(company_name=company_name)
+        return session.query(cls.model).filter_by(company_name=company_name).first()
+
+    @classmethod
+    def find_by_head_office_phone(cls, head_office_phone: str, many: bool = False) -> Optional[
+        Supplier | list[Supplier]]:
+        if many:
+            return session.query(cls.model).filter_by(head_office_phone=head_office_phone)
+        return session.query(cls.model).filter_by(head_office_phone=head_office_phone).first()
+
+    @classmethod
+    def find_by_head_office_address(cls, head_office_address: str, many: bool = False) -> Optional[
+        Supplier | list[Supplier]]:
+        if many:
+            return session.query(cls.model).filter_by(head_office_address=head_office_address)
+        return session.query(cls.model).filter_by(head_office_address=head_office_address).first()
+
     @staticmethod
     def add_product_to_supplier(supplier: Supplier,
                                 product: Product) -> None:
         if SupplierRepository.has_product(supplier, product):
             return
+        supplier_has_product = SupplierHasProduct()
 
-        supplier.products.append(product)
+        supplier_has_product.product = product
+        supplier.products.append(supplier_has_product)
+
+        session.add(supplier)
+        session.add(product)
         session.commit()
 
     @staticmethod
     def remove_product_from_supplier(supplier: Supplier,
                                      product: Product) -> None:
-        if SupplierRepository.has_product(supplier, product):
+        if not SupplierRepository.has_product(supplier, product):
             return
 
-        supplier.products.remove(product)
-        session.commit()
-
-    @classmethod
-    def add_contact_person(cls, supplier: Supplier, contact_person: ContactPerson) -> None:
-        if cls.has_contact_person(supplier) or SupplierRepository.has_supplier(contact_person):
+        if not supplier.products:
             return
 
-        supplier.contact_person_id = contact_person.contact_person_id
-        contact_person.supplier = supplier
-        session.commit()
-
-    @classmethod
-    def remove_contact_person(cls, supplier: Supplier) -> None:
-        if not cls.has_contact_person(supplier):
-            return
-
-        contact_person = ContactPersonRepository.find_by_id(supplier.contact_person_id)
-        contact_person.supplier = None
-        supplier.contact_person_id = None
-        session.commit()
-
-    @classmethod
-    def has_contact_person(cls, supplier: Supplier) -> bool:
-        return supplier.contact_person_id is not None
-
-    @classmethod
-    def has_supplier(cls, contact_person: ContactPerson) -> bool:
-        return contact_person.supplier is not None
+        for mhp in supplier.products:
+            if mhp.product.product_id == product.product_id:
+                session.delete(mhp)
+                session.commit()
+                return
 
     @staticmethod
     def has_product(supplier: Supplier, product: Product) -> bool:

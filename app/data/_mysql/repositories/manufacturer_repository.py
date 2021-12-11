@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Optional
 from app.data._mysql.db import session
-from app.data._mysql.models import ProductHasManufacturer
+from app.data._mysql.models import ManufacturerHasProduct
 from app.data._mysql.models.manufacturer import Manufacturer
 from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
@@ -38,10 +38,10 @@ class ManufacturerRepository(BaseRepository):
                                     product: Product) -> None:
         if ManufacturerRepository.has_product(manufacturer, product):
             return
-        product_has_manufacturer = ProductHasManufacturer()
+        manufacturer_has_product = ManufacturerHasProduct()
 
-        product_has_manufacturer.product = product
-        manufacturer.products.append(product_has_manufacturer)
+        manufacturer_has_product.product = product
+        manufacturer.products.append(manufacturer_has_product)
 
         session.add(manufacturer)
         session.add(product)

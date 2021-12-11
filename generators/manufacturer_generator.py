@@ -43,6 +43,19 @@ class ManufacturerGenerator:
 
         print("----- Manufacturers generated -----")
 
+    @classmethod
+    def print_products_in_supplier(cls) -> None:
+        manufacturer = ManufacturerController.find_all()[0]
+        total_products = 0
+
+        for manufacturer in manufacturer:
+            for shp in manufacturer.products:
+                total_products += 1
+                print(shp.product)
+                print(shp.manufacturer)
+
+        print(f"----- {total_products} total products in one manufacturer -----")
+
 
 def main():
     ManufacturerGenerator.populate_database(amount=100)

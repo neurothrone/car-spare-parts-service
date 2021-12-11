@@ -4,7 +4,6 @@ from app.data.models.manufacturer import Manufacturer
 from app.data.repositories.manufacturer_repository import ManufacturerRepository
 from app.data.models.product import Product
 from typing import Optional
-from app.data.models.contact_person import ContactPerson
 
 
 class ManufacturerController(BaseController):

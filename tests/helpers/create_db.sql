@@ -353,6 +353,3 @@ create index fk_stores_has_suppliers_suppliers1_idx
 
 create index fk_suppliers_contact_persons1_idx
     on suppliers (contact_person_id);
-
-create index fk_suppliers_contact_persons1_idx
-    on suppliers (contact_person_id);

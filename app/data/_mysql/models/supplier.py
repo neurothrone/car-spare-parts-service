@@ -13,5 +13,5 @@ class Supplier(BaseModel['Supplier']):
     contact_person_id = Column(Integer, ForeignKey("contact_persons.contact_person_id"), nullable=True)
 
     contact_person = relationship("ContactPerson", back_populates="supplier", uselist=False)
-    products = relationship("ProductHasSupplier", back_populates="supplier")
+    products = relationship("SupplierHasProduct", back_populates="supplier")
     stores = relationship("StoreHasSupplier", back_populates="supplier")
