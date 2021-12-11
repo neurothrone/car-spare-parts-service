@@ -1,17 +1,18 @@
-from __future__ import annotations
 import unittest
 
-from app.settings import Settings
+from app.settings import Database, Settings
 
 Settings.TESTING = True
 
 from app.data._mongo.repositories.store_repository import StoreRepository
+from generators.store_generator import StoreGenerator
 from shared.models.types import StoreType
 from shared.tests.test_printer import TestPrinter
-from tests.data import store_data, stores_data
 
 
 class StoreRepositoryTestCase(unittest.TestCase):
+    # region Setup & Cleanup
+
     def setUp(self) -> None:
         StoreRepository.delete_all()
 
@@ -26,29 +27,26 @@ class StoreRepositoryTestCase(unittest.TestCase):
     def tearDownClass(cls) -> None:
         TestPrinter.print_passed_tests()
 
-    @classmethod
-    def create_single_store(cls) -> None:
-        StoreRepository.create(**store_data)
+    # endregion Setup & Cleanup
 
-    @classmethod
-    def create_many_stores(cls) -> None:
-        StoreRepository.create_many(stores_data)
+    # region Tests
 
     def test_create_one_store(self):
-        self.create_single_store()
-        store = StoreRepository.find_by_city("TestCity")
+        StoreGenerator.populate_database(amount=1)
+        store_created = StoreRepository.find_all()[0]
+        store = StoreRepository.find_by_city(store_created.city)
         self.assertIsNotNone(store)
         TestPrinter.add(self.test_create_one_store.__name__)
 
     def test_create_many_stores(self):
-        self.create_many_stores()
+        StoreGenerator.populate_database(amount=3)
         stores = StoreRepository.find_all()
         self.assertTrue(len(stores) >= 3)
         TestPrinter.add(self.test_create_many_stores.__name__)
 
     def test_find_by_id_found(self):
-        self.create_single_store()
-        store_created = StoreRepository.find_by_city("TestCity")
+        StoreGenerator.populate_database(amount=1)
+        store_created = StoreRepository.find_all()[0]
         store = StoreRepository.find_by_id(store_created._id)
         self.assertIsNotNone(store)
         TestPrinter.add(self.test_find_by_id_found.__name__)
@@ -59,19 +57,21 @@ class StoreRepositoryTestCase(unittest.TestCase):
         TestPrinter.add(self.test_find_by_id_not_found.__name__)
 
     def test_find_by_city_found(self):
-        self.create_single_store()
-        store = StoreRepository.find_by_city("TestCity")
+        StoreGenerator.populate_database(amount=1)
+        store_created = StoreRepository.find_all()[0]
+        store = StoreRepository.find_by_city(store_created.city)
         self.assertIsNotNone(store)
         TestPrinter.add(self.test_find_by_city_found.__name__)
 
     def test_find_by_city_not_found(self):
-        store = StoreRepository.find_by_city("Gothenburg")
+        store = StoreRepository.find_by_city("The Outer Belt")
         self.assertIsNone(store)
         TestPrinter.add(self.test_find_by_city_not_found.__name__)
 
     def test_find_by_email_found(self):
-        self.create_single_store()
-        store = StoreRepository.find_by_email("testcity@store.se")
+        StoreGenerator.populate_database(amount=1)
+        store_created = StoreRepository.find_all()[0]
+        store = StoreRepository.find_by_email(store_created.email)
         self.assertIsNotNone(store)
         TestPrinter.add(self.test_find_by_email_found.__name__)
 
@@ -81,18 +81,19 @@ class StoreRepositoryTestCase(unittest.TestCase):
         TestPrinter.add(self.test_find_by_email_not_found.__name__)
 
     def test_find_by_store_type_found(self):
-        self.create_single_store()
+        StoreGenerator.populate_database(amount=1, online=False)
         store = StoreRepository.find_by_store_type(StoreType.PHYSICAL)
         self.assertIsNotNone(store)
         TestPrinter.add(self.test_find_by_store_type_found.__name__)
 
     def test_find_by_store_type_not_found(self):
+        StoreGenerator.populate_database(amount=1, online=False)
         store = StoreRepository.find_by_store_type(StoreType.ONLINE)
         self.assertIsNone(store)
         TestPrinter.add(self.test_find_by_store_type_not_found.__name__)
 
     def test_find_all_found(self):
-        self.create_many_stores()
+        StoreGenerator.populate_database(amount=3)
         stores = StoreRepository.find_all()
         self.assertIsNotNone(stores)
         TestPrinter.add(self.test_find_all_found.__name__)
@@ -104,7 +105,7 @@ class StoreRepositoryTestCase(unittest.TestCase):
         TestPrinter.add(self.test_find_all_not_found.__name__)
 
     def test_delete_one_by_found(self):
-        self.create_single_store()
+        StoreGenerator.populate_database(amount=1, online=False)
         count_deleted = StoreRepository.delete_by(
             {'store_type': StoreType.PHYSICAL}, many=False)
         self.assertTrue(count_deleted == 1)
@@ -114,11 +115,11 @@ class StoreRepositoryTestCase(unittest.TestCase):
         StoreRepository.delete_all()
         count_deleted = StoreRepository.delete_by(
             {'store_type': StoreType.PHYSICAL}, many=False)
-        self.assertFalse(count_deleted == 1)
+        self.assertFalse(count_deleted > 0)
         TestPrinter.add(self.test_delete_one_by_not_found.__name__)
 
     def test_delete_all_found(self):
-        self.create_many_stores()
+        StoreGenerator.populate_database(amount=3)
         count_deleted = StoreRepository.delete_all()
         self.assertTrue(count_deleted >= 3)
         TestPrinter.add(self.test_delete_all_found.__name__)
@@ -126,58 +127,52 @@ class StoreRepositoryTestCase(unittest.TestCase):
     def test_delete_all_not_found(self):
         StoreRepository.delete_all()
         count_deleted = StoreRepository.delete_all()
-        self.assertFalse(count_deleted >= 3)
+        self.assertFalse(count_deleted > 0)
         TestPrinter.add(self.test_delete_all_not_found.__name__)
 
     def test_find_first_found(self):
         StoreRepository.delete_all()
-        self.create_many_stores()
+        StoreGenerator.populate_database(amount=3)
+        first_store = StoreRepository.find_all()[0]
         stores = StoreRepository.find(many=True)
         store = stores.first_or_none()
-        self.assertEqual(store.email, "bjarnby@store.se")
+        self.assertEqual(store.email, first_store.email)
         TestPrinter.add(self.test_find_first_found.__name__)
 
     def test_find_first_not_found(self):
         StoreRepository.delete_all()
-        self.create_many_stores()
+        StoreGenerator.populate_database(amount=3)
+        last_store = StoreRepository.find_all()[-1]
         stores = StoreRepository.find(many=True)
         store = stores.first_or_none()
-        self.assertNotEqual(store.email, "web@store.se")
+        self.assertNotEqual(store.email, last_store.email)
         TestPrinter.add(self.test_find_first_not_found.__name__)
 
     def test_find_last_found(self):
         StoreRepository.delete_all()
-        self.create_many_stores()
+        StoreGenerator.populate_database(amount=3)
+        last_store = StoreRepository.find_all()[-1]
         stores = StoreRepository.find(many=True)
         store = stores.last_or_none()
-        self.assertEqual(store.email, "web@store.se")
+        self.assertEqual(store.email, last_store.email)
         TestPrinter.add(self.test_find_last_found.__name__)
 
     def test_find_last_not_found(self):
         StoreRepository.delete_all()
-        self.create_many_stores()
+        StoreGenerator.populate_database(amount=3)
+        first_store = StoreRepository.find_all()[0]
         stores = StoreRepository.find(many=True)
         store = stores.last_or_none()
-        self.assertNotEqual(store.email, "bjarnby@store.se")
+        self.assertNotEqual(store.email, first_store.email)
         TestPrinter.add(self.test_find_last_not_found.__name__)
 
-    def test_find_all_sort_by_sorted(self):
-        StoreRepository.delete_all()
-        self.create_many_stores()
-        stores = StoreRepository.find_all_sort_by("city", True)
-        for store, city in zip(stores, [None, "Bjarnby", "Fjorden"]):
-            self.assertEqual(store.city, city)
-        TestPrinter.add(self.test_find_all_sort_by_sorted.__name__)
-
-    def test_find_all_sort_by_not_sorted(self):
-        StoreRepository.delete_all()
-        self.create_many_stores()
-        stores = StoreRepository.find_all()
-        self.assertNotEqual(stores[0].city, None)
-        TestPrinter.add(self.test_find_all_sort_by_not_sorted.__name__)
+    # endregion Tests
 
 
 def main():
+    if not Settings.DATABASE == Database.MONGO:
+        raise ValueError("Settings not set to Mongo database.")
+
     unittest.main()
 
 

@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Optional
 
 from app.controllers import BaseController
@@ -14,5 +15,5 @@ class CustomerController(BaseController):
     }
 
     @staticmethod
-    def find_by_id(_id: int) -> Optional[Customer]:
+    def find_by_id(_id: int | str) -> Optional[Customer]:
         return CustomerRepository.find_by_id(_id)

@@ -3,6 +3,7 @@ from typing import Optional
 from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.models.employee import Employee
+from app.data._mysql.models.store import Store
 
 
 class EmployeeRepository(BaseRepository):
@@ -13,6 +14,19 @@ class EmployeeRepository(BaseRepository):
         return session.query(cls.model).filter_by(employee_id=_id).first()
 
     @classmethod
-    def change_store(cls, employee: Employee, store_id: int) -> None:
-        employee.store_id = store_id
+    def change_store(cls, employee: Employee, store: Optional[Store]) -> None:
+        if not store:
+            employee.store_id = None
+        else:
+            if not store.store_id:
+                raise ValueError("Store ID can not be None.")
+
+            if store.store_id < 1:
+                raise ValueError("Invalid value for store_id. Can not be zero or negative.")
+
+            if employee.store_id == store.store_id:
+                raise ValueError("Employee is already working there.")
+
+            employee.store_id = store.store_id
+
         cls.save_to_db(employee)

@@ -11,3 +11,11 @@ class ContactPersonRepository(BaseRepository):
     @classmethod
     def find_by_id(cls, _id: int) -> Optional[ContactPerson]:
         return session.query(cls.model).filter_by(contact_person_id=_id).first()
+
+    @classmethod
+    def find_by_first_name(cls, first_name: str) -> ContactPerson:
+        return session.query(cls.model).filter_by(first_name=first_name).first()
+
+    @classmethod
+    def find_by_last_name(cls, last_name: str) -> ContactPerson:
+        return session.query(cls.model).filter_by(last_name=last_name).first()

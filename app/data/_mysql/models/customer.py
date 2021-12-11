@@ -20,6 +20,4 @@ class Customer(BaseModel):
 
     employee_id = Column(Integer, ForeignKey("employees.employee_id"))
     employee = relationship("Employee", back_populates="customers")
-    order = relationship("Order", back_populates="customer")
-    # customer One-to-Many (optional) order
-    # customer One-to-Many (optional) car
+    orders = relationship("Order", back_populates="customer")

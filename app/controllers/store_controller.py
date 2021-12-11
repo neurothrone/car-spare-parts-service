@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import Optional
 
 from app.controllers import BaseController
-from app.data.models.product import Product
 from app.data.models.store import Store
 from app.data.models.supplier import Supplier
 from app.data.repositories.store_repository import StoreRepository
@@ -13,6 +12,8 @@ class StoreController(BaseController):
     repository = StoreRepository
     required_attributes = {"store_type", "phone", "email", "address", "zip_code", "city"}
 
+    # region Store
+
     @classmethod
     def create(cls, store_type: str, phone: str, email: str,
                address: str = None, zip_code: str = None, city: str = None) -> None:
@@ -20,22 +21,14 @@ class StoreController(BaseController):
             raise ValueError("Store type can only be 'p' or 'o'.")
 
         if store_type == StoreType.PHYSICAL and None in [address, zip_code, city]:
-            raise TypeError("A physical store must have an address, zip code or city.")
+            raise ValueError("A physical store must have an address, zip code or city.")
 
         if store_type == StoreType.ONLINE and None not in [address, zip_code, city]:
-            raise TypeError("An online store must not have an address, zip code or city.")
+            raise ValueError("An online store must not have an address, zip code or city.")
 
         cls.repository.create(store_type=store_type, phone=phone,
                               email=email, address=address,
                               zip_code=zip_code, city=city)
-
-    @classmethod
-    def create_many(cls, data: list[dict]) -> None:
-        for store_data in data:
-            cls.validate(store_data)
-
-        for store_data in data:
-            cls.create(**store_data)
 
     @classmethod
     def find_by_id(cls, _id: int | str) -> Optional[Store]:
@@ -57,23 +50,9 @@ class StoreController(BaseController):
     def find_all_by_store_type(cls, store_type: str) -> list[Store]:
         return cls.repository.find_by_store_type(store_type, many=True)
 
-    # region Stores-Products
+    # endregion Store
 
-    @classmethod
-    def add_product_to_store(cls, store: Store, product: Product,
-                             stock_number: int = 0,
-                             critical_threshold: int = 0,
-                             amount_automatic_order: int = 0) -> None:
-        cls.repository.add_product_to_store(store, product, stock_number,
-                                            critical_threshold, amount_automatic_order)
-
-    @classmethod
-    def remove_product_from_store(cls, store: Store, product: Product) -> None:
-        cls.repository.remove_product_from_store(store, product)
-
-    # endregion Stores-Products
-
-    # region Stores-Suppliers
+    # region Store-Supplier
 
     @classmethod
     def add_supplier_to_store(cls, store: Store, supplier: Supplier) -> None:
@@ -83,4 +62,4 @@ class StoreController(BaseController):
     def remove_supplier_from_store(cls, store: Store, supplier: Supplier) -> None:
         cls.repository.remove_supplier_from_store(store, supplier)
 
-    # endregion Stores-Suppliers
+    # endregion Store-Supplier

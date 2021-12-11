@@ -1,3 +1,6 @@
+from __future__ import annotations
+from typing import Optional
+
 from app.controllers.employee_controller import EmployeeController
 from generators.fake_data import FakeData
 from shared.validators import validate_length
@@ -11,7 +14,7 @@ class EmployeeGenerator:
 
     @classmethod
     def generate(cls, first_name: str, last_name: str, phone: str, email: str,
-                 store_id: int = None) -> None:
+                 store_id: Optional[int | str] = None) -> None:
         validate_length(first_name, cls.FIRST_NAME_LEN)
         validate_length(last_name, cls.LAST_NAME_LEN)
         validate_length(phone, cls.PHONE_MAX_LEN)

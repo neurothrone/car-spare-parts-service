@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from app.data._mysql.models import BaseModel
 
 
-class StoreHasProduct(BaseModel):
+class Storage(BaseModel):
     __tablename__ = "stores_has_products"
 
     store_id = Column(Integer, ForeignKey("stores.store_id"), primary_key=True)
@@ -24,4 +24,4 @@ class StoreHasProduct(BaseModel):
         self.amount_automatic_order = amount_automatic_order
 
     def __repr__(self) -> str:
-        return f"StoreHasProduct: {self.stock_number}, {self.critical_threshold}, {self.amount_automatic_order}"
+        return f"Storage: {self.stock_number}, {self.critical_threshold}, {self.amount_automatic_order}"

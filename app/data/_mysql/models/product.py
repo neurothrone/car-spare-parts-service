@@ -13,6 +13,6 @@ class Product(BaseModel):
     cost = Column(DECIMAL(7, 2), nullable=False)  # CHECK (cost >= 0)
     price = Column(DECIMAL(7, 2), nullable=False)  # CHECK (price >= 0)
 
-    stores = relationship("StoreHasProduct", back_populates="product")
-    order_details = relationship("OrderDetail", back_populates="product")
-    car_details_has_products = relationship("Car_details_has_products", back_populates="product")
+    stores = relationship("Storage", back_populates="product")
+    order_detail = relationship("OrderDetail", back_populates="product")
+    car_details_has_products = relationship("car_details_has_products", back_populates="product")

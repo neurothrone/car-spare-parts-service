@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  mongo:
+    image: "mongo:latest"
+    restart: "always"
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "root"
+      MONGO_INITDB_ROOT_PASSWORD: "secret"
+    volumes:
+      - "./../../dump:/dumps"
+
+  mysql:
+    image: "mysql:latest"
+    restart: "always"
+    ports:
+      - "3306:3306"
+    cap_add:
+      - "SYS_NICE"
+    environment:
+      MYSQL_ROOT_PASSWORD: "secret"
+    volumes:
+      - "./../../schemas/mysql-db-create.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./../../schemas/mysql-test-db-create.sql:/docker-entrypoint-initdb.d/2.sql"

@@ -1,6 +1,7 @@
-from random import randint, shuffle
+from app.settings import Settings
 
-from app.controllers.product_controller import ProductController
+Settings.TESTING = True
+
 from app.controllers.store_controller import StoreController
 from app.controllers.supplier_controller import SupplierController
 from generators.fake_data import FakeData
@@ -31,10 +32,10 @@ class StoreGenerator:
                      email=FakeData.generate_email(username="web", domain_name="store"))
 
     @classmethod
-    def populate_database(cls, amount: int) -> None:
+    def populate_database(cls, amount: int, online: bool = True) -> None:
         stores_generated = amount
 
-        if not StoreController.find_by_store_type(StoreType.ONLINE):
+        if not StoreController.find_by_store_type(StoreType.ONLINE) and online:
             cls.generate_online_store()
             stores_generated += 1
 
@@ -53,93 +54,6 @@ class StoreGenerator:
                          city=locations[i].city)
 
         print(f"----- {stores_generated} Stores generated -----")
-
-    @classmethod
-    def add_products_to_stores(cls, min_per_store: int, max_per_store: int) -> None:
-        stores = StoreController.find_all()
-        products = ProductController.find_all()
-
-        if not stores or not products:
-            raise ValueError("No stores to add products to or no products to add to stores.")
-
-        products_added = 0
-
-        for store in stores:
-            shuffle(products)
-            products_to_add = randint(min_per_store, max_per_store)
-
-            for index in range(products_to_add):
-                StoreController.add_product_to_store(store, products[index])
-                products_added += 1
-
-        print(f"----- {products_added} total products added to all stores -----")
-
-    @classmethod
-    def remove_all_products_in_stores(cls) -> None:
-        stores = StoreController.find_all()
-        products_removed = 0
-
-        for store in stores:
-            for shp in store.products:
-                StoreController.remove_product_from_store(store, shp.product)
-                products_removed += 1
-
-        print(f"----- {products_removed} products removed from all stores -----")
-
-    @classmethod
-    def print_products_in_stores(cls) -> None:
-        stores = StoreController.find_all()
-        total_products = 0
-
-        for store in stores:
-            for shp in store.products:
-                total_products += 1
-                print(type(shp))
-                # print(f"\tStock number: {shp.stock_number}")
-                # print(f"\tCritical threshold: {shp.critical_threshold}")
-                # print(f"\tAutomatic amount: {shp.amount_automatic_order}")
-                # print(shp.product)
-                # print(shp.store)
-
-        print(f"----- {total_products} total products in all stores -----")
-
-
-def test_store_fail():
-    StoreController.create(store_type=StoreType.PHYSICAL,
-                           phone="+64 70 722 88 88",
-                           email="store@example.se")
-    StoreController.create(store_type=StoreType.ONLINE,
-                           phone="+64 70 722 88 88",
-                           email="store@example.se",
-                           address="Tarbergsgatan 25",
-                           zip_code="172 41",
-                           city="Karlstad")
-
-
-def test_store_product():
-    # TODO: retrieval
-    store = StoreController.find_by_id(1)
-    print(store)
-    product = ProductController.find_by_id(1)
-
-    # TODO: adding (with defaults and with custom)
-    # StoreController.add_product_to_store(store, product)
-    # StoreController.add_product_to_store(store,
-    #                                      product,
-    #                                      stock_number=19,
-    #                                      critical_threshold=5,
-    #                                      amount_automatic_order=15)
-
-    # TODO: removing
-    StoreController.remove_product_from_store(store, product)
-
-    for shp in store.products:
-        print(type(shp))
-        print(f"\tStock number: {shp.stock_number}")
-        print(f"\tCritical threshold: {shp.critical_threshold}")
-        print(f"\tAutomatic amount: {shp.amount_automatic_order}")
-        print(shp.product)
-        print(shp.store)
 
 
 def test_store_supplier():
@@ -161,7 +75,7 @@ def test_store_supplier():
 
 
 def main():
-    StoreGenerator.populate_database(amount=100)
+    StoreGenerator.populate_database(amount=10)
 
 
 if __name__ == "__main__":

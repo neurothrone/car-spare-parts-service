@@ -18,7 +18,7 @@ class Store(BaseModel["Store"]):
     city = Column(String(45), nullable=True)
 
     employees = relationship("Employee", back_populates="store")
-    products = relationship("StoreHasProduct", back_populates="store")
+    products = relationship("Storage", back_populates="store")
     suppliers = relationship(
         "Supplier",
         secondary=stores_has_suppliers,
