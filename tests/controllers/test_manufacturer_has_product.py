@@ -17,30 +17,37 @@ class ManufacturerTestCase(unittest.TestCase):
         create_db()
         ContactPersonGenerator.populate_database(amount=100)
         ManufacturerGenerator.populate_database(amount=1)
-        ProductGenerator.populate_database(amount=1)
+        ProductGenerator.populate_database(amount=2)
         TestPrinter.reset()
 
     @classmethod
     def tearDownClass(cls) -> None:
-        # delete_db()
+        delete_db()
         TestPrinter.print_passed_tests()
-
-    def test_print_products_in_manufacturer(self):
-        pass
 
     def test_add_product_to_manufacturer(self):
         product = ProductController.find_all()[0]
+        product_two = ProductController.find_all()[1]
         manufacturer = ManufacturerController.find_all()[0]
         ManufacturerController.add_product_to_manufacturer(manufacturer, product)
+        ManufacturerController.add_product_to_manufacturer(manufacturer, product_two)
+        print('----- The two products are: -----')
         for manufacturers_product in manufacturer.products:
+            print(manufacturers_product.product.name)
             self.assertIsNotNone(manufacturers_product)
         TestPrinter.add(self.test_add_product_to_manufacturer.__name__)
 
     def test_remove_product_from_manufacturer(self):
         product = ProductController.find_all()[0]
+        product_two = ProductController.find_all()[1]
         manufacturer = ManufacturerController.find_all()[0]
+
         ManufacturerController.add_product_to_manufacturer(manufacturer, product)
+        ManufacturerController.add_product_to_manufacturer(manufacturer, product_two)
+
         ManufacturerController.remove_product_from_manufacturer(manufacturer, product)
+        ManufacturerController.remove_product_from_manufacturer(manufacturer, product_two)
+
         for manufacturers_product in manufacturer.products:
             self.assertIsNone(manufacturers_product)
         TestPrinter.add(self.test_remove_product_from_manufacturer.__name__)
