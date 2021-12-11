@@ -1,11 +1,10 @@
+from __future__ import annotations
 from typing import Optional
-
 from app.data._mysql.db import session
-from app.data._mysql.models import ContactPerson
+from app.data._mysql.models import ManufacturerHasProduct
 from app.data._mysql.models.manufacturer import Manufacturer
 from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
-from app.data._mysql.repositories.contact_person_repository import ContactPersonRepository
 
 
 class ManufacturerRepository(BaseRepository):
@@ -15,62 +14,56 @@ class ManufacturerRepository(BaseRepository):
     def find_by_id(cls, _id: int) -> Optional[Manufacturer]:
         return session.query(cls.model).filter_by(manufacturer_id=_id).first()
 
-    # region Manufacturer-ContactPerson
+    @classmethod
+    def find_by_company_name(cls, company_name: str, many: bool = False) -> Optional[Manufacturer | list[Manufacturer]]:
+        if many:
+            return session.query(cls.model).filter_by(company_name=company_name)
+        return session.query(cls.model).filter_by(company_name=company_name).first()
 
     @classmethod
-    def add_contact_person(cls, manufacturer: Manufacturer, contact_person: ContactPerson) -> None:
-        if cls.has_contact_person(manufacturer) or cls.has_manufacturer(contact_person):
-            return
-
-        manufacturer.contact_person_id = contact_person.contact_person_id
-        contact_person.manufacturer = manufacturer
-        session.commit()
+    def find_by_head_office_phone(cls, head_office_phone: str, many: bool = False) -> Optional[Manufacturer | list[Manufacturer]]:
+        if many:
+            return session.query(cls.model).filter_by(head_office_phone=head_office_phone)
+        return session.query(cls.model).filter_by(head_office_phone=head_office_phone).first()
 
     @classmethod
-    def remove_contact_person(cls, manufacturer: Manufacturer) -> None:
-        if not cls.has_contact_person(manufacturer):
-            return
+    def find_by_head_office_address(cls, head_office_address: str, many: bool = False) -> Optional[Manufacturer | list[Manufacturer]]:
+        if many:
+            return session.query(cls.model).filter_by(head_office_address=head_office_address)
+        return session.query(cls.model).filter_by(head_office_address=head_office_address).first()
 
-        contact_person = ContactPersonRepository.find_by_id(manufacturer.contact_person_id)
-        contact_person.manufacturer = None
-        manufacturer.contact_person_id = None
-        session.commit()
-
-    @classmethod
-    def has_contact_person(cls, manufacturer: Manufacturer) -> bool:
-        return manufacturer.contact_person_id is not None
-
-    @classmethod
-    def has_manufacturer(cls, contact_person: ContactPerson) -> bool:
-        return contact_person.manufacturer is not None
-
-    # endregion Manufacturer-ContactPerson
-
-    # region Manufacturer-Product
-
-    @classmethod
-    def add_product_to_manufacturer(cls, manufacturer: Manufacturer,
+    @staticmethod
+    def add_product_to_manufacturer(manufacturer: Manufacturer,
                                     product: Product) -> None:
-        if cls.has_product(manufacturer, product):
+        if ManufacturerRepository.has_product(manufacturer, product):
             return
+        manufacturer_has_product = ManufacturerHasProduct()
 
-        manufacturer.products.append(product)
+        manufacturer_has_product.product = product
+        manufacturer.products.append(manufacturer_has_product)
+
+        session.add(manufacturer)
+        session.add(product)
         session.commit()
 
-    @classmethod
-    def remove_product_from_manufacturer(cls, manufacturer: Manufacturer,
+    @staticmethod
+    def remove_product_from_manufacturer(manufacturer: Manufacturer,
                                          product: Product) -> None:
-        if cls.has_product(manufacturer, product):
+        if not ManufacturerRepository.has_product(manufacturer, product):
             return
 
-        manufacturer.products.remove(product)
-        session.commit()
+        if not manufacturer.products:
+            return
 
-    @classmethod
-    def has_product(cls, manufacturer: Manufacturer, product: Product) -> bool:
+        for mhp in manufacturer.products:
+            if mhp.product.product_id == product.product_id:
+                session.delete(mhp)
+                session.commit()
+                return
+
+    @staticmethod
+    def has_product(manufacturer: Manufacturer, product: Product) -> bool:
         for mhp in manufacturer.products:
             if mhp.product.product_id == product.product_id:
                 return True
         return False
-
-    # endregion Manufacturer-Product

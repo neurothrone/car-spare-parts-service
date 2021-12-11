@@ -9,15 +9,10 @@ class SupplierGenerator:
     HEAD_OFFICE_ADDRESS_LEN = 100
 
     @staticmethod
-    def generate(company_name: str,
-                 head_office_phone: str,
-                 head_office_address: str) -> None:
-        validate_length(provided=company_name,
-                        limit=SupplierGenerator.COMPANY_NAME_MAX_LEN)
-        validate_length(provided=head_office_phone,
-                        limit=SupplierGenerator.HEAD_OFFICE_PHONE_LEN)
-        validate_length(provided=head_office_address,
-                        limit=SupplierGenerator.HEAD_OFFICE_ADDRESS_LEN)
+    def generate(company_name: str, head_office_phone: str, head_office_address: str) -> None:
+        validate_length(provided=company_name, limit=SupplierGenerator.COMPANY_NAME_MAX_LEN)
+        validate_length(provided=head_office_phone, limit=SupplierGenerator.HEAD_OFFICE_PHONE_LEN)
+        validate_length(provided=head_office_address, limit=SupplierGenerator.HEAD_OFFICE_ADDRESS_LEN)
 
         SupplierController.create(
             company_name=company_name,
@@ -36,6 +31,19 @@ class SupplierGenerator:
                          head_office_address=locations[i].__str__())
 
         print(f"----- {amount} Suppliers generated -----")
+
+    @classmethod
+    def print_products_in_supplier(cls) -> None:
+        suppliers = SupplierController.find_all()[0]
+        total_products = 0
+
+        for supplier in suppliers:
+            for shp in supplier.products:
+                total_products += 1
+                print(shp.product)
+                print(shp.supplier)
+
+        print(f"----- {total_products} total products in one supplier -----")
 
 
 def main():

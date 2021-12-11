@@ -16,3 +16,5 @@ class Product(BaseModel):
     stores = relationship("Storage", back_populates="product")
     order_detail = relationship("OrderDetail", back_populates="product")
     car_details_has_products = relationship("car_details_has_products", back_populates="product")
+    suppliers = relationship("SupplierHasProduct", back_populates="product")
+    manufacturers = relationship("ManufacturerHasProduct", back_populates="product")

@@ -4,5 +4,5 @@ class Database:
 
 
 class Settings:
-    DATABASE = Database.MONGO
+    DATABASE = Database.MYSQL
     TESTING = False
