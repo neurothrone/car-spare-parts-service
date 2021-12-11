@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: "root"
       MONGO_INITDB_ROOT_PASSWORD: "secret"
     volumes:
-      - "./../../dump:/dumps"
+      - "./../../schemas/dumps:/dumps"
 
   mysql:
     image: "mysql:latest"
