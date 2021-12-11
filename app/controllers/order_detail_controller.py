@@ -14,3 +14,10 @@ class OrderDetailController(BaseController):
     @classmethod
     def find_by_id(cls, _id: int | str) -> Optional[OrderDetail]:
         return cls.repository.find_by_id(_id)
+
+    @classmethod
+    def create(cls, quantity_ordered: str, price_each: str,
+               order_id: Optional[int] = None, product_id: Optional[int] = None,) -> None:
+        OrderDetailRepository.create(quantity_ordered=quantity_ordered,
+                                     price_each=price_each,
+                                     order_id=order_id, product_id=product_id)

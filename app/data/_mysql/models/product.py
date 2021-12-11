@@ -15,3 +15,4 @@ class Product(BaseModel):
 
     stores = relationship("Storage", back_populates="product")
     order_detail = relationship("OrderDetail", back_populates="product")
+    car_details_has_products = relationship("car_details_has_products", back_populates="product")
