@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from app.data._mysql.models import BaseModel
 
 
-class Car(BaseModel):
+class Car(BaseModel["Car"]):
     __tablename__ = "cars"
 
     reg_no = Column(String(7), primary_key=True)
