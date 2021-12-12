@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from app.data._mysql.models import BaseModel
 
 
-class Order(BaseModel):
+class Order(BaseModel["Order"]):
     __tablename__ = "orders"
 
     order_id = Column(Integer, autoincrement=True, primary_key=True)
