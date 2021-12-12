@@ -37,7 +37,7 @@ class ManufacturerTestCase(unittest.TestCase):
             self.assertIsNotNone(suppliers_product)
         TestPrinter.add(self.test_add_product_to_supplier.__name__)
 
-    def test_remove_product_from_manufacturer(self):
+    def test_remove_product_from_supplier(self):
         product = ProductController.find_all()[0]
         product_two = ProductController.find_all()[1]
         supplier = SupplierController.find_all()[0]
@@ -47,7 +47,7 @@ class ManufacturerTestCase(unittest.TestCase):
         SupplierController.remove_product_from_supplier(supplier, product_two)
         for suppliers_product in supplier.products:
             self.assertIsNone(suppliers_product)
-        TestPrinter.add(self.test_remove_product_from_manufacturer.__name__)
+        TestPrinter.add(self.test_remove_product_from_supplier.__name__)
 
 
 def main():
