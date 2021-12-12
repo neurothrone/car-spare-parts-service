@@ -1,13 +1,8 @@
-from sqlalchemy import Column, ForeignKey, Integer
-from sqlalchemy.orm import relationship
-from app.data._mysql.models import BaseModel
+from sqlalchemy import Column, ForeignKey, Integer, Table
 
+from app.data._mysql.db import Base
 
-class SupplierHasProduct(BaseModel):
-    __tablename__ = "products_has_suppliers"
-
-    product_id = Column(Integer, ForeignKey("products.product_id"), primary_key=True)
-    supplier_id = Column(Integer, ForeignKey("suppliers.supplier_id"), primary_key=True)
-
-    supplier = relationship("Supplier", back_populates="products")
-    product = relationship("Product", back_populates="suppliers")
+products_has_suppliers = Table("products_has_suppliers",
+                               Base.metadata,
+                               Column("product_id", Integer, ForeignKey("products.product_id")),
+                               Column("supplier_id", Integer, ForeignKey("suppliers.supplier_id")))

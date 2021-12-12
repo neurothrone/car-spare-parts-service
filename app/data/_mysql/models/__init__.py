@@ -29,5 +29,5 @@ from app.data._mysql.models.contact_person import ContactPerson
 from app.data._mysql.models.manufacturer import Manufacturer
 from app.data._mysql.models.associations.store_has_product import StoreHasProduct
 from app.data._mysql.models.associations.store_has_supplier import StoreHasSupplier
-from app.data._mysql.models.associations.manufacturer_has_product import ManufacturerHasProduct
-from app.data._mysql.models.associations.supplier_has_product import SupplierHasProduct
+from app.data._mysql.models.associations.manufacturer_has_product import products_has_manufacturers
+from app.data._mysql.models.associations.supplier_has_product import products_has_suppliers

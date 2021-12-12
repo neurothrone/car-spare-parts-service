@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Optional
 from app.data._mysql.db import session
-from app.data._mysql.models import ManufacturerHasProduct
+from app.data._mysql.models import products_has_manufacturers
 from app.data._mysql.models.manufacturer import Manufacturer
 from app.data._mysql.models.product import Product
 from app.data._mysql.repositories import BaseRepository
@@ -37,7 +37,7 @@ class ManufacturerRepository(BaseRepository):
                                     product: Product) -> None:
         if ManufacturerRepository.has_product(manufacturer, product):
             return
-        manufacturer_has_product = ManufacturerHasProduct()
+        manufacturer_has_product = products_has_manufacturers()
 
         manufacturer_has_product.product = product
         manufacturer.products.append(manufacturer_has_product)
