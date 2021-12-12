@@ -4,7 +4,7 @@ from app.data._mysql.models import BaseModel
 from app.data._mysql.models.associations.car_details_has_product import car_details_has_products
 
 
-class CarDetail(BaseModel):
+class CarDetail(BaseModel["CarDetail"]):
     __tablename__ = "car_details"
 
     car_detail_id = Column(Integer, autoincrement=True, primary_key=True)
