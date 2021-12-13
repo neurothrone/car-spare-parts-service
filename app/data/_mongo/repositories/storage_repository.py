@@ -17,18 +17,7 @@ class StorageRepository(BaseRepository):
         if cls.has_product(store, product):
             return
 
-        storage = Storage(stock_number=stock_number,
-                          critical_threshold=critical_threshold,
-                          amount_automatic_order=amount_automatic_order)
-
-        storage.product = product
-        store.products.append(storage)
-
-        # TODO: save
-
-        # session.add(store)
-        # session.add(product)
-        # session.commit()
+        pass
 
     @classmethod
     def has_product(cls, store: Store, product: Product) -> bool:
@@ -45,11 +34,7 @@ class StorageRepository(BaseRepository):
         if not store.products:
             return
 
-        # for storage in store.products:
-        #     if storage.product.product_id == product.product_id:
-        #         session.delete(storage)
-        #         session.commit()
-        #         return
+        pass
 
     @classmethod
     def remove_all_products_from_all_stores(cls) -> None:
