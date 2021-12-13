@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from app.data._mysql.models import BaseModel
-from app.data._mysql.models.associations.car_details_has_product import car_details_has_products
+from app.data._mysql.models.associations.car_details_has_products import car_details_has_products
 
 
 class CarDetail(BaseModel["CarDetail"]):

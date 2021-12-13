@@ -2,9 +2,9 @@ from sqlalchemy import Column, DECIMAL, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.data._mysql.models import BaseModel
-from app.data._mysql.models.associations.supplier_has_product import products_has_suppliers
-from app.data._mysql.models.associations.manufacturer_has_product import products_has_manufacturers
-from app.data._mysql.models.associations.car_details_has_product import car_details_has_products
+from app.data._mysql.models.associations.products_has_suppliers import products_has_suppliers
+from app.data._mysql.models.associations.products_has_manufacturers import products_has_manufacturers
+from app.data._mysql.models.associations.car_details_has_products import car_details_has_products
 
 
 class Product(BaseModel):

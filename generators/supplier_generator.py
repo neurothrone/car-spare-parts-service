@@ -2,6 +2,7 @@ import random
 from app.controllers.supplier_controller import SupplierController
 from generators.fake_data import FakeData
 from shared.validators import validate_length
+from app.controllers.contact_person_controller import ContactPersonController
 
 
 class SupplierGenerator:
@@ -15,10 +16,13 @@ class SupplierGenerator:
         validate_length(provided=head_office_phone, limit=SupplierGenerator.HEAD_OFFICE_PHONE_LEN)
         validate_length(provided=head_office_address, limit=SupplierGenerator.HEAD_OFFICE_ADDRESS_LEN)
 
+        contact_person_id = random.choice(ContactPersonController.find_all()).contact_person_id
+
         SupplierController.create(
             company_name=company_name,
             head_office_phone=head_office_phone,
-            head_office_address=head_office_address)
+            head_office_address=head_office_address,
+            contact_person_id=contact_person_id)
 
     @classmethod
     def populate_database(cls, amount: int) -> None:
@@ -31,7 +35,7 @@ class SupplierGenerator:
                          head_office_phone=phone_numbers[i],
                          head_office_address=locations[i].__str__())
 
-        print("----- Suppliers generated -----")
+        print(f"----- {amount} Suppliers generated -----")
 
     @classmethod
     def print_products_in_supplier(cls) -> None:
