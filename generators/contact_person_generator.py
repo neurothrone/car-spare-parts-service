@@ -36,7 +36,7 @@ class ContactPersonGenerator:
                 email=emails[i]
             )
 
-        print("----- Contact persons generated -----")
+        print(f"----- {amount} Contact persons generated -----")
 
 
 def main():
