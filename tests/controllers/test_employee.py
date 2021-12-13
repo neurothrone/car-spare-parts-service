@@ -35,8 +35,8 @@ class EmployeeControllerTestCase(unittest.TestCase):
 
     @classmethod
     def setup_employees_and_stores(cls) -> None:
-        EmployeeGenerator.populate_database(amount=100)
-        StoreGenerator.populate_database(amount=100)
+        EmployeeGenerator.populate_database(amount=50)
+        StoreGenerator.populate_database(amount=50)
         EmployeeController.connect_employees_to_stores(min_=1, max_=3)
 
     # endregion Utility
