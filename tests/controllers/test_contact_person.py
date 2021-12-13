@@ -7,7 +7,6 @@ Settings.TESTING = True
 from app.controllers.contact_person_controller import ContactPersonController
 from generators.contact_person_generator import ContactPersonGenerator
 from shared.tests.test_printer import TestPrinter
-from tests.helpers.dbutil import *
 
 
 class ContactPersonTestCase(unittest.TestCase):
@@ -20,13 +19,11 @@ class ContactPersonTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        create_db()
         ContactPersonGenerator.populate_database(amount=100)
         TestPrinter.reset()
 
     @classmethod
     def tearDownClass(cls) -> None:
-        delete_db()
         TestPrinter.print_passed_tests()
 
     def test_find_by_id_found(self):
