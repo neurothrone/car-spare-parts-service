@@ -31,29 +31,29 @@ class CarDetailRepository(BaseRepository):
         return session.query(cls.model).filter_by(year=year).first()
 
     @classmethod
-    def add_car_detail_to_product(cls, cardetail: CarDetail,
+    def add_car_detail_to_product(cls, car_detail: CarDetail,
                                   product: Product) -> None:
-        if cls.has_product(cardetail, product):
+        if cls.has_product(car_detail, product):
             return
 
-        cardetail.products.append(product)
+        car_detail.products.append(product)
         session.commit()
 
     @classmethod
-    def remove_product_from_manufacturer(cls, cardetail: CarDetail,
-                                         product: Product) -> None:
-        if not cls.has_product(cardetail, product):
+    def remove_car_detail_from_product(cls, car_detail: CarDetail,
+                                       product: Product) -> None:
+        if not cls.has_product(car_detail, product):
             return
 
-        cardetail.products.remove(product)
+        car_detail.products.remove(product)
         session.commit()
 
     @classmethod
-    def has_product(cls, cardetail: CarDetail, product: Product) -> bool:
-        if not cardetail.products:
+    def has_product(cls, car_detail: CarDetail, product: Product) -> bool:
+        if not car_detail.products:
             return False
 
-        for cardetail_product in cardetail.products:
-            if cardetail_product.product_id == product.product_id:
+        for car_detail_product in car_detail.products:
+            if car_detail_product.product_id == product.product_id:
                 return True
         return False
