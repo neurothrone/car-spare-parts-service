@@ -38,10 +38,10 @@ class SupplierGenerator:
         total_products = 0
 
         for supplier in suppliers:
-            for shp in supplier.products:
+            for supplier_product in supplier.products:
                 total_products += 1
-                print(shp.product)
-                print(shp.supplier)
+                print(supplier_product.product)
+                print(supplier_product.supplier)
 
         print(f"----- {total_products} total products in one supplier -----")
 

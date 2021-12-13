@@ -1,7 +1,8 @@
 import random
-from shared.validators import validate_length
+
 from app.controllers.manufacturer_controller import ManufacturerController
 from generators.fake_data import FakeData
+from shared.validators import validate_length
 
 
 class ManufacturerGenerator:
@@ -25,8 +26,7 @@ class ManufacturerGenerator:
         ManufacturerController.create(
             company_name=company_name,
             head_office_phone=head_office_phone,
-            head_office_address=head_office_address,
-            contact_person_id=contact_person_id)
+            head_office_address=head_office_address)
 
     @classmethod
     def populate_database(cls, amount: int) -> None:

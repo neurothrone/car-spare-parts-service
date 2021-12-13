@@ -1,6 +1,7 @@
 from app.settings import Settings
+from generators.supplier_generator import SupplierGenerator
 
-Settings.TESTING = True
+Settings.TESTING = False
 
 from app.controllers.store_controller import StoreController
 from app.controllers.supplier_controller import SupplierController
@@ -57,6 +58,8 @@ class StoreGenerator:
 
 
 def test_store_supplier():
+    StoreGenerator.populate_database(amount=10)
+    SupplierGenerator.populate_database(amount=10)
     store = StoreController.find_by_id(1)
 
     print(store)
@@ -65,8 +68,8 @@ def test_store_supplier():
     supplier = SupplierController.find_by_id(4)
     print(supplier)
 
-    # StoreController.add_supplier_to_store(store, supplier)
-    StoreController.remove_supplier_from_store(store, supplier)
+    StoreController.add_supplier_to_store(store, supplier)
+    # StoreController.remove_supplier_from_store(store, supplier)
 
     for supplier in store.suppliers:
         print(supplier)
@@ -75,7 +78,8 @@ def test_store_supplier():
 
 
 def main():
-    StoreGenerator.populate_database(amount=10)
+    test_store_supplier()
+    # StoreGenerator.populate_database(amount=10)
 
 
 if __name__ == "__main__":

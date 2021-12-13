@@ -1,11 +1,14 @@
 import unittest
-from tests.helpers.dbutil import *
-from generators.contact_person_generator import ContactPersonGenerator
+
+from app.settings import Database, Settings
+
+Settings.TESTING = True
+
 from app.controllers.manufacturer_controller import ManufacturerController
+from generators.contact_person_generator import ContactPersonGenerator
 from generators.manufacturer_generator import ManufacturerGenerator
 from shared.tests.test_printer import TestPrinter
-from app.settings import Database, Settings
-Settings.TESTING = True
+from tests.helpers.dbutil import *
 
 
 class ManufacturerTestCase(unittest.TestCase):

@@ -1,9 +1,12 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
+
 from app.data._mysql.models import BaseModel
+from app.data._mysql.models.associations.products_has_suppliers import products_has_suppliers
+from app.data._mysql.models.associations.stores_has_suppliers import stores_has_suppliers
 
 
-class Supplier(BaseModel['Supplier']):
+class Supplier(BaseModel["Supplier"]):
     __tablename__ = "suppliers"
 
     supplier_id = Column(Integer, autoincrement=True, primary_key=True)
@@ -13,5 +16,13 @@ class Supplier(BaseModel['Supplier']):
     contact_person_id = Column(Integer, ForeignKey("contact_persons.contact_person_id"), nullable=True)
 
     contact_person = relationship("ContactPerson", back_populates="supplier", uselist=False)
-    products = relationship("SupplierHasProduct", back_populates="supplier")
-    stores = relationship("StoreHasSupplier", back_populates="supplier")
+    products = relationship(
+        "Product",
+        secondary=products_has_suppliers,
+        back_populates="suppliers"
+    )
+    stores = relationship(
+        "Store",
+        secondary=stores_has_suppliers,
+        back_populates="suppliers"
+    )

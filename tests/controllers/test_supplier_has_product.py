@@ -1,13 +1,16 @@
 import unittest
-from tests.helpers.dbutil import *
+
+from app.settings import Settings
+
+Settings.TESTING = True
+
 from app.controllers.product_controller import ProductController
-from generators.product_generator import ProductGenerator
-from generators.contact_person_generator import ContactPersonGenerator
 from app.controllers.supplier_controller import SupplierController
+from generators.contact_person_generator import ContactPersonGenerator
+from generators.product_generator import ProductGenerator
 from generators.supplier_generator import SupplierGenerator
 from shared.tests.test_printer import TestPrinter
-from app.settings import Settings
-Settings.TESTING = True
+from tests.helpers.dbutil import *
 
 
 class ManufacturerTestCase(unittest.TestCase):
@@ -32,9 +35,9 @@ class ManufacturerTestCase(unittest.TestCase):
         SupplierController.add_product_to_supplier(supplier, product)
         SupplierController.add_product_to_supplier(supplier, product_two)
         print('----- The two products are: -----')
-        for suppliers_product in supplier.products:
-            print(suppliers_product.product.name)
-            self.assertIsNotNone(suppliers_product)
+        for supplier_product in supplier.products:
+            print(supplier_product.product.name)
+            self.assertIsNotNone(supplier_product)
         TestPrinter.add(self.test_add_product_to_supplier.__name__)
 
     def test_remove_product_from_manufacturer(self):

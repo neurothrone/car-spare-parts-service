@@ -2,6 +2,9 @@ from sqlalchemy import Column, DECIMAL, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.data._mysql.models import BaseModel
+from app.data._mysql.models.associations.car_details_has_products import car_details_has_products
+from app.data._mysql.models.associations.products_has_manufacturers import products_has_manufacturers
+from app.data._mysql.models.associations.products_has_suppliers import products_has_suppliers
 
 
 class Product(BaseModel):
@@ -15,6 +18,19 @@ class Product(BaseModel):
 
     stores = relationship("Storage", back_populates="product")
     order_detail = relationship("OrderDetail", back_populates="product")
-    car_details_has_products = relationship("car_details_has_products", back_populates="product")
-    suppliers = relationship("SupplierHasProduct", back_populates="product")
-    manufacturers = relationship("ManufacturerHasProduct", back_populates="product")
+
+    car_details = relationship(
+        "CarDetail",
+        secondary=car_details_has_products,
+        back_populates="products"
+    )
+    manufacturers = relationship(
+        "Manufacturer",
+        secondary=products_has_manufacturers,
+        back_populates="products"
+    )
+    suppliers = relationship(
+        "Supplier",
+        secondary=products_has_suppliers,
+        back_populates="products"
+    )

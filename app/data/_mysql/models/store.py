@@ -2,7 +2,7 @@ from sqlalchemy import CHAR, Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.data._mysql.models import BaseModel
-from app.data._mysql.models.associations.store_has_supplier import stores_has_suppliers
+from app.data._mysql.models.associations.stores_has_suppliers import stores_has_suppliers
 
 
 class Store(BaseModel["Store"]):

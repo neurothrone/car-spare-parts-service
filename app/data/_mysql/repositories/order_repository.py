@@ -1,4 +1,5 @@
 from typing import Optional
+
 from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.models.order import Order

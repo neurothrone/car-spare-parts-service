@@ -20,18 +20,20 @@ class BaseModel(Generic[TBaseModel], Base):
         return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}
 
 
+from app.data._mysql.models.car import Car
+from app.data._mysql.models.car_detail import CarDetail
 from app.data._mysql.models.contact_person import ContactPerson
 from app.data._mysql.models.customer import Customer
 from app.data._mysql.models.employee import Employee
+from app.data._mysql.models.manufacturer import Manufacturer
+from app.data._mysql.models.order import Order
+from app.data._mysql.models.order_detail import OrderDetail
 from app.data._mysql.models.product import Product
 from app.data._mysql.models.storage import Storage
 from app.data._mysql.models.store import Store
 from app.data._mysql.models.supplier import Supplier
-from app.data._mysql.models.order import Order
-from app.data._mysql.models.order_detail import OrderDetail
-from app.data._mysql.models.contact_person import ContactPerson
-from app.data._mysql.models.manufacturer import Manufacturer
-from app.data._mysql.models.associations.store_has_product import StoreHasProduct
-from app.data._mysql.models.associations.store_has_supplier import StoreHasSupplier
-from app.data._mysql.models.associations.manufacturer_has_product import ManufacturerHasProduct
-from app.data._mysql.models.associations.supplier_has_product import SupplierHasProduct
+
+from app.data._mysql.models.associations.car_details_has_products import car_details_has_products
+from app.data._mysql.models.associations.products_has_manufacturers import products_has_manufacturers
+from app.data._mysql.models.associations.products_has_suppliers import products_has_suppliers
+from app.data._mysql.models.associations.stores_has_suppliers import stores_has_suppliers

@@ -1,5 +1,6 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
+
 from app.data._mysql.models import BaseModel
 
 
@@ -12,4 +13,4 @@ class Car(BaseModel):
     customer_id = Column(Integer, ForeignKey("customers.customer_id"), nullable=True)
 
     customer = relationship("Customer", back_populates="cars")
-    car_detail = relationship("CarDetail", back_populates='car')
+    car_detail = relationship("CarDetail", back_populates="car")

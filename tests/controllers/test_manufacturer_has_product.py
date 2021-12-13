@@ -1,17 +1,19 @@
 import unittest
-from tests.helpers.dbutil import *
+
+from app.settings import Settings
+
+Settings.TESTING = True
+
+from app.controllers.manufacturer_controller import ManufacturerController
 from app.controllers.product_controller import ProductController
 from generators.product_generator import ProductGenerator
 from generators.contact_person_generator import ContactPersonGenerator
-from app.controllers.manufacturer_controller import ManufacturerController
 from generators.manufacturer_generator import ManufacturerGenerator
 from shared.tests.test_printer import TestPrinter
-from app.settings import Settings
-Settings.TESTING = True
+from tests.helpers.dbutil import *
 
 
 class ManufacturerTestCase(unittest.TestCase):
-
     @classmethod
     def setUpClass(cls) -> None:
         create_db()

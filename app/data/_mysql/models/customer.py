@@ -18,6 +18,7 @@ class Customer(BaseModel):
     zip_code = Column(String(length=7), nullable=False)
     city = Column(String(length=50), nullable=False)
 
+    cars = relationship("Car", back_populates="customer")
     employee_id = Column(Integer, ForeignKey("employees.employee_id"))
     employee = relationship("Employee", back_populates="customers")
     orders = relationship("Order", back_populates="customer")

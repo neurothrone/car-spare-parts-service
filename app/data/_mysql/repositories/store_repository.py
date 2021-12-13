@@ -50,7 +50,10 @@ class StoreRepository(BaseRepository):
 
     @classmethod
     def has_supplier(cls, store: Store, supplier: Supplier) -> bool:
-        for supp in store.suppliers:
-            if supp.supplier_id == supplier.supplier_id:
+        if not store.suppliers:
+            return False
+
+        for store_supplier in store.suppliers:
+            if store_supplier.supplier_id == supplier.supplier_id:
                 return True
         return False

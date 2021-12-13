@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
+
 from app.data._mysql.models import BaseModel
+from app.data._mysql.models.associations.car_details_has_products import car_details_has_products
 
 
 class CarDetail(BaseModel):
@@ -12,4 +14,8 @@ class CarDetail(BaseModel):
     year = Column(Integer, nullable=False)
 
     car = relationship("Car", back_populates="car_detail", uselist=False)
-    car_details_has_products = relationship("Car_details_has_products", back_populates="car_detail")
+    products = relationship(
+        "Product",
+        secondary=car_details_has_products,
+        back_populates="car_details"
+    )

@@ -1,6 +1,6 @@
 import unittest
 
-from app.settings import Database, Settings
+from app.settings import Settings
 
 Settings.TESTING = True
 
