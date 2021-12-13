@@ -1,11 +1,10 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-
 from app.data._mysql.models import BaseModel
-from app.data._mysql.models.associations.car_details_has_products import car_details_has_products
+from app.data._mysql.models.associations.car_details_has_product import car_details_has_products
 
 
-class CarDetail(BaseModel):
+class CarDetail(BaseModel["CarDetail"]):
     __tablename__ = "car_details"
 
     car_detail_id = Column(Integer, autoincrement=True, primary_key=True)
@@ -14,8 +13,4 @@ class CarDetail(BaseModel):
     year = Column(Integer, nullable=False)
 
     car = relationship("Car", back_populates="car_detail", uselist=False)
-    products = relationship(
-        "Product",
-        secondary=car_details_has_products,
-        back_populates="car_details"
-    )
+    products = relationship("Product", secondary=car_details_has_products, back_populates="car_details")
