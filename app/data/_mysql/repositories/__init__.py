@@ -13,13 +13,19 @@ class BaseRepository(ABC):
         instance = cls.model(**kwargs)
         cls.save_to_db(instance)
 
-    @staticmethod
-    def save_to_db(obj: TBaseModel) -> None:
+    @classmethod
+    def save_to_db(cls, obj: TBaseModel) -> None:
         session.add(obj)
         session.commit()
 
-    @staticmethod
-    def delete_from_db(obj: TBaseModel) -> None:
+    @classmethod
+    def save_many_to_db(cls, objects: list[TBaseModel]) -> None:
+        for obj in objects:
+            session.add(obj)
+        session.commit()
+
+    @classmethod
+    def delete_from_db(cls, obj: TBaseModel) -> None:
         session.delete(obj)
         session.commit()
 
