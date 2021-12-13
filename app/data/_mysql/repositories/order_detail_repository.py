@@ -35,6 +35,14 @@ class OrderDetailRepository(BaseRepository):
         session.commit()
 
     @classmethod
+    def remove_product_from_order_detail(cls, order_detail: OrderDetail, product: Product) -> None:
+        if not cls.has_product(order_detail, product):
+            return
+
+        order_detail.products.remove(product)
+        session.commit()
+
+    @classmethod
     def has_product(cls, product: Product, order_detail: OrderDetail) -> bool:
         if not product.order_details:
             return False
