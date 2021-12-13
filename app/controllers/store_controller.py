@@ -62,4 +62,8 @@ class StoreController(BaseController):
     def remove_supplier_from_store(cls, store: Store, supplier: Supplier) -> None:
         cls.repository.remove_supplier_from_store(store, supplier)
 
+    @classmethod
+    def remove_all_suppliers_from_all_stores(cls) -> None:
+        cls.repository.remove_all_suppliers_from_all_stores()
+
     # endregion Store-Supplier

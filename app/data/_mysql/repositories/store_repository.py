@@ -57,3 +57,11 @@ class StoreRepository(BaseRepository):
             if store_supplier.supplier_id == supplier.supplier_id:
                 return True
         return False
+
+    @classmethod
+    def remove_all_suppliers_from_all_stores(cls) -> None:
+        stores = cls.find_all()
+
+        for store in stores:
+            for supplier in store.suppliers:
+                cls.remove_supplier_from_store(store, supplier)
