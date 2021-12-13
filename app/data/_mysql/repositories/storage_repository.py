@@ -1,4 +1,3 @@
-from app.data._mysql.db import session
 from app.data._mysql.models.product import Product
 from app.data._mysql.models.storage import Storage
 from app.data._mysql.models.store import Store
@@ -25,9 +24,7 @@ class StorageRepository(BaseRepository):
         storage.product = product
         store.products.append(storage)
 
-        session.add(store)
-        session.add(product)
-        session.commit()
+        cls.save_many_to_db([store, product])
 
     @classmethod
     def has_product(cls, store: Store, product: Product) -> bool:
@@ -46,8 +43,7 @@ class StorageRepository(BaseRepository):
 
         for storage in store.products:
             if storage.product.product_id == product.product_id:
-                session.delete(storage)
-                session.commit()
+                cls.delete_from_db(storage)
                 return
 
     @classmethod
