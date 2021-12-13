@@ -34,6 +34,13 @@ class BaseDocument(ABC, Generic[TBaseDocument], dict):
     def replace_one(cls, query: dict, new_values: dict) -> None:
         cls.collection.replace_one(query, new_values)
 
+    def delete_field(self, field: str) -> None:
+        self.collection.update_one({"_id": self._id}, {"$unset": {field: ""}})
+
+    @classmethod
+    def delete_all(cls) -> None:
+        cls.collection.delete_many({})
+
 
 class ResultList(list[Generic[TBaseDocument]]):
     def first_or_none(self) -> Optional[Generic[TBaseDocument]]:
