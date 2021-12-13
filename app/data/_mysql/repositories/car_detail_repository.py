@@ -1,5 +1,5 @@
 from typing import Optional, Union
-
+from app.data._mysql.models.product import Product
 from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.models.car_detail import CarDetail
@@ -29,3 +29,31 @@ class CarDetailRepository(BaseRepository):
         if many:
             return session.query(cls.model).filter_by(year=year)
         return session.query(cls.model).filter_by(year=year).first()
+
+    @classmethod
+    def add_car_detail_to_product(cls, cardetail: CarDetail,
+                                  product: Product) -> None:
+        if cls.has_product(cardetail, product):
+            return
+
+        cardetail.products.append(product)
+        session.commit()
+
+    @classmethod
+    def remove_product_from_manufacturer(cls, cardetail: CarDetail,
+                                         product: Product) -> None:
+        if not cls.has_product(cardetail, product):
+            return
+
+        cardetail.products.remove(product)
+        session.commit()
+
+    @classmethod
+    def has_product(cls, cardetail: CarDetail, product: Product) -> bool:
+        if not cardetail.products:
+            return False
+
+        for cardetail_product in cardetail.products:
+            if cardetail_product.product_id == product.product_id:
+                return True
+        return False
