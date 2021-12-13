@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
@@ -14,10 +14,16 @@ class OrderDetailRepository(BaseRepository):
         return session.query(cls.model).filter_by(order_detail_id=_id).first()
 
     @classmethod
-    def find_by_order(cls, order: str, many: bool = False) -> Optional[OrderDetail, list[OrderDetail]]:
+    def find_by_quantity_ordered(cls, quantity_ordered: str, many: bool = False) -> Optional[OrderDetail, list[OrderDetail]]:
         if many:
-            return session.query(cls.model).filter_by(order=order)
-        return session.query(cls.model).filter_by(order=order).first
+            return session.query(cls.model).filter_by(quantity_ordered=quantity_ordered)
+        return session.query(cls.model).filter_by(quantity_ordered=quantity_ordered).first
+
+    @classmethod
+    def find_by_price_each(cls, price_each: str, many: bool = False) -> Optional[Union[OrderDetail, list[OrderDetail]]]:
+        if many:
+            return session.query(cls.model).filter_by(price_each=price_each)
+        return session.query(cls.model).filter_by(price_each=price_each).first()
 
     @classmethod
     def add_product_to_order_detail(cls, order_detail: OrderDetail, product: Product) -> None:

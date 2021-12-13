@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
@@ -13,6 +13,12 @@ class CarRepository(BaseRepository):
     @classmethod
     def find_by_reg_no(cls, reg_no: str) -> Optional[Car]:
         return session.query(cls.model).filter_by(reg_no=reg_no).first()
+
+    @classmethod
+    def find_by_color(cls, color: str, many: bool = False) -> Optional[Union[Car, list[Car]]]:
+        if many:
+            return session.query(cls.model).filter_by(color=color)
+        return session.query(cls.model).filter_by(color=color).first()
 
     @classmethod
     def add_customer(cls, car: Car, customer: Customer) -> None:

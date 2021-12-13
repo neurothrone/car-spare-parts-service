@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
@@ -11,3 +11,27 @@ class ProductRepository(BaseRepository):
     @classmethod
     def find_by_id(cls, _id: int) -> Optional[Product]:
         return session.query(cls.model).filter_by(product_id=_id).first()
+
+    @classmethod
+    def find_by_name(cls, name: str, many: bool = False) -> Optional[Union[Product, list[Product]]]:
+        if many:
+            return session.query(cls.model).filter_by(name=name)
+        return session.query(cls.model).filter_by(name=name).first()
+
+    @classmethod
+    def find_by_city(cls, description: str, many: bool = False) -> Optional[Union[Product, list[Product]]]:
+        if many:
+            return session.query(cls.model).filter_by(description=description)
+        return session.query(cls.model).filter_by(description=description).first()
+
+    @classmethod
+    def find_by_cost(cls, cost: str, many: bool = False) -> Optional[Union[Product, list[Product]]]:
+        if many:
+            return session.query(cls.model).filter_by(cost=cost)
+        return session.query(cls.model).filter_by(cost=cost).first()
+
+    @classmethod
+    def find_by_price(cls, price: str, many: bool = False) -> Optional[Union[Product, list[Product]]]:
+        if many:
+            return session.query(cls.model).filter_by(price=price)
+        return session.query(cls.model).filter_by(price=price).first()
