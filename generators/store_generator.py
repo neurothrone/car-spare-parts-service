@@ -1,10 +1,8 @@
 from app.settings import Settings
-from generators.supplier_generator import SupplierGenerator
 
-Settings.TESTING = False
+Settings.TESTING = True
 
 from app.controllers.store_controller import StoreController
-from app.controllers.supplier_controller import SupplierController
 from generators.fake_data import FakeData
 from shared.models.types import StoreType
 from shared.validators import validate_length
@@ -57,29 +55,8 @@ class StoreGenerator:
         print(f"----- {stores_generated} Stores generated -----")
 
 
-def test_store_supplier():
-    StoreGenerator.populate_database(amount=10)
-    SupplierGenerator.populate_database(amount=10)
-    store = StoreController.find_by_id(1)
-
-    print(store)
-    print(store.suppliers)
-
-    supplier = SupplierController.find_by_id(4)
-    print(supplier)
-
-    StoreController.add_supplier_to_store(store, supplier)
-    # StoreController.remove_supplier_from_store(store, supplier)
-
-    for supplier in store.suppliers:
-        print(supplier)
-
-    print(store)
-
-
 def main():
-    test_store_supplier()
-    # StoreGenerator.populate_database(amount=10)
+    StoreGenerator.populate_database(amount=10)
 
 
 if __name__ == "__main__":
