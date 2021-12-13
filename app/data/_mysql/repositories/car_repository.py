@@ -1,10 +1,9 @@
 from typing import Optional, Union
-
+from app.data._mysql.models.car_detail import CarDetail
 from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.models.car import Car
 from app.data._mysql.models.customer import Customer
-from app.data._mysql.repositories.customer_repository import CustomerRepository
 
 
 class CarRepository(BaseRepository):
@@ -21,27 +20,55 @@ class CarRepository(BaseRepository):
         return session.query(cls.model).filter_by(color=color).first()
 
     @classmethod
-    def add_customer(cls, car: Car, customer: Customer) -> None:
-        if cls.has_customer(car) or CarRepository.has_car_details(customer):
+    def add_car_detail_to_car(cls, car: Car, car_detail: CarDetail) -> None:
+        if cls.has_car_detail(car, car_detail):
             return
-        car.customer_id = customer.customer_id
-        customer.car = car
+
+        car.car_details.append(car_detail)
         session.commit()
 
     @classmethod
-    def has_customer(cls, car: Car) -> bool:
-        return car.customer_id is not None
-
-    @classmethod
-    def has_car_details(cls, customer: Customer) -> bool:
-        return customer.car is not None
-
-    @classmethod
-    def remove_customer(cls, car: Car) -> None:
-        if not cls.has_customer(car):
+    def remove_car_detail_from_car(cls, car: Car,
+                                   car_detail: CarDetail) -> None:
+        if not cls.has_car_detail(car, car_detail):
             return
 
-        customer = CustomerRepository.find_by_id(car.customer_id)
-        customer.car = None
-        car.customer_id = None
+        car.car_details.remove(car_detail)
         session.commit()
+
+    @classmethod
+    def add_customer_to_car(cls, car: Car, customer: Customer) -> None:
+        if cls.has_customer(car, customer):
+            return
+
+        car.customers.append(customer)
+        session.commit()
+
+    @classmethod
+    def remove_customer_from_car(cls, car: Car,
+                                 customer: Customer) -> None:
+        if not cls.has_customer(car, customer):
+            return
+
+        car.customers.remove(customer)
+        session.commit()
+
+    @classmethod
+    def has_customer(cls, car: Car, customer: Customer) -> bool:
+        if not car.customers:
+            return False
+
+        for car_customer in car.customers:
+            if car_customer.customer_id == customer.customer_id:
+                return True
+        return False
+
+    @classmethod
+    def has_car_detail(cls, car: Car, car_detail: CarDetail) -> bool:
+        if not car.car_details:
+            return False
+
+        for car_car_detail in car.car_details:
+            if car_car_detail.car_detail_id == car_detail.car_detail_id:
+                return True
+        return False

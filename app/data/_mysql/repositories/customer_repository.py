@@ -1,5 +1,5 @@
 from typing import Optional, Union
-
+from app.data._mysql.models.car_detail import CarDetail
 from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.models.customer import Customer
@@ -69,3 +69,29 @@ class CustomerRepository(BaseRepository):
         if many:
             return session.query(cls.model).filter_by(city=city)
         return session.query(cls.model).filter_by(city=city).first()
+
+    @classmethod
+    def add_car_detail_to_customer(cls, customer: Customer, car_detail: CarDetail) -> None:
+        if cls.has_car_detail(customer, car_detail):
+            return
+
+        customer.car_details.append(car_detail)
+        session.commit()
+
+    @classmethod
+    def remove_customer_from_car(cls, customer: Customer, car_detail: CarDetail) -> None:
+        if not cls.has_car_detail(customer, car_detail):
+            return
+
+        customer.car_details.remove(car_detail)
+        session.commit()
+
+    @classmethod
+    def has_car_detail(cls, customer: Customer, car_detail: CarDetail) -> bool:
+        if not customer.car_details:
+            return False
+
+        for customer_car_detail in customer.car_details:
+            if customer_car_detail.car_detail_id == car_detail.car_detail_id:
+                return True
+        return False

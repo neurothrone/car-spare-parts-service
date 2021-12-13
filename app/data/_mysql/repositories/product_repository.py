@@ -37,8 +37,7 @@ class ProductRepository(BaseRepository):
         return session.query(cls.model).filter_by(price=price).first()
 
     @classmethod
-    def add_product_to_car_detail(cls, product: Product,
-                                  car_detail: CarDetail) -> None:
+    def car_detail_to_product(cls, product: Product, car_detail: CarDetail) -> None:
         if cls.has_product(product, car_detail):
             return
 
@@ -46,8 +45,7 @@ class ProductRepository(BaseRepository):
         session.commit()
 
     @classmethod
-    def remove_car_detail_from_product(cls, product: Product,
-                                       car_detail: CarDetail) -> None:
+    def remove_car_detail_from_product(cls, product: Product, car_detail: CarDetail) -> None:
         if not cls.has_product(product, car_detail):
             return
 

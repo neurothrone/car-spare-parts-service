@@ -14,7 +14,8 @@ class OrderDetailRepository(BaseRepository):
         return session.query(cls.model).filter_by(order_detail_id=_id).first()
 
     @classmethod
-    def find_by_quantity_ordered(cls, quantity_ordered: str, many: bool = False) -> Optional[OrderDetail, list[OrderDetail]]:
+    def find_by_quantity_ordered(cls, quantity_ordered: str,
+                                 many: bool = False) -> Optional[OrderDetail, list[OrderDetail]]:
         if many:
             return session.query(cls.model).filter_by(quantity_ordered=quantity_ordered)
         return session.query(cls.model).filter_by(quantity_ordered=quantity_ordered).first
@@ -26,18 +27,19 @@ class OrderDetailRepository(BaseRepository):
         return session.query(cls.model).filter_by(price_each=price_each).first()
 
     @classmethod
-    def add_product_to_order_detail(cls, order_detail: OrderDetail, product: Product) -> None:
-        if cls.has_product(order_detail) or OrderDetailRepository.has_order(product):
+    def add_product_to_order_detail(cls, product: Product, order_detail: OrderDetail) -> None:
+        if cls.has_product(product, order_detail):
             return
 
-        order_detail.product_id = product.product_id
-        product.order_detail = OrderDetail
+        product.order_details.append(order_detail)
         session.commit()
 
     @classmethod
-    def has_product(cls, order_detail: OrderDetail) -> bool:
-        return order_detail.product_id is not None
+    def has_product(cls, product: Product, order_detail: OrderDetail) -> bool:
+        if not product.order_details:
+            return False
 
-    @classmethod
-    def has_order(cls, product: Product) -> bool:
-        return product.order_detail is not None
+        for product_order_details in product.order_details:
+            if product_order_details.order_id == order_detail.order_id:
+                return True
+        return False

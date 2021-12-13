@@ -4,7 +4,6 @@ from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.models.order import Order
 from app.data._mysql.models.product import Product
-from app.data._mysql.repositories.product_repository import ProductRepository
 
 
 class OrderRepository(BaseRepository):
@@ -42,26 +41,27 @@ class OrderRepository(BaseRepository):
         return session.query(cls.model).filter_by(status=status).first()
 
     @classmethod
-    def add_product(cls, order: Order, product: Product) -> None:
-        if cls.has_product(order) or OrderRepository.has_order(product):
+    def add_order_to_product(cls, order: Order, product: Product) -> None:
+        if cls.has_product(order, product):
             return
-        order.product_id = product.product_id
-        product.order = Order
+
+        order.products.append(product)
         session.commit()
 
     @classmethod
-    def has_product(cls, order: Order) -> bool:
-        return order.product_id is not None
-
-    @classmethod
-    def has_order(cls, product: Product) -> bool:
-        return product.order_details is not None
-
-    @classmethod
-    def remove_product(cls, order: Order) -> None:
-        if not cls.has_product(order):
+    def remove_order_from_product(cls, order: Order, product: Product) -> None:
+        if not cls.has_product(order, product):
             return
-        product = ProductRepository.find_by_id(order.product_id)
-        product.order = None
-        order.product_id = None
+
+        order.products.remove(product)
         session.commit()
+
+    @classmethod
+    def has_product(cls, order: Order, product: Product) -> bool:
+        if not order.products:
+            return False
+
+        for order_products in order.products:
+            if order_products.product_id == product.product_id:
+                return True
+        return False
