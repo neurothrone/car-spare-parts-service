@@ -19,10 +19,3 @@ class SupplierConverter:
                 MongoContactPersonRepository.find(contact_person_id=supplier.contact_person_id)._id
             print()
             MongoSupplierRepository.create(**as_dict)
-
-# def main():
-#     convert_from_mysql_to_mongo()
-#
-#
-# if __name__ == "__main__":
-#     main()
