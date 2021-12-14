@@ -1,5 +1,7 @@
-import random
+from app.settings import Settings, Database
 
+Settings.TESTING = True
+import random
 from app.controllers.contact_person_controller import ContactPersonController
 from app.controllers.manufacturer_controller import ManufacturerController
 from generators.fake_data import FakeData
@@ -17,13 +19,19 @@ class ManufacturerGenerator:
         validate_length(provided=head_office_phone, limit=ManufacturerGenerator.HEAD_OFFICE_PHONE_LEN)
         validate_length(provided=head_office_address, limit=ManufacturerGenerator.HEAD_OFFICE_ADDRESS_LEN)
 
-        contact_person_id = random.choice(ContactPersonController.find_all()).contact_person_id
+        if Settings.DATABASE == Database.MONGO:
+            ManufacturerController.create(
+                company_name=company_name,
+                head_office_phone=head_office_phone,
+                head_office_address=head_office_address)
+        else:
+            contact_person_id = random.choice(ContactPersonController.find_all()).contact_person_id
 
-        ManufacturerController.create(
-            company_name=company_name,
-            head_office_phone=head_office_phone,
-            head_office_address=head_office_address,
-            contact_person_id=contact_person_id)
+            ManufacturerController.create(
+                company_name=company_name,
+                head_office_phone=head_office_phone,
+                head_office_address=head_office_address,
+                contact_person_id=contact_person_id)
 
     @classmethod
     def populate_database(cls, amount: int) -> None:
@@ -53,7 +61,7 @@ class ManufacturerGenerator:
 
 
 def main():
-    ManufacturerGenerator.populate_database(amount=100)
+    ManufacturerGenerator.populate_database(amount=10)
 
 
 if __name__ == "__main__":

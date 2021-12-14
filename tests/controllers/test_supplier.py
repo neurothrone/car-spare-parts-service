@@ -20,7 +20,7 @@ class SupplierTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        ContactPersonGenerator.populate_database(amount=100)
+        ContactPersonGenerator.populate_database(amount=5)
         SupplierGenerator.populate_database(amount=1)
         TestPrinter.reset()
 
