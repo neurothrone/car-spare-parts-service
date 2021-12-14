@@ -4,7 +4,7 @@ Settings.TESTING = True
 
 from app.data._mongo.repositories.supplier_repository import SupplierRepository as MongoSupplierRepository
 from app.data._mysql.repositories.supplier_repository import SupplierRepository as MysqlSupplierRepository
-from app.data._mongo.repositories.contact_person_repository import ContactPersonRepository as MongoContactPersonRepository
+# from app.data._mongo.repositories.contact_person_repository import ContactPersonRepository as MongoContactPersonRepository
 
 
 class SupplierConverter:
@@ -15,7 +15,7 @@ class SupplierConverter:
             del as_dict["_sa_instance_state"]
             as_dict = {key: value for key, value in as_dict.items() if value is not None}
 
-            as_dict['contact_person_id'] = \
-                MongoContactPersonRepository.find(contact_person_id=supplier.contact_person_id)._id
+            # as_dict['contact_person_id'] = \
+            #     MongoContactPersonRepository.find(contact_person_id=supplier.contact_person_id)._id
             print()
             MongoSupplierRepository.create(**as_dict)

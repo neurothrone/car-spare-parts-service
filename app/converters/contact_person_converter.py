@@ -12,5 +12,6 @@ class ContactPersonConverter:
         for contact_person in MysqlContactPersonRepository.find_all():
             as_dict = contact_person.__dict__
             del as_dict["_sa_instance_state"]
+            as_dict = {key: value for key, value in as_dict.items() if value is not None}
             print()
             MongoContactPersonRepository.create(**as_dict)
