@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from app.data._mysql.models import BaseModel
 from sqlalchemy.orm import relationship
-from app.data._mysql.models.associations.manufacturer_has_product import products_has_manufacturers
+from app.data._mysql.models.associations.products_has_manufacturers import products_has_manufacturers
 
 
 class Manufacturer(BaseModel["Manufacturer"]):

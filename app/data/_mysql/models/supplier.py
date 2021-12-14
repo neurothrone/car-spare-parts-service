@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.data._mysql.models import BaseModel
-from app.data._mysql.models.associations.store_has_supplier import stores_has_suppliers
-from app.data._mysql.models.associations.supplier_has_product import products_has_suppliers
+from app.data._mysql.models.associations.stores_has_suppliers import stores_has_suppliers
+from app.data._mysql.models.associations.products_has_suppliers import products_has_suppliers
 
 
 class Supplier(BaseModel['Supplier']):
