@@ -11,7 +11,7 @@ class CarDetailController(BaseController):
     required_attributes = {"brand", "model", "year"}
 
     @classmethod
-    def create(cls, brand: str, model: str, year: str) -> None:
+    def create(cls, brand: str, model: str, year: int) -> None:
         CarDetailRepository.create(brand=brand, model=model, year=year)
 
     @classmethod
