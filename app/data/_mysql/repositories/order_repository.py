@@ -4,6 +4,8 @@ from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
 from app.data._mysql.models.order import Order
 from app.data._mysql.models.product import Product
+from datetime import datetime
+from datetime import date
 
 
 class OrderRepository(BaseRepository):
@@ -14,21 +16,21 @@ class OrderRepository(BaseRepository):
         return session.query(cls.model).filter_by(order_id=_id).first()
 
     @classmethod
-    def find_by_ordered_date(cls, ordered_date: str,
+    def find_by_ordered_date(cls, ordered_date: datetime,
                              many: bool = False) -> Optional[Order, list[Order]]:
         if many:
             return session.query(cls.model).filter_by(ordered_date=ordered_date)
         return session.query(cls.model).filter_by(ordered_date=ordered_date).first()
 
     @classmethod
-    def find_by_shipped_date(cls, shipped_date: str,
+    def find_by_shipped_date(cls, shipped_date: datetime,
                              many: bool = False) -> Optional[Union[Order, list[Order]]]:
         if many:
             return session.query(cls.model).filter_by(shipped_date=shipped_date)
         return session.query(cls.model).filter_by(shipped_date=shipped_date).first()
 
     @classmethod
-    def find_by_delivery_date(cls, delivery_date: str,
+    def find_by_delivery_date(cls, delivery_date: date,
                               many: bool = False) -> Optional[Union[Order, list[Order]]]:
         if many:
             return session.query(cls.model).filter_by(delivery_date=delivery_date)

@@ -26,4 +26,10 @@ class CarDetailGenerator:
         print(f"----- {amount} Car models generated -----")
 
 
-CarDetailGenerator.populate_database(10)
+def main():
+
+    CarDetailGenerator.populate_database(10)
+
+
+if __name__ == "__main__":
+    main()
