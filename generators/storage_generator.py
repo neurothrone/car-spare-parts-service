@@ -69,3 +69,10 @@ class StorageGenerator:
                 print(storage.store)
 
         print(f"----- {total_products} total products in all stores -----")
+
+def main():
+    StoreGenerator.populate_database(amount=10)
+
+
+if __name__ == "__main__":
+    main()

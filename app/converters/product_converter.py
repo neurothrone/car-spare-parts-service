@@ -15,3 +15,11 @@ class ProductConverter:
             as_dict["price"] = float(as_dict["price"])
             del as_dict["_sa_instance_state"]
             MongoProductRepository.create(**as_dict)
+
+
+def main():
+    ProductConverter.convert_from_mysql_to_mongo()
+
+
+if __name__ == '__main__':
+    main()

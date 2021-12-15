@@ -1,31 +1,20 @@
-from app.controllers.employee_controller import EmployeeController
-from generators.customer_generator import CustomerGenerator
-from generators.employee_generator import EmployeeGenerator
-from generators.product_generator import ProductGenerator
-from generators.store_generator import StoreGenerator
-
-
-def populate_db():
-    StoreGenerator.populate_database(amount=100)
-    EmployeeGenerator.populate_database(amount=100)
-    # dependent on above
-    # EmployeeController.connect_employees_to_stores(min_=1, max_=3)
-
-    # CustomerGenerator.populate_database(amount=100)
-
-    # ProductGenerator.populate_database(amount=100)
-    # StoreGenerator.add_products_to_stores(min_per_store=1, max_per_store=5)
+from app.settings import Settings
+Settings.TESTING = True
+from generators.contact_person_generator import ContactPersonGenerator
+from generators.manufacturer_generator import ManufacturerGenerator
+from generators.supplier_generator import SupplierGenerator
+from generators.product_has_manufacturer_generator import ManufacturerHasProductGenerator
+from generators.product_has_supplier_generator import SupplierHasProductGenerator
+from generators.store_has_supplier_generator import StoreHasSupplierGenerator
 
 
 def main():
-    populate_db()
-    EmployeeController.connect_employees_to_stores(min_=1, max_=3)
-    EmployeeController.reset_all_employees_store()
-
-    # StoreGenerator.populate_database(amount=100)
-    # StoreGenerator.add_products_to_stores(min_per_store=1, max_per_store=5)
-    # StoreGenerator.print_products_in_stores()
-    # StoreGenerator.remove_all_products_in_stores()
+    ContactPersonGenerator.populate_database(amount=10)
+    SupplierGenerator.populate_database(amount=10)
+    ManufacturerGenerator.populate_database(amount=10)
+    ManufacturerHasProductGenerator.populate_database(amount=10)
+    SupplierHasProductGenerator.populate_database(amount=10)
+    StoreHasSupplierGenerator.populate_database(amount=10)
 
 
 if __name__ == "__main__":

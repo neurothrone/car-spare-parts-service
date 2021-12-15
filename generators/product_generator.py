@@ -1,3 +1,6 @@
+from app.settings import Settings
+Settings.TESTING = True
+
 from app.controllers.product_controller import ProductController
 from generators.fake_data import FakeData
 

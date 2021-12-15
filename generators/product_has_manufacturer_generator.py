@@ -1,7 +1,6 @@
 import random
 
 from app.settings import Settings, Database
-
 Settings.TESTING = True
 
 from app.controllers.manufacturer_controller import ManufacturerController

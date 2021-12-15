@@ -13,5 +13,15 @@ class ContactPersonConverter:
             as_dict = contact_person.__dict__
             del as_dict["_sa_instance_state"]
             as_dict = {key: value for key, value in as_dict.items() if value is not None}
-            print()
+
             MongoContactPersonRepository.create(**as_dict)
+
+        print('Contact person is Converted')
+
+
+def main():
+    ContactPersonConverter.convert_from_mysql_to_mongo()
+
+
+if __name__ == '__main__':
+    main()

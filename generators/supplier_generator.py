@@ -1,6 +1,6 @@
 from app.settings import Settings, Database
-
 Settings.TESTING = True
+
 import random
 from app.controllers.supplier_controller import SupplierController
 from generators.fake_data import FakeData
@@ -33,9 +33,8 @@ class SupplierGenerator:
         for i in range(amount):
 
             if Settings.DATABASE == Database.MONGO:
-                cls.generate(company_name=company_names[i],
-                             head_office_phone=phone_numbers[i],
-                             head_office_address=locations[i].__str__())
+                pass
+
             else:
                 contact_person_id = random.choice(ContactPersonController.find_all()).contact_person_id
 

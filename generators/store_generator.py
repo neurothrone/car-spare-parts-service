@@ -1,5 +1,4 @@
 from app.settings import Settings
-
 Settings.TESTING = True
 
 from app.controllers.store_controller import StoreController
