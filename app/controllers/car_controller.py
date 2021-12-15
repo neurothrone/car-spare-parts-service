@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional
 from app.data.models.car_detail import CarDetail
 from app.controllers import BaseController
 from app.data.models.car import Car
