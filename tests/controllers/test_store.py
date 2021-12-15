@@ -6,6 +6,8 @@ Settings.TESTING = True
 
 from app.controllers.store_controller import StoreController
 from generators.store_generator import StoreGenerator
+from shared.exc.store import (InvalidStoreTypeError, InvalidRequiredArgsError, OnlineStoreExistsError,
+                              OnlineStoreInvalidArgsError, PhysicalStoreInvalidArgsError)
 from shared.models.types import StoreType
 from shared.tests.test_printer import TestPrinter
 
@@ -51,22 +53,46 @@ class StoreControllerTestCase(unittest.TestCase):
         self.assertIsNone(store)
         TestPrinter.add(self.test_find_by_id_not_found.__name__)
 
-    def test_create_physical_store_fail(self):
-        with self.assertRaises(ValueError):
-            StoreController.create(store_type=StoreType.PHYSICAL,
+    def test_create_with_invalid_store_type(self):
+        with self.assertRaises(InvalidStoreTypeError):
+            StoreController.create(store_type="universal",
                                    phone="+64 70 722 88 88",
                                    email="store@example.se")
-        TestPrinter.add(self.test_create_physical_store_fail.__name__)
 
-    def test_create_online_store_fail(self):
-        with self.assertRaises(ValueError):
+        TestPrinter.add(self.test_create_with_invalid_store_type.__name__)
+
+    def test_create_with_invalid_required_args_fail(self):
+        with self.assertRaises(InvalidRequiredArgsError):
+            StoreController.create(store_type=StoreType.PHYSICAL,
+                                   phone="",
+                                   email="")
+
+        TestPrinter.add(self.test_create_with_invalid_required_args_fail.__name__)
+
+    def test_create_online_store_with_invalid_args_fail(self):
+        with self.assertRaises(OnlineStoreInvalidArgsError):
             StoreController.create(store_type=StoreType.ONLINE,
                                    phone="+64 70 722 88 88",
                                    email="store@example.se",
                                    address="Tarbergsgatan 25",
                                    zip_code="172 41",
                                    city="Karlstad")
-        TestPrinter.add(self.test_create_online_store_fail.__name__)
+        TestPrinter.add(self.test_create_online_store_with_invalid_args_fail.__name__)
+
+    def test_create_online_store_already_exists_fail(self):
+        with self.assertRaises(OnlineStoreExistsError):
+            for _ in range(2):
+                StoreController.create(store_type=StoreType.ONLINE,
+                                       phone="+64 70 722 88 88",
+                                       email="store@example.se")
+        TestPrinter.add(self.test_create_online_store_already_exists_fail.__name__)
+
+    def test_create_physical_store_with_invalid_args_fail(self):
+        with self.assertRaises(PhysicalStoreInvalidArgsError):
+            StoreController.create(store_type=StoreType.PHYSICAL,
+                                   phone="+64 70 722 88 88",
+                                   email="store@example.se")
+        TestPrinter.add(self.test_create_physical_store_with_invalid_args_fail.__name__)
 
     def test_create_many_stores(self):
         StoreGenerator.populate_database(amount=3)
