@@ -8,9 +8,25 @@ from app.controllers.customer_controller import CustomerController
 from app.controllers.employee_controller import EmployeeController
 from app.controllers.product_controller import ProductController
 from app.controllers.store_controller import StoreController
+from app.views.utils import StatusCode
 import generators.db_control as db_control
 
 bp = flask.Blueprint("main", __name__, template_folder="templates")
+
+
+@bp.app_errorhandler(StatusCode.BAD_REQUEST_ERROR)
+def bad_request_error_handler(error):
+    return flask.render_template("error/400.html"), StatusCode.BAD_REQUEST_ERROR
+
+
+@bp.app_errorhandler(StatusCode.NOT_FOUND_ERROR)
+def not_found_error_handler(error):
+    return flask.render_template("error/404.html"), StatusCode.NOT_FOUND_ERROR
+
+
+@bp.app_errorhandler(StatusCode.INVALID_SERVER_ERROR)
+def internal_server_error_handler(error):
+    return flask.render_template("error/500.html"), StatusCode.INVALID_SERVER_ERROR
 
 
 @bp.route("/")
