@@ -29,13 +29,15 @@ def stores_page():
     return flask.render_template("items/store/content.html", stores=stores)
 
 
-@bp.post("/products/create")
+@bp.post("/stores/create")
 def create_store():
     data = {key: (value if value else None) for key, value in flask.request.form.items()}
     try:
         StoreController.create(**data)
+        flask.flash("Store created", "success")
     except Exception as error:
         print(error)
+        flask.flash(str(error), "error")
     return flask.redirect(flask.url_for("main.stores_page"))
 
 
