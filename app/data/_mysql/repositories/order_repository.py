@@ -37,7 +37,7 @@ class OrderRepository(BaseRepository):
         return session.query(cls.model).filter_by(delivery_date=delivery_date).first()
 
     @classmethod
-    def find_by_city(cls, status: str, many: bool = False) -> Optional[Union[Order, list[Order]]]:
+    def find_by_status(cls, status: str, many: bool = False) -> Optional[Union[Order, list[Order]]]:
         if many:
             return session.query(cls.model).filter_by(status=status)
         return session.query(cls.model).filter_by(status=status).first()

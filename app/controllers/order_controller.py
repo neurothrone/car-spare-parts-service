@@ -36,8 +36,8 @@ class OrderController(BaseController):
         return cls.repository.find_by_delivery_date(delivery_date)
 
     @classmethod
-    def find_by_city(cls, city: str) -> Optional[Order]:
-        return cls.repository.find_by_city(city)
+    def find_by_status(cls, status: str) -> Optional[Order]:
+        return cls.repository.find_by_status(status)
 
     @classmethod
     def add_order_to_product(cls, order: Order, product: Product) -> None:
