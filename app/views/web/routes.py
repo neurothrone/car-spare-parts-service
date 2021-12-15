@@ -1,15 +1,12 @@
 import flask
 
-from app.settings import Settings
-
-Settings.TESTING = False
-
 from app.controllers.customer_controller import CustomerController
 from app.controllers.employee_controller import EmployeeController
 from app.controllers.product_controller import ProductController
+from app.controllers.storage_controller import StorageController
 from app.controllers.store_controller import StoreController
-from app.views.utils import StatusCode
-import generators.db_control as db_control
+from app.views.web.controller import WebController
+from app.views.web.utils import StatusCode
 
 bp = flask.Blueprint("main", __name__, template_folder="templates")
 
@@ -58,6 +55,12 @@ def create_store():
     return flask.redirect(flask.url_for("main.stores_page"))
 
 
+@bp.route("/storages")
+def storages_page():
+    storages = StorageController.find_all()
+    return flask.render_template("items/storage/content.html", storages=storages)
+
+
 @bp.route("/employees")
 def employees_page():
     employees = EmployeeController.find_all()
@@ -73,7 +76,7 @@ def customers_page():
 @bp.route("/db/populate", methods=["POST"])
 def populate():
     try:
-        db_control.populate_mysql_db()
+        WebController.populate_mysql_db()
         flask.flash("MySQL database successfully populated", "success")
     except Exception as error:
         print(error)
@@ -84,7 +87,7 @@ def populate():
 @bp.route("/db/convert", methods=["POST"])
 def convert():
     try:
-        db_control.convert_mysql_to_mongo()
+        WebController.convert_mysql_to_mongo()
         flask.flash("Data in MySQL database successfully converted to data in Mongo database", "success")
     except Exception as error:
         print(error)
@@ -95,7 +98,7 @@ def convert():
 @bp.route("/db/purge-mysql", methods=["POST"])
 def purge_mysql():
     try:
-        db_control.delete_data_from_mysql_db()
+        WebController.delete_data_from_mysql_db()
         flask.flash("MySQL database successfully purged", "success")
     except Exception as error:
         print(error)
@@ -106,7 +109,7 @@ def purge_mysql():
 @bp.route("/db/purge-mongo", methods=["POST"])
 def purge_mongo():
     try:
-        db_control.delete_data_from_mongo_db()
+        WebController.delete_data_from_mongo_db()
         flask.flash("Mongo database successfully purged", "success")
     except Exception as error:
         print(error)

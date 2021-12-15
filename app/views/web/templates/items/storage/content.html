@@ -1,0 +1,10 @@
+{% extends "layout/base.html" %}
+{% set active_page = "storages_page" %}
+
+{% block content %}
+    <h1>Storages</h1>
+    <hr>
+    <div>
+        {% include "items/storage/list.html" %}
+    </div>
+{% endblock %}

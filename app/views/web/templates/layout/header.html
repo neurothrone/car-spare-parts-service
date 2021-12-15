@@ -32,6 +32,10 @@
                         <a class="nav-link{{ ' active' if active_page == 'stores_page' }}"
                            href="{{ url_for('main.stores_page') }}">Stores</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'storages_page' }}"
+                           href="{{ url_for('main.storages_page') }}">Storages</a>
+                    </li>
                 </ul>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
