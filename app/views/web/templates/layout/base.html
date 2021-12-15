@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Car Spare Parts Service{% endblock %}</title>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='libs/bootstrap/css/bootstrap.min.css') }}">
+    <!-- Fontawesome Core CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='libs/fontawesome/css/all.min.css') }}">
+    <!-- Custom Core CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <!-- Additional CSS -->
+    {% block css %}{% endblock %}
+</head>
+<body class="d-flex flex-column h-100">
+
+{% include "layout/header.html" %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+<main>
+    <div class="container my-3">
+        {% block content %}{% endblock %}
+    </div>
+</main>
+
+<!-- Bootstrap Core JS -->
+<script src="{{ url_for('static', filename='libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+</body>
+</html>
