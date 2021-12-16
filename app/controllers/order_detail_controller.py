@@ -32,8 +32,8 @@ class OrderDetailController(BaseController):
         return cls.repository.find_by_price_each(price_each)
 
     @classmethod
-    def add_product_to_order_detail(cls, order_detail: OrderDetail, product: Product) -> None:
-        cls.repository.add_product_to_order_detail(order_detail, product)
+    def add_product_to_order_detail(cls, product: Product, order_detail: OrderDetail) -> None:
+        cls.repository.add_product_to_order_detail(product, order_detail)
 
     @classmethod
     def remove_product_from_order_detail(cls, order_detail: OrderDetail, product: Product) -> None:

@@ -60,7 +60,7 @@ class OrderRepository(BaseRepository):
 
     @classmethod
     def has_product(cls, order: Order, product: Product) -> bool:
-        if not order.products:
+        if not product:
             return False
 
         for order_products in order.products:

@@ -12,5 +12,5 @@ class OrderDetail(BaseModel["OrderDetail"]):
     quantity_ordered = Column(Integer, nullable=False)
     price_each = Column(DECIMAL(7, 2), nullable=False)
 
-    product = relationship("Product", back_populates="order_detail")
+    products = relationship("Product", back_populates="order_details")
     order = relationship("Order", back_populates="order_detail")

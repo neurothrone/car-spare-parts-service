@@ -1,5 +1,6 @@
 import random
 from app.settings import Settings, Database
+from data._mysql.models import OrderDetail
 
 Settings.TESTING = True
 
@@ -9,16 +10,13 @@ from generators.product_generator import ProductGenerator
 from app.controllers.product_controller import ProductController
 from app.controllers.order_controller import OrderController
 from generators.order_generator import OrderGenerator
-from generators.fake_data import FakeData
 
 
 class OrderDetailGenerator:
 
     @staticmethod
-    def generate(product, order, quantity_ordered: int, price_each: float) -> None:
-        OrderController.add_order_to_product(order, product)
-        # OrderController.create(quantity_ordered=quantity_ordered,
-        #                              price_each=price_each)
+    def generate(product, order_detail) -> None:
+        OrderDetailController.add_product_to_order_detail(product, order_detail)
 
     @classmethod
     def populate_database(cls, amount: int) -> None:
@@ -37,19 +35,18 @@ class OrderDetailGenerator:
             if Settings.DATABASE == Database.MONGO:
                 pass
             else:
-                OrderDetailGenerator.generate(product=random.choice(products),
-                                              order=random.choice(orders),
-                                              quantity_ordered=quantity_ordered,
-                                              price_each=each_price)
+                order_detail = OrderDetail()
+                order_detail.order_id = random.choice(orders).order_id
+                product = random.choice(products)
+                order_detail.product_id = product.product_id
+                order_detail.quantity_ordered = quantity_ordered
+                order_detail.price_each = each_price
 
-                # cls.generate(quantity_ordered=quantity_ordered,
-                #              price_each=each_price)
-
-        print(f"----- {amount} Manufacturers and products generated -----")
+                OrderDetailGenerator.generate(order_detail=order_detail, product=product)
 
 
 def main():
-    OrderDetailGenerator.populate_database(amount=5)
+    OrderDetailGenerator.populate_database(amount=2)
 
 
 if __name__ == "__main__":
