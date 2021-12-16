@@ -27,9 +27,8 @@ class OrderGenerator:
     @classmethod
     def populate_database(cls, amount: int) -> None:
         CustomerGenerator.populate_database(amount)
-
-        ordered_dates = FakeData.generate_datetimes(amount)
         customers = CustomerController.find_all()
+        ordered_dates = FakeData.generate_datetimes(amount)
 
         for ordered_date, customer in zip(
                 ordered_dates,

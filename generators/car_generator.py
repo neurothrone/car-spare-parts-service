@@ -30,7 +30,7 @@ class CarGenerator:
         for reg_number, car_color, car_detail in zip(reg_numbers, car_colors, car_details):
             cls.generate(reg_number, car_color, car_detail.car_detail_id)
 
-        print(f"----- {amount} Colors generated -----")
+        print(f"----- {amount} Cars generated -----")
 
 
 def main():

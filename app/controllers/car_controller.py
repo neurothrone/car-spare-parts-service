@@ -36,9 +36,9 @@ class CarController(BaseController):
         cls.repository.remove_car_detail_from_car(car, car_detail)
 
     @classmethod
-    def add_customer_to_car(cls, car: Car, customer: Customer) -> None:
-        cls.repository.add_car_detail_to_car(car, customer)
+    def add_car_to_customer(cls, car: Car, customer: Customer) -> None:
+        cls.repository.add_car_to_customer(car, customer)
 
     @classmethod
-    def remove_customer_from_car(cls, car: Car, customer: Customer) -> None:
-        cls.repository.remove_car_detail_from_car(car, customer)
+    def remove_car_from_customer(cls, car: Car, customer: Customer) -> None:
+        cls.repository.remove_car_from_customer(car, customer)

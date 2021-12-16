@@ -24,6 +24,7 @@ class CarDetailControllerTestCase(unittest.TestCase):
     def tearDownClass(cls) -> None:
         TestPrinter.print_passed_tests()
 
+    # test 1
     def test_find_by_reg_no_not_found(self):
         if Settings.DATABASE == Database.MONGO:
             car = CarController.find_by_reg_no("61acd805a1dca9c019999999")
@@ -32,6 +33,7 @@ class CarDetailControllerTestCase(unittest.TestCase):
         self.assertIsNone(car)
         TestPrinter.add(self.test_find_by_reg_no_not_found.__name__)
 
+    # test 2
     def test_find_by_color_not_found(self):
         car = CarController.find_by_color("One Color to Rule them all")
         self.assertIsNone(car)

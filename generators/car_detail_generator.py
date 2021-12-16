@@ -28,7 +28,7 @@ class CarDetailGenerator:
         for car in cars:
             cls.generate(brand=car.brand, model=car.model, year=car.year)
 
-        print(f"----- {amount} Car models generated -----")
+        print(f"----- {amount} Car details generated -----")
 
 
 def main():
