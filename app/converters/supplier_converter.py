@@ -18,6 +18,15 @@ class SupplierConverter:
 
             del as_dict["_sa_instance_state"]
 
+            products = []
+            for product in supplier.products:
+                products.append({
+                    "cost": float(product.cost),
+                    "price": float(product.price),
+                    "name": product.name,
+                    "product_id": product.product_id
+                })
+
             stores = []
             for store in supplier.stores:
                 stores.append({

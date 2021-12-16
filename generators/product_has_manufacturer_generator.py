@@ -3,6 +3,7 @@ import random
 from app.settings import Settings, Database
 Settings.TESTING = True
 
+from generators.contact_person_generator import ContactPersonGenerator
 from app.controllers.manufacturer_controller import ManufacturerController
 from generators.product_generator import ProductGenerator
 from generators.manufacturer_generator import ManufacturerGenerator
@@ -17,6 +18,7 @@ class ManufacturerHasProductGenerator:
 
     @classmethod
     def populate_database(cls, amount: int) -> None:
+        ContactPersonGenerator.populate_database(amount)
         ManufacturerGenerator.populate_database(amount)
         ProductGenerator.populate_database(amount)
 

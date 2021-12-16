@@ -43,7 +43,7 @@ class ContactPersonGenerator:
 
 
 def main():
-    ContactPersonGenerator.populate_database(amount=10)
+    ContactPersonGenerator.populate_database(amount=30)
 
 
 if __name__ == "__main__":
