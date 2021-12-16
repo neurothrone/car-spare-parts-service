@@ -16,16 +16,16 @@ product_description_list = [
 
 
 class CarData:
-    def __init__(self, make: str, model: str, year: int) -> None:
-        self.make = make
+    def __init__(self, brand: str, model: str, year: int) -> None:
+        self.brand = brand
         self.model = model
         self.year = year
 
     def __repr__(self) -> str:
-        return f"CarData(make={self.make}, model={self.model}, year={self.year}"
+        return f"CarData(make={self.brand}, model={self.model}, year={self.year}"
 
     def __str__(self) -> str:
-        return f"{self.year} {self.make} {self.model}"
+        return f"{self.year} {self.brand} {self.model}"
 
 
 class Location:
@@ -171,6 +171,8 @@ class FakeData:
         # .vehicle_object() generates a dict with capitalized keys
         # convert keys to lowercase before using them
         data = {key.lower(): value for (key, value) in cls._faker.vehicle_object().items() if key != "Category"}
+        data["brand"] = data["make"]
+        del data["make"]
         return CarData(**data)
 
     @classmethod

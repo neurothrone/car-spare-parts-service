@@ -11,7 +11,7 @@ class CarController(BaseController):
     required_attributes = {"reg_no", "color", "car_detail_id", "customer_id"}
 
     @classmethod
-    def create_car(cls, reg_no: str, color: str,
+    def create_car(cls, color: str, reg_no: str = None,
                    car_detail_id: Optional[int] = None, customer_id: Optional[int] = None) -> None:
         CarRepository.create(reg_no=reg_no,
                              color=color,
