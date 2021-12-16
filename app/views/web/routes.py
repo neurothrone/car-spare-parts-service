@@ -1,5 +1,7 @@
 import flask
 
+from app.settings import Database, Settings
+
 from app.controllers.customer_controller import CustomerController
 from app.controllers.employee_controller import EmployeeController
 from app.controllers.product_controller import ProductController
@@ -28,7 +30,7 @@ def internal_server_error_handler(error):
 
 @bp.route("/")
 def index():
-    return flask.render_template("index.html")
+    return flask.render_template("index.html", database=Settings.DATABASE)
 
 
 @bp.route("/products")
@@ -114,4 +116,14 @@ def purge_mongo():
     except Exception as error:
         print(error)
         flask.flash("Something went wrong when purging Mongo database", "error")
+    return flask.redirect(flask.url_for("main.index"))
+
+
+@bp.route("/db/switch", methods=["POST"])
+def switch_db():
+    if database := flask.request.form.get("database-option", None):
+        Settings.DATABASE = Database.MONGO if database == Database.MONGO else Database.MYSQL
+        flask.flash(f"Database successfully switched to {Settings.DATABASE.title()}", "success")
+    else:
+        flask.flash("Something went wrong when switching database", "error")
     return flask.redirect(flask.url_for("main.index"))

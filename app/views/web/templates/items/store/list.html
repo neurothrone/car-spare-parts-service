@@ -14,7 +14,7 @@
         <tbody>
         {% for store in stores %}
             <tr>
-                <td>{{ store.store_id }}</td>
+                <td>{{ store.id }}</td>
                 <td>{{ "Physical" if store.store_type == "p" else "Online" }}</td>
                 <td>{{ store.phone }}</td>
                 <td>{{ store.email }}</td>
