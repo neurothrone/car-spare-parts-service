@@ -10,7 +10,6 @@ from shared.validators import validate_length
 import random
 import datetime
 from faker import Faker
-from typing import Optional
 
 
 class OrderGenerator:
@@ -18,7 +17,7 @@ class OrderGenerator:
 
     @classmethod
     def generate(cls, ordered_date: datetime, shipped_date: datetime,
-                 delivery_date: datetime, status: str, customer_id: Optional[int | str]) -> None:
+                 delivery_date: datetime, status: str, customer_id: int) -> None:
         validate_length(provided=status, limit=OrderGenerator.STATUS_LEN)
 
         OrderController.create(ordered_date=ordered_date, shipped_date=shipped_date,
@@ -39,15 +38,16 @@ class OrderGenerator:
         end_date_delivery_dates = datetime.date(year=2021, month=3, day=30)
 
         for i in range(amount):
-            ordered_dates = fake.date_between(start_date=start_date_ordered_dates, end_date=end_date_ordered_dates)
-            shipped_dates = fake.date_between(start_date=start_date_shipped_dates, end_date=end_date_shipped_dates)
-            delivery_dates = fake.date_between(start_date=start_date_delivery_dates, end_date=end_date_delivery_dates)
-
             if Settings.DATABASE == Database.MONGO:
                 pass
 
             else:
                 customer_id = random.choice(CustomerController.find_all()).customer_id
+
+                ordered_dates = fake.date_between(start_date=start_date_ordered_dates, end_date=end_date_ordered_dates)
+                shipped_dates = fake.date_between(start_date=start_date_shipped_dates, end_date=end_date_shipped_dates)
+                delivery_dates = fake.date_between(start_date=start_date_delivery_dates,
+                                                   end_date=end_date_delivery_dates)
 
                 cls.generate(ordered_date=ordered_dates,
                              shipped_date=shipped_dates,

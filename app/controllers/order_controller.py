@@ -1,5 +1,5 @@
 from __future__ import annotations
-from datetime import datetime
+from datetime import date
 from typing import Optional
 
 from app.controllers import BaseController
@@ -14,8 +14,8 @@ class OrderController(BaseController):
                            "delivery_date", "status", "customer_id"}
 
     @classmethod
-    def create(cls, ordered_date: datetime, shipped_date: datetime,
-               delivery_date: datetime, status: str, customer_id: Optional[int | str]) -> None:
+    def create(cls, ordered_date: date, shipped_date: date,
+               delivery_date: date, status: str, customer_id: Optional[int | str]) -> None:
         cls.repository.create(ordered_date=ordered_date, shipped_date=shipped_date,
                               delivery_date=delivery_date, status=status, customer_id=customer_id)
 
@@ -24,15 +24,15 @@ class OrderController(BaseController):
         return cls.repository.find_by_id(_id)
 
     @classmethod
-    def find_by_ordered_date(cls, ordered_date: datetime.date) -> Optional[Order]:
+    def find_by_ordered_date(cls, ordered_date: date) -> Optional[Order]:
         return cls.repository.find_by_ordered_date(ordered_date)
 
     @classmethod
-    def find_by_shipped_date(cls, shipped_date: datetime.date) -> Optional[Order]:
+    def find_by_shipped_date(cls, shipped_date: date) -> Optional[Order]:
         return cls.repository.find_by_shipped_date(shipped_date)
 
     @classmethod
-    def find_by_delivery_date(cls, delivery_date: datetime.date) -> Optional[Order]:
+    def find_by_delivery_date(cls, delivery_date: date) -> Optional[Order]:
         return cls.repository.find_by_delivery_date(delivery_date)
 
     @classmethod

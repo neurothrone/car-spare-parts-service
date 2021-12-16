@@ -16,3 +16,11 @@ class CustomerConverter:
             as_dict = {key: value for key, value in as_dict.items() if value}
 
             MongoCustomerRepository.create(**as_dict)
+
+
+def main():
+    CustomerConverter.convert_from_mysql_to_mongo()
+
+
+if __name__ == '__main__':
+    main()

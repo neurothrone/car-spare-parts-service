@@ -154,7 +154,7 @@ class CustomerGenerator:
 
 
 def main():
-    CustomerGenerator.populate_database(amount=100)
+    CustomerGenerator.populate_database(amount=10)
 
 
 if __name__ == "__main__":
