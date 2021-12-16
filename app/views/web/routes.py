@@ -1,6 +1,9 @@
 import flask
 
 from app.settings import Database, Settings
+from generators.car_generator import CarGenerator
+
+Settings.TESTING = True
 
 from app.controllers.customer_controller import CustomerController
 from app.controllers.employee_controller import EmployeeController
@@ -31,6 +34,12 @@ def internal_server_error_handler(error):
 @bp.route("/")
 def index():
     return flask.render_template("index.html", database=Settings.DATABASE)
+
+
+@bp.route("/cars")
+def cars_page():
+    cars = CarGenerator.all_cars_to_dict()
+    return flask.render_template("items/car/content.html", cars=cars)
 
 
 @bp.route("/products")

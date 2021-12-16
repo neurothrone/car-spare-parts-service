@@ -1,0 +1,10 @@
+{% extends "layout/base.html" %}
+{% set active_page = "cars_page" %}
+
+{% block content %}
+    <h1>Cars</h1>
+    <hr>
+    <div>
+        {% include "items/car/list.html" %}
+    </div>
+{% endblock %}

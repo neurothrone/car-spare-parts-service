@@ -17,6 +17,10 @@
                         </div>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'cars_page' }}"
+                           href="{{ url_for('main.cars_page') }}">Cars</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link{{ ' active' if active_page == 'customers_page' }}"
                            href="{{ url_for('main.customers_page') }}">Customers</a>
                     </li>
