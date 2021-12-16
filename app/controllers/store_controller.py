@@ -5,6 +5,8 @@ from app.controllers import BaseController
 from app.data.models.store import Store
 from app.data.models.supplier import Supplier
 from app.data.repositories.store_repository import StoreRepository
+from shared.exc.store import (InvalidStoreTypeError, InvalidRequiredArgsError, OnlineStoreExistsError,
+                              OnlineStoreInvalidArgsError, PhysicalStoreInvalidArgsError)
 from shared.models.types import StoreType
 
 
@@ -18,13 +20,24 @@ class StoreController(BaseController):
     def create(cls, store_type: str, phone: str, email: str,
                address: str = None, zip_code: str = None, city: str = None) -> None:
         if store_type not in [StoreType.PHYSICAL, StoreType.ONLINE]:
-            raise ValueError("Store type can only be 'p' or 'o'.")
+            raise InvalidStoreTypeError("Store type can only be 'p' or 'o'.")
 
-        if store_type == StoreType.PHYSICAL and None in [address, zip_code, city]:
-            raise ValueError("A physical store must have an address, zip code or city.")
+        for value in [store_type, phone, email]:
+            if not value:
+                raise InvalidRequiredArgsError("Store type, phone and email can not be None")
 
-        if store_type == StoreType.ONLINE and None not in [address, zip_code, city]:
-            raise ValueError("An online store must not have an address, zip code or city.")
+        if store_type == StoreType.ONLINE:
+            for value in [address, zip_code, city]:
+                if value:
+                    raise OnlineStoreInvalidArgsError("An online store must not have an address, zip code or city")
+
+            if cls.repository.find_by_store_type(store_type=StoreType.ONLINE):
+                raise OnlineStoreExistsError("An online store exists already")
+
+        if store_type == StoreType.PHYSICAL:
+            for value in [address, zip_code, city]:
+                if not value:
+                    raise PhysicalStoreInvalidArgsError("A physical store must have an address, zip code or city")
 
         cls.repository.create(store_type=store_type, phone=phone,
                               email=email, address=address,

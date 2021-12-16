@@ -1,9 +1,10 @@
 from typing import Optional
-from app.data.models.car_detail import CarDetail
+
 from app.controllers import BaseController
 from app.data.models.car import Car
-from app.data.repositories.car_repository import CarRepository
+from app.data.models.car_detail import CarDetail
 from app.data.models.customer import Customer
+from app.data.repositories.car_repository import CarRepository
 
 
 class CarController(BaseController):
@@ -11,7 +12,7 @@ class CarController(BaseController):
     required_attributes = {"reg_no", "color", "car_detail_id", "customer_id"}
 
     @classmethod
-    def create_car(cls, reg_no: str, color: str,
+    def create_car(cls, color: str, reg_no: str = None,
                    car_detail_id: Optional[int] = None, customer_id: Optional[int] = None) -> None:
         CarRepository.create(reg_no=reg_no,
                              color=color,
@@ -35,9 +36,9 @@ class CarController(BaseController):
         cls.repository.remove_car_detail_from_car(car, car_detail)
 
     @classmethod
-    def add_customer_to_car(cls, car: Car, customer: Customer) -> None:
-        cls.repository.add_car_detail_to_car(car, customer)
+    def add_car_to_customer(cls, car: Car, customer: Customer) -> None:
+        cls.repository.add_car_to_customer(car, customer)
 
     @classmethod
-    def remove_customer_from_car(cls, car: Car, customer: Customer) -> None:
-        cls.repository.remove_car_detail_from_car(car, customer)
+    def remove_car_from_customer(cls, car: Car, customer: Customer) -> None:
+        cls.repository.remove_car_from_customer(car, customer)

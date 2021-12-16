@@ -37,29 +37,29 @@ class CarRepository(BaseRepository):
         session.commit()
 
     @classmethod
-    def add_customer_to_car(cls, car: Car, customer: Customer) -> None:
-        if cls.has_customer(car, customer):
+    def add_car_to_customer(cls, car: Car, customer: Customer) -> None:
+        if cls.has_car(car, customer):
             return
 
-        car.customers.append(customer)
+        customer.cars.append(car)
         session.commit()
 
     @classmethod
-    def remove_customer_from_car(cls, car: Car,
+    def remove_car_from_customer(cls, car: Car,
                                  customer: Customer) -> None:
-        if not cls.has_customer(car, customer):
+        if not cls.has_car(car, customer):
             return
 
-        car.customers.remove(customer)
+        customer.cars.remove(car)
         session.commit()
 
     @classmethod
-    def has_customer(cls, car: Car, customer: Customer) -> bool:
-        if not car.customers:
+    def has_car(cls, car: Car, customer: Customer) -> bool:
+        if not customer.cars:
             return False
 
-        for car_customer in car.customers:
-            if car_customer.customer_id == customer.customer_id:
+        for customer_car in customer.cars:
+            if customer_car.customer_id == car.customer_id:
                 return True
         return False
 

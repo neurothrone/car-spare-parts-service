@@ -1,7 +1,8 @@
 import unittest
 
-from app.settings import Settings
+from app.settings import Database, Settings
 
+Settings.DATABASE = Database.MYSQL
 Settings.TESTING = True
 
 from app.controllers.product_controller import ProductController

@@ -1,8 +1,9 @@
 from __future__ import annotations
 from typing import Optional
-from app.data.models.product import Product
+
 from app.controllers import BaseController
 from app.data.models.car_detail import CarDetail
+from app.data.models.product import Product
 from app.data.repositories.car_detail_repository import CarDetailRepository
 
 
@@ -11,7 +12,7 @@ class CarDetailController(BaseController):
     required_attributes = {"brand", "model", "year"}
 
     @classmethod
-    def create(cls, brand: str, model: str, year: str) -> None:
+    def create(cls, brand: str, model: str, year: int) -> None:
         CarDetailRepository.create(brand=brand, model=model, year=year)
 
     @classmethod

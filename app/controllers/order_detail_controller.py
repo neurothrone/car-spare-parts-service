@@ -1,8 +1,9 @@
 from __future__ import annotations
 from typing import Optional
-from app.data.models.product import Product
+
 from app.controllers import BaseController
 from app.data.models.order_detail import OrderDetail
+from app.data.models.product import Product
 from app.data.repositories.order_detail_repository import OrderDetailRepository
 
 
@@ -12,11 +13,10 @@ class OrderDetailController(BaseController):
                            "quantity_ordered", "price_each"}
 
     @classmethod
-    def create(cls, quantity_ordered: str, price_each: str,
-               order_id: Optional[int] = None, product_id: Optional[int] = None,) -> None:
-        OrderDetailRepository.create(quantity_ordered=quantity_ordered,
-                                     price_each=price_each,
-                                     order_id=order_id, product_id=product_id)
+    def create(cls, order_id: int, product_id: int,
+               quantity_ordered: str, price_each: str) -> None:
+        OrderDetailRepository.create(order_id=order_id, product_id=product_id,
+                                     quantity_ordered=quantity_ordered, price_each=price_each)
 
     @classmethod
     def find_by_id(cls, _id: int | str) -> Optional[OrderDetail]:

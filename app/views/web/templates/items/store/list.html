@@ -1,0 +1,30 @@
+{% if stores %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Store type</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">Zip code</th>
+            <th scope="col">City</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for store in stores %}
+            <tr>
+                <td>{{ store.id }}</td>
+                <td>{{ "Physical" if store.store_type == "p" else "Online" }}</td>
+                <td>{{ store.phone }}</td>
+                <td>{{ store.email }}</td>
+                <td>{{ store.address }}</td>
+                <td>{{ store.zip_code }}</td>
+                <td>{{ store.city }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No stores in database.</p>
+{% endif %}

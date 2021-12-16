@@ -1,4 +1,6 @@
-from typing import Generic, TypeVar
+from __future__ import annotations
+from abc import abstractmethod
+from typing import Generic, TypeVar, Optional
 
 from app.data._mysql.db import Base
 
@@ -18,6 +20,10 @@ class BaseModel(Generic[TBaseModel], Base):
 
     def to_dict(self) -> dict:
         return {k: v for k, v in self.__dict__.items() if k != "_sa_instance_state"}
+
+    @abstractmethod
+    def id(self) -> Optional[int | str]:
+        pass
 
 
 from app.data._mysql.models.car import Car

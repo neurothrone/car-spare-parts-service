@@ -10,17 +10,6 @@ from app.controllers.storage_controller import StorageController
 
 
 class StorageGenerator:
-    # @classmethod
-    # def generate(cls,
-    #              stock_number: int = 0,
-    #              critical_threshold: int = 0,
-    #              amount_automatic_order: int = 0) -> None:
-    #     pass
-
-    # @classmethod
-    # def populate_database(cls, amount: int) -> None:
-    #     pass
-
     @classmethod
     def add_products_to_stores(cls, min_per_store: int, max_per_store: int) -> None:
         stores = StoreController.find_all()
@@ -36,7 +25,12 @@ class StorageGenerator:
             products_to_add = randint(min_per_store, max_per_store)
 
             for index in range(products_to_add):
-                StorageController.add_product_to_store(store, products[index])
+                StorageController.add_product_to_store(
+                    store=store,
+                    product=products[index],
+                    stock_number=randint(15, 45),
+                    critical_threshold=randint(5, 12),
+                    amount_automatic_order=randint(10, 25))
                 products_added += 1
 
         print(f"----- {products_added} total products added to all stores -----")
