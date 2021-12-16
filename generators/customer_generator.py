@@ -1,6 +1,10 @@
 from random import randint
 from typing import Optional
 
+from app.settings import Settings
+
+Settings.TESTING = True
+
 from app.controllers.customer_controller import CustomerController
 from generators.fake_data import FakeData
 from shared.models.types import CustomerType
