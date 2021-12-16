@@ -35,7 +35,7 @@ class SupplierHasProductGenerator:
 
 
 def main():
-    SupplierHasProductGenerator.populate_database(amount=10)
+    SupplierHasProductGenerator.populate_database(amount=5)
 
 
 if __name__ == "__main__":

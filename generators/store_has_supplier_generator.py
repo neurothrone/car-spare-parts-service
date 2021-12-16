@@ -33,7 +33,7 @@ class StoreHasSupplierGenerator:
 
 
 def main():
-    StoreHasSupplierGenerator.populate_database(amount=10)
+    StoreHasSupplierGenerator.populate_database(amount=5)
 
 
 if __name__ == "__main__":

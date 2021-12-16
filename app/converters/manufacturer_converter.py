@@ -31,8 +31,6 @@ class ManufacturerConverter:
 
             MongoManufacturerRepository.create(**as_dict)
 
-        print('Manufacturer is Converted')
-
 
 def main():
     ManufacturerConverter.convert_from_mysql_to_mongo()

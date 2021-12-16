@@ -16,8 +16,6 @@ class ContactPersonConverter:
 
             MongoContactPersonRepository.create(**as_dict)
 
-        print('Contact person is Converted')
-
 
 def main():
     ContactPersonConverter.convert_from_mysql_to_mongo()

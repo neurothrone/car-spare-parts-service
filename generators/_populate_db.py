@@ -1,4 +1,6 @@
 from app.settings import Settings
+from generators.store_generator import StoreGenerator
+
 Settings.TESTING = True
 from generators.contact_person_generator import ContactPersonGenerator
 from generators.manufacturer_generator import ManufacturerGenerator
@@ -11,6 +13,7 @@ from generators.store_has_supplier_generator import StoreHasSupplierGenerator
 def main():
     ContactPersonGenerator.populate_database(amount=10)
     SupplierGenerator.populate_database(amount=10)
+    StoreGenerator.populate_database(amount=20)
     ManufacturerGenerator.populate_database(amount=10)
     ManufacturerHasProductGenerator.populate_database(amount=10)
     SupplierHasProductGenerator.populate_database(amount=10)

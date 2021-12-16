@@ -1,4 +1,6 @@
 from app.settings import Settings
+from converters.storage_converter import StorageConverter
+
 Settings.TESTING = True
 from converters.contact_person_converter import ContactPersonConverter
 from converters.product_converter import ProductConverter
@@ -11,6 +13,7 @@ def main():
     ContactPersonConverter.convert_from_mysql_to_mongo()
     ProductConverter.convert_from_mysql_to_mongo()
     StoreConverter.convert_from_mysql_to_mongo()
+    StorageConverter.convert_from_mysql_to_mongo()
     SupplierConverter.convert_from_mysql_to_mongo()
     ManufacturerConverter.convert_from_mysql_to_mongo()
 

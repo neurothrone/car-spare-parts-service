@@ -60,7 +60,7 @@ class SupplierGenerator:
 
 
 def main():
-    SupplierGenerator.populate_database(amount=10)
+    SupplierGenerator.populate_database(amount=5)
 
 
 if __name__ == "__main__":

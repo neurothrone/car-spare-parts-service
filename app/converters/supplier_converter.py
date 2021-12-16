@@ -36,11 +36,10 @@ class SupplierConverter:
                     "store_type": store.store_type
                 })
 
+            as_dict['products'] = products
             as_dict['stores'] = stores
 
             MongoSupplierRepository.create(**as_dict)
-
-        print('Supplier is Converted')
 
 
 def main():

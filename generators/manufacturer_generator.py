@@ -59,7 +59,7 @@ class ManufacturerGenerator:
 
 
 def main():
-    ManufacturerGenerator.populate_database(amount=10)
+    ManufacturerGenerator.populate_database(amount=5)
 
 
 if __name__ == "__main__":

@@ -38,7 +38,7 @@ class ProductGenerator:
 
 
 def main():
-    ProductGenerator.populate_database(amount=500)
+    ProductGenerator.populate_database(amount=50)
 
 
 if __name__ == "__main__":
