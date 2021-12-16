@@ -5,6 +5,7 @@ from app.settings import Settings
 
 Settings.TESTING = True
 
+from app.controllers.car_controller import CarController
 from app.controllers.customer_controller import CustomerController
 from generators.fake_data import FakeData
 from shared.models.types import CustomerType
@@ -145,6 +146,11 @@ class CustomerGenerator:
         corporates_created = amount - len(corporate_customers)
         privates_created = amount - len(private_customers)
         print(f"----- {corporates_created} Corporate and {privates_created} Private Customers generated -----")
+
+    @staticmethod
+    def add_cars_to_customers():
+        for car, customer in zip(CarController.find_all(), CustomerController.find_all()):
+            CarController.add_car_to_customer(car, customer)
 
 
 def main():

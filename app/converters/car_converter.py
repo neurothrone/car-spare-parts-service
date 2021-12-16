@@ -40,19 +40,15 @@ def delete_all():
 
 def main():
     # delete_all()
+    # quit()
 
     # MySQL Setup
     CarGenerator.generate_cars(amount=10)
     CustomerGenerator.populate_database(amount=10)
-
-    cars = CarController.find_all()
-    customers = CustomerController.find_all()
-
-    for car, customer in zip(cars, customers):
-        CarController.add_car_to_customer(car, customer)
+    CustomerGenerator.add_cars_to_customers()
 
     # Mongo Conversion
-    # CustomerConverter.convert_from_mysql_to_mongo()
+    CustomerConverter.convert_from_mysql_to_mongo()
     CarConverter.convert_from_mysql_to_mongo()
 
 
