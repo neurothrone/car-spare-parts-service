@@ -34,3 +34,7 @@ class Product(BaseModel):
         secondary=products_has_suppliers,
         back_populates="products"
     )
+
+    @property
+    def id(self) -> int:
+        return self.product_id

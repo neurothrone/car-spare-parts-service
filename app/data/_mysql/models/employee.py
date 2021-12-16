@@ -18,3 +18,7 @@ class Employee(BaseModel):
     store = relationship("Store", back_populates="employees")
 
     customers = relationship("Customer", back_populates="employee")
+
+    @property
+    def id(self) -> int:
+        return self.employee_id

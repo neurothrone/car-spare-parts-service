@@ -22,3 +22,7 @@ class Customer(BaseModel):
     employee_id = Column(Integer, ForeignKey("employees.employee_id"))
     employee = relationship("Employee", back_populates="customers")
     orders = relationship("Order", back_populates="customer")
+
+    @property
+    def id(self) -> int:
+        return self.customer_id

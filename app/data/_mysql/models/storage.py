@@ -25,3 +25,7 @@ class Storage(BaseModel):
 
     def __repr__(self) -> str:
         return f"Storage: {self.stock_number}, {self.critical_threshold}, {self.amount_automatic_order}"
+
+    @property
+    def id(self) -> int:
+        raise NotImplementedError

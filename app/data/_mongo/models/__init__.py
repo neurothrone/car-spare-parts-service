@@ -41,6 +41,10 @@ class BaseDocument(ABC, Generic[TBaseDocument], dict):
     def delete_all(cls) -> None:
         cls.collection.delete_many({})
 
+    @property
+    def id(self) -> str:
+        return self._id
+
 
 class ResultList(list[Generic[TBaseDocument]]):
     def first_or_none(self) -> Optional[Generic[TBaseDocument]]:
