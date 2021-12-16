@@ -1,5 +1,4 @@
 from app.settings import Settings
-from data._mongo.repositories.store_repository import StoreRepository
 
 Settings.TESTING = True
 

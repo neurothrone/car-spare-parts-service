@@ -26,8 +26,9 @@ class CarConverter:
             as_dict["brand"] = car_detail.brand
             as_dict["year"] = car_detail.year
 
-            del as_dict["car_detail_id"]
             del as_dict["_sa_instance_state"]
+
+            del as_dict["car_detail_id"]
 
             MongoCarRepository.create(**as_dict)
 
