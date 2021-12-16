@@ -1,11 +1,13 @@
+import random
+
 from app.settings import Settings, Database
+
 Settings.TESTING = True
 
-import random
+from app.controllers.contact_person_controller import ContactPersonController
 from app.controllers.supplier_controller import SupplierController
 from generators.fake_data import FakeData
 from shared.validators import validate_length
-from app.controllers.contact_person_controller import ContactPersonController
 
 
 class SupplierGenerator:
@@ -57,6 +59,18 @@ class SupplierGenerator:
                 print(shp.supplier)
 
         print(f"----- {total_products} total products in one supplier -----")
+
+    @classmethod
+    def all_suppliers_to_dict(cls) -> list[dict]:
+        suppliers = []
+        for supplier in SupplierController.find_all():
+            data = supplier.__dict__
+            if supplier.contact_person_id:
+                contact_person = ContactPersonController.find_by_id(supplier.contact_person_id)
+                data |= contact_person.__dict__
+            del data["_sa_instance_state"]
+            suppliers.append(data)
+        return suppliers
 
 
 def main():

@@ -1,0 +1,40 @@
+{% if items %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Company Name</th>
+            <th scope="col">Head Office Phone</th>
+            <th scope="col">Head Office Address</th>
+            <th scope="col">Contact Person ID</th>
+            <th scope="col">Contact First Name</th>
+            <th scope="col">Contact Last Name</th>
+            <th scope="col">Contact Phone</th>
+            <th scope="col">Contact Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.company_name }}</td>
+                <td>{{ item.head_office_phone }}</td>
+                <td>{{ item.head_office_email }}</td>
+                {% if item.contact_person_id %}
+                    <td>{{ item.contact_person_id }}</td>
+                    <td>{{ item.first_name }}</td>
+                    <td>{{ item.last_name }}</td>
+                    <td>{{ item.phone }}</td>
+                    <td>{{ item.email }}</td>
+                {% else %}
+                    {% for _ in range(5) %}
+                        <td>None</td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No {{ plural_name }} in database.</p>
+{% endif %}

@@ -29,12 +29,20 @@
                            href="{{ url_for('main.employees_page') }}">Employees</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'manufacturers_page' }}"
+                           href="{{ url_for('main.manufacturers_page') }}">Manufacturers</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link{{ ' active' if active_page == 'products_page' }}"
                            href="{{ url_for('main.products_page') }}">Products</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link{{ ' active' if active_page == 'stores_page' }}"
                            href="{{ url_for('main.stores_page') }}">Stores</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'suppliers_page' }}"
+                           href="{{ url_for('main.suppliers_page') }}">Suppliers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link{{ ' active' if active_page == 'storages_page' }}"
