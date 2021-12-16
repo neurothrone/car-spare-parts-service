@@ -6,6 +6,8 @@ from app.controllers.store_controller import StoreController
 from app.converters.product_converter import ProductConverter
 from app.converters.storage_converter import StorageConverter
 from app.converters.store_converter import StoreConverter
+from app.data._mongo.repositories.product_repository import ProductRepository as MongoProductRepository
+from app.data._mongo.repositories.store_repository import StoreRepository as MongoStoreRepository
 from app.data._mysql.repositories.product_repository import ProductRepository as MysqlProductRepository
 from app.data._mysql.repositories.storage_repository import StorageRepository as MysqlStorageRepository
 from app.data._mysql.repositories.store_repository import StoreRepository as MysqlStoreRepository
@@ -46,4 +48,5 @@ class WebController:
 
     @staticmethod
     def delete_data_from_mongo_db():
-        pass
+        MongoProductRepository.delete_all()
+        MongoStoreRepository.delete_all()
