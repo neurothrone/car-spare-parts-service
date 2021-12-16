@@ -3,6 +3,12 @@ from app.controllers.employee_controller import EmployeeController
 from app.controllers.product_controller import ProductController
 from app.controllers.storage_controller import StorageController
 from app.controllers.store_controller import StoreController
+from app.converters.product_converter import ProductConverter
+from app.converters.storage_converter import StorageConverter
+from app.converters.store_converter import StoreConverter
+from app.data._mysql.repositories.product_repository import ProductRepository as MysqlProductRepository
+from app.data._mysql.repositories.storage_repository import StorageRepository as MysqlStorageRepository
+from app.data._mysql.repositories.store_repository import StoreRepository as MysqlStoreRepository
 from generators.customer_generator import CustomerGenerator
 from generators.employee_generator import EmployeeGenerator
 from generators.product_generator import ProductGenerator
@@ -22,7 +28,13 @@ class WebController:
 
     @staticmethod
     def convert_mysql_to_mongo():
-        pass
+        ProductConverter.convert_from_mysql_to_mongo()
+        StoreConverter.convert_from_mysql_to_mongo()
+
+        for product, store in zip(MysqlProductRepository.find_all(), MysqlStoreRepository.find_all()):
+            MysqlStorageRepository.add_product_to_store(store, product)
+
+        StorageConverter.convert_from_mysql_to_mongo()
 
     @staticmethod
     def delete_data_from_mysql_db():
