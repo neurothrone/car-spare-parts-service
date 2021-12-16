@@ -66,6 +66,9 @@ class FakeData:
     MIN_AGE = 18
     MAX_AGE = 72
 
+    MIN_ORDER_DATE = datetime.date(year=2020, month=1, day=1)
+    MAX_ORDER_DATE = datetime.datetime.today()
+
     @classmethod
     def configure_locale(cls, locale: str) -> None:
         cls._faker = Faker(locale=locale)
@@ -160,7 +163,17 @@ class FakeData:
 
     @classmethod
     def generate_date(cls) -> datetime.date:
-        return cls._faker.date_of_birth(minimum_age=FakeData.MIN_AGE, maximum_age=FakeData.MAX_AGE)
+        return cls._faker.date_of_birth(minimum_age=cls.MIN_AGE,
+                                        maximum_age=cls.MAX_AGE)
+
+    @classmethod
+    def generate_datetime(cls) -> datetime:
+        return cls._faker.date_time_between_dates(datetime_start=cls.MIN_ORDER_DATE,
+                                                  datetime_end=cls.MAX_ORDER_DATE)
+
+    @classmethod
+    def generate_datetimes(cls, amount: int) -> list[datetime]:
+        return [cls.generate_datetime() for _ in range(amount)]
 
     @classmethod
     def generates_dates(cls, amount: int) -> list[datetime.date]:
