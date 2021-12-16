@@ -1,9 +1,10 @@
 from typing import Optional
-from app.data.models.car_detail import CarDetail
+
 from app.controllers import BaseController
 from app.data.models.car import Car
-from app.data.repositories.car_repository import CarRepository
+from app.data.models.car_detail import CarDetail
 from app.data.models.customer import Customer
+from app.data.repositories.car_repository import CarRepository
 
 
 class CarController(BaseController):
