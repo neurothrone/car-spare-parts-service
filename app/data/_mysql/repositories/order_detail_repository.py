@@ -21,7 +21,8 @@ class OrderDetailRepository(BaseRepository):
         return session.query(cls.model).filter_by(quantity_ordered=quantity_ordered).first
 
     @classmethod
-    def find_by_price_each(cls, price_each: str, many: bool = False) -> Optional[Union[OrderDetail, list[OrderDetail]]]:
+    def find_by_price_each(cls, price_each: float,
+                           many: bool = False) -> Optional[Union[OrderDetail, list[OrderDetail]]]:
         if many:
             return session.query(cls.model).filter_by(price_each=price_each)
         return session.query(cls.model).filter_by(price_each=price_each).first()

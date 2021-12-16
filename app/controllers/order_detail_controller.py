@@ -12,7 +12,7 @@ class OrderDetailController(BaseController):
                            "quantity_ordered", "price_each"}
 
     @classmethod
-    def create(cls, quantity_ordered: str, price_each: str,
+    def create(cls, quantity_ordered: str, price_each: float,
                order_id: Optional[int] = None, product_id: Optional[int] = None,) -> None:
         OrderDetailRepository.create(quantity_ordered=quantity_ordered,
                                      price_each=price_each,
