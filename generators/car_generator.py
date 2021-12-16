@@ -32,6 +32,17 @@ class CarGenerator:
 
         print(f"----- {amount} Cars generated -----")
 
+    @classmethod
+    def all_cars_to_dict(cls) -> list[dict]:
+        cars = []
+        mysql_cars = CarController.find_all()
+        for car in mysql_cars:
+            car_detail = CarDetailController.find_by_id(car.car_detail_id)
+            data = car.__dict__ | car_detail.__dict__
+            del data["_sa_instance_state"]
+            cars.append(data)
+        return cars
+
 
 def main():
     CarGenerator.generate_cars(amount=10)
