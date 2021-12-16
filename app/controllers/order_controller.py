@@ -15,7 +15,7 @@ class OrderController(BaseController):
 
     @classmethod
     def create(cls, ordered_date: datetime, shipped_date: datetime,
-               delivery_date: datetime.date, status: str, customer_id: int) -> None:
+               delivery_date: datetime, status: str, customer_id: Optional[int | str]) -> None:
         cls.repository.create(ordered_date=ordered_date, shipped_date=shipped_date,
                               delivery_date=delivery_date, status=status, customer_id=customer_id)
 
@@ -24,11 +24,11 @@ class OrderController(BaseController):
         return cls.repository.find_by_id(_id)
 
     @classmethod
-    def find_by_ordered_date(cls, ordered_date: datetime) -> Optional[Order]:
+    def find_by_ordered_date(cls, ordered_date: datetime.date) -> Optional[Order]:
         return cls.repository.find_by_ordered_date(ordered_date)
 
     @classmethod
-    def find_by_shipped_date(cls, shipped_date: datetime) -> Optional[Order]:
+    def find_by_shipped_date(cls, shipped_date: datetime.date) -> Optional[Order]:
         return cls.repository.find_by_shipped_date(shipped_date)
 
     @classmethod

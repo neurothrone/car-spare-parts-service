@@ -40,7 +40,7 @@ class OrderConverter:
 
 
 def main():
-    MongoOrderRepository.convert_from_mysql_to_mongo()
+    OrderConverter.convert_from_mysql_to_mongo()
 
 
 if __name__ == '__main__':
