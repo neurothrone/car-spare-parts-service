@@ -1,6 +1,5 @@
 from __future__ import annotations
 from typing import Optional
-from unicodedata import decimal
 
 from app.controllers import BaseController
 from app.data.models.order_detail import OrderDetail
