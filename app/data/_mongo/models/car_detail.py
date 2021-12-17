@@ -3,5 +3,5 @@ from app.data._mongo.db import db
 from app.data._mongo.models import BaseDocument
 
 
-class OrderDetail(BaseDocument["OrderDetail"]):
-    collection = db.orderdetails
+class CarDetail(BaseDocument["CarDetail"]):
+    collection = db.car_details
