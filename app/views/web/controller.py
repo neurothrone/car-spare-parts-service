@@ -4,6 +4,8 @@ from app.controllers.contact_person_controller import ContactPersonController
 from app.controllers.customer_controller import CustomerController
 from app.controllers.employee_controller import EmployeeController
 from app.controllers.manufacturer_controller import ManufacturerController
+from app.controllers.order_controller import OrderController
+from app.controllers.order_detail_controller import OrderDetailController
 from app.controllers.product_controller import ProductController
 from app.controllers.storage_controller import StorageController
 from app.controllers.store_controller import StoreController
@@ -25,6 +27,7 @@ from generators.contact_person_generator import ContactPersonGenerator
 from generators.customer_generator import CustomerGenerator
 from generators.employee_generator import EmployeeGenerator
 from generators.manufacturer_generator import ManufacturerGenerator
+from generators.order_detail_generator import OrderDetailGenerator
 from generators.product_generator import ProductGenerator
 from generators.storage_generator import StorageGenerator
 from generators.store_generator import StoreGenerator
@@ -46,10 +49,10 @@ class WebController:
         CarGenerator.generate_cars(amount=30)
         CustomerGenerator.add_cars_to_customers()
 
-        # TODO: order
-
         ProductGenerator.populate_database(amount=50)
         StorageGenerator.add_products_to_stores(min_per_store=1, max_per_store=5)
+
+        OrderDetailGenerator.populate_database(amount=50)
 
     @staticmethod
     def convert_mysql_to_mongo():
@@ -70,6 +73,8 @@ class WebController:
 
     @staticmethod
     def delete_data_from_mysql_db():
+        OrderDetailController.delete_all()
+        OrderController.delete_all()
         ManufacturerController.delete_all()
         SupplierController.delete_all()
         ContactPersonController.delete_all()

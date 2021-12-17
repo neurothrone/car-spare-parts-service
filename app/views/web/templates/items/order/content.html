@@ -1,0 +1,10 @@
+{% extends "layout/base.html" %}
+{% set active_page = "orders_page" %}
+
+{% block content %}
+    <h1>Orders</h1>
+    <hr>
+    <div>
+        {% include "items/order/list.html" %}
+    </div>
+{% endblock %}

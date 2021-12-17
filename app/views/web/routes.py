@@ -13,6 +13,7 @@ from app.views.web.controller import WebController
 from app.views.web.utils import StatusCode
 from generators.car_generator import CarGenerator
 from generators.manufacturer_generator import ManufacturerGenerator
+from generators.order_detail_generator import OrderDetailGenerator
 from generators.supplier_generator import SupplierGenerator
 
 bp = flask.Blueprint("main", __name__, template_folder="templates")
@@ -49,6 +50,12 @@ def manufacturers_page():
     manufacturers = ManufacturerGenerator.all_manufacturers_to_dict()
     return flask.render_template("items/manufacturer/content.html",
                                  items=manufacturers, plural_name="manufacturers")
+
+
+@bp.route("/orders")
+def orders_page():
+    orders = OrderDetailGenerator.all_order_details_to_dict()
+    return flask.render_template("items/order/content.html", orders=orders)
 
 
 @bp.route("/products")

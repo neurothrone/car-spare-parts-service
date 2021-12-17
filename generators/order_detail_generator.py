@@ -40,6 +40,16 @@ class OrderDetailGenerator:
 
         print(f"----- {amount} Order Details generated -----")
 
+    @classmethod
+    def all_order_details_to_dict(cls) -> list[dict]:
+        order_details = []
+        for order_detail in OrderDetailController.find_all():
+            order_detail_dict = order_detail.__dict__
+            order = OrderController.find_by_id(order_detail.order_id)
+            del order_detail_dict["_sa_instance_state"]
+            order_details.append(order_detail_dict | order.__dict__)
+        return order_details
+
 
 def main():
     OrderDetailGenerator.populate_database(amount=10)

@@ -33,6 +33,10 @@
                            href="{{ url_for('main.manufacturers_page') }}">Manufacturers</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link{{ ' active' if active_page == 'orders_page' }}"
+                           href="{{ url_for('main.orders_page') }}">Orders</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link{{ ' active' if active_page == 'products_page' }}"
                            href="{{ url_for('main.products_page') }}">Products</a>
                     </li>
