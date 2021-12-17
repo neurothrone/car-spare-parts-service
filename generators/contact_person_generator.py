@@ -1,3 +1,6 @@
+from app.settings import Settings
+Settings.TESTING = True
+
 from app.controllers.contact_person_controller import ContactPersonController
 from generators.fake_data import FakeData
 from shared.validators import validate_length
@@ -36,11 +39,11 @@ class ContactPersonGenerator:
                 email=emails[i]
             )
 
-        print("----- Contact persons generated -----")
+        print(f"----- {amount} Contact persons generated -----")
 
 
 def main():
-    ContactPersonGenerator.populate_database(amount=100)
+    ContactPersonGenerator.populate_database(amount=30)
 
 
 if __name__ == "__main__":

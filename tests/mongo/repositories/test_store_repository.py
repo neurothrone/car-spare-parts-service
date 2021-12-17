@@ -2,6 +2,7 @@ import unittest
 
 from app.settings import Database, Settings
 
+Settings.DATABASE = Database.MONGO
 Settings.TESTING = True
 
 from app.data._mongo.repositories.store_repository import StoreRepository
@@ -170,9 +171,6 @@ class StoreRepositoryTestCase(unittest.TestCase):
 
 
 def main():
-    if not Settings.DATABASE == Database.MONGO:
-        raise ValueError("Settings not set to Mongo database.")
-
     unittest.main()
 
 

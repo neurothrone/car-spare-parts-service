@@ -24,3 +24,7 @@ class Store(BaseModel["Store"]):
         secondary=stores_has_suppliers,
         back_populates="stores"
     )
+
+    @property
+    def id(self) -> int:
+        return self.store_id

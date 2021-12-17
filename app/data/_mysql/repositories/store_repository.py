@@ -50,7 +50,7 @@ class StoreRepository(BaseRepository):
 
     @classmethod
     def has_supplier(cls, store: Store, supplier: Supplier) -> bool:
-        if not store.suppliers:
+        if not store.suppliers:   # hasattr(store, "suppliers")
             return False
 
         for store_supplier in store.suppliers:

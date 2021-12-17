@@ -8,7 +8,6 @@ from app.controllers.manufacturer_controller import ManufacturerController
 from generators.contact_person_generator import ContactPersonGenerator
 from generators.manufacturer_generator import ManufacturerGenerator
 from shared.tests.test_printer import TestPrinter
-from tests.helpers.dbutil import *
 
 
 class ManufacturerTestCase(unittest.TestCase):
@@ -21,14 +20,12 @@ class ManufacturerTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        create_db()
-        ContactPersonGenerator.populate_database(amount=100)
+        ContactPersonGenerator.populate_database(amount=5)
         ManufacturerGenerator.populate_database(amount=1)
         TestPrinter.reset()
 
     @classmethod
     def tearDownClass(cls) -> None:
-        delete_db()
         TestPrinter.print_passed_tests()
 
     def test_find_by_id_found(self):

@@ -1,13 +1,15 @@
+import unittest
+
+from app.settings import Database, Settings
+
+Settings.TESTING = True
+
 from app.controllers.car_controller import CarController
 from generators.car_generator import CarGenerator
 from shared.tests.test_printer import TestPrinter
-import unittest
-from app.settings import Database, Settings
-Settings.TESTING = True
 
 
 class CarDetailControllerTestCase(unittest.TestCase):
-
     def setUp(self) -> None:
         CarController.delete_all()
 
@@ -22,21 +24,25 @@ class CarDetailControllerTestCase(unittest.TestCase):
     def tearDownClass(cls) -> None:
         TestPrinter.print_passed_tests()
 
+    # test 1
     def test_find_by_reg_no_not_found(self):
         if Settings.DATABASE == Database.MONGO:
-            store = CarController.find_by_reg_no("61acd805a1dca9c019999999")
+            car = CarController.find_by_reg_no("61acd805a1dca9c019999999")
         else:
-            store = CarController.find_by_reg_no("regno")
-        self.assertIsNone(store)
+            car = CarController.find_by_reg_no("reg_no")
+        self.assertIsNone(car)
         TestPrinter.add(self.test_find_by_reg_no_not_found.__name__)
 
+    # test 2
     def test_find_by_color_not_found(self):
-        brand = CarController.find_by_color("The gun")
-        self.assertIsNone(brand)
+        car = CarController.find_by_color("One Color to Rule them all")
+        self.assertIsNone(car)
         TestPrinter.add(self.test_find_by_color_not_found.__name__)
 
 
 def main():
+    unittest.main()
 
-    if __name__ == '__main__':
-        main()
+
+if __name__ == "__main__":
+    main()

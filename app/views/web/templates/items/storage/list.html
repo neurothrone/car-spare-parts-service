@@ -1,0 +1,26 @@
+{% if storages %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Store ID</th>
+            <th scope="col">Product ID</th>
+            <th scope="col">Stock number</th>
+            <th scope="col">Critical threshold</th>
+            <th scope="col">Amount automatic order</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for storage in storages %}
+            <tr>
+                <td>{{ storage.store_id }}</td>
+                <td>{{ storage.product_id }}</td>
+                <td>{{ storage.stock_number }}</td>
+                <td>{{ storage.critical_threshold }}</td>
+                <td>{{ storage.amount_automatic_order }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No storages in database.</p>
+{% endif %}

@@ -1,0 +1,33 @@
+<form action="{{ url_for('main.create_store') }}" method="post">
+    <label class="form-label" for="store_type">Store type</label>
+    <select class="form-select mb-3" id="store_type" name="store_type">
+        <option selected value="p">Physical</option>
+        <option value="o">Online</option>
+    </select>
+    <div class="mb-3">
+        <label class="form-label" for="phone">Phone</label>
+        <input class="form-control" id="phone" name="phone"
+               type="text" placeholder="+64 070 123 45 67">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-control" id="email" name="email"
+               type="email" placeholder="location@store.se">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="address">Address</label>
+        <input class="form-control" id="address" name="address"
+               type="text" placeholder="Street 12">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="zip_code">Zip code</label>
+        <input class="form-control" id="zip_code" name="zip_code"
+               type="text" placeholder="123 45">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="city">City</label>
+        <input class="form-control" id="city" name="city"
+               type="text" placeholder="Gothenburg">
+    </div>
+    <button class="btn btn-success" type="submit">Create Store</button>
+</form>

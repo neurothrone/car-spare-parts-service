@@ -1,0 +1,4 @@
+class StatusCode:
+    BAD_REQUEST_ERROR = 400
+    NOT_FOUND_ERROR = 404
+    INVALID_SERVER_ERROR = 500

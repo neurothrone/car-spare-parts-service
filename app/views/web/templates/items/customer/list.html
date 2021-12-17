@@ -1,0 +1,38 @@
+{% if customers %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Customer type</th>
+            <th scope="col">Customer name</th>
+            <th scope="col">Contact first name</th>
+            <th scope="col">Contact last name</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">Zip code</th>
+            <th scope="col">City</th>
+            <th scope="col">Employee ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for customer in customers %}
+            <tr>
+                <td>{{ customer.customer_id }}</td>
+                <td>{{ "Corporate" if customer.customer_type == "c" else "Private" }}</td>
+                <td>{{ customer.customer_name if customer.customer_name else "None" }}</td>
+                <td>{{ customer.contact_first_name }}</td>
+                <td>{{ customer.contact_last_name }}</td>
+                <td>{{ customer.phone }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.address }}</td>
+                <td>{{ customer.zip_code }}</td>
+                <td>{{ customer.city }}</td>
+                <td>{{ customer.employee_id if customer.employee_id else "None" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No customers in database.</p>
+{% endif %}

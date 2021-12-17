@@ -1,0 +1,30 @@
+{% if cars %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Reg no</th>
+            <th scope="col">Customer ID</th>
+            <th scope="col">Car Detail ID</th>
+            <th scope="col">Color</th>
+            <th scope="col">Model</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Year</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for car in cars %}
+            <tr>
+                <td>{{ car.reg_no }}</td>
+                <td>{{ car.customer_id }}</td>
+                <td>{{ car.car_detail_id }}</td>
+                <td>{{ car.color }}</td>
+                <td>{{ car.model }}</td>
+                <td>{{ car.brand }}</td>
+                <td>{{ car.year }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No cars in database.</p>
+{% endif %}

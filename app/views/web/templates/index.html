@@ -1,0 +1,47 @@
+{% extends "layout/base.html" %}
+{% set active_page = "index" %}
+
+{% block content %}
+    <h1>Home</h1>
+    <div class="mb-3">
+        <p>Switch database to:</p>
+        <form action="{{ url_for('main.switch_db') }}" method="post">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="database-option" id="mysql-radio" value="mysql"
+                       {% if database == "mysql" %}checked{% endif %}>
+                <label class="form-check-label" for="mysql-radio">
+                    MySQL
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="database-option" id="mongo-radio" value="mongo"
+                       {% if database == "mongo" %}checked{% endif %}>
+                <label class="form-check-label" for="mongo-radio">
+                    Mongo
+                </label>
+            </div>
+            <button class="btn btn-primary mt-3" type="submit">Switch</button>
+        </form>
+    </div>
+    <hr>
+    <div class="mb-3">
+        <form action="{{ url_for('main.populate') }}" method="post">
+            <button class="btn btn-success" type="submit">Populate MySQL database</button>
+        </form>
+    </div>
+    <div class="mb-3">
+        <form action="{{ url_for('main.convert') }}" method="post">
+            <button class="btn btn-success" type="submit">Convert MySQL data to Mongo data</button>
+        </form>
+    </div>
+    <div class="mb-3">
+        <form action="{{ url_for('main.purge_mysql') }}" method="post">
+            <button class="btn btn-danger" type="submit">Purge MySQL Database</button>
+        </form>
+    </div>
+    <div>
+        <form action="{{ url_for('main.purge_mongo') }}" method="post">
+            <button class="btn btn-danger" type="submit">Purge Mongo Database</button>
+        </form>
+    </div>
+{% endblock %}

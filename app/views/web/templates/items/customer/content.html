@@ -1,0 +1,13 @@
+{% extends "layout/base.html" %}
+{% set active_page = "customers_page" %}
+
+{% block content %}
+    <h1>Customers</h1>
+    <div>
+        {% include "items/customer/create.html" %}
+    </div>
+    <hr>
+    <div>
+        {% include "items/customer/list.html" %}
+    </div>
+{% endblock %}

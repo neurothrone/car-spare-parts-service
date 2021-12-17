@@ -1,3 +1,6 @@
+from app.settings import Settings
+Settings.TESTING = True
+
 from app.controllers.product_controller import ProductController
 from generators.fake_data import FakeData
 
@@ -35,7 +38,7 @@ class ProductGenerator:
 
 
 def main():
-    ProductGenerator.populate_database(amount=500)
+    ProductGenerator.populate_database(amount=50)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,4 @@
 from app.settings import Settings
-
 Settings.TESTING = True
 
 from app.controllers.store_controller import StoreController
@@ -56,7 +55,7 @@ class StoreGenerator:
 
 
 def main():
-    StoreGenerator.populate_database(amount=10)
+    StoreGenerator.populate_database(amount=20)
 
 
 if __name__ == "__main__":

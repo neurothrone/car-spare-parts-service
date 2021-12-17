@@ -1,4 +1,9 @@
 from __future__ import annotations
+
+from app.settings import Settings
+
+Settings.TESTING = True
+
 from app.controllers.car_detail_controller import CarDetailController
 from generators.fake_data import FakeData
 from shared.validators import validate_length
@@ -23,11 +28,10 @@ class CarDetailGenerator:
         for car in cars:
             cls.generate(brand=car.brand, model=car.model, year=car.year)
 
-        print(f"----- {amount} Car models generated -----")
+        print(f"----- {amount} Car details generated -----")
 
 
 def main():
-
     CarDetailGenerator.populate_database(10)
 
 
