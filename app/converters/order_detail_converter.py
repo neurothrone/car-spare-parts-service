@@ -35,11 +35,3 @@ class OrderDetailConverter:
             as_dict['products'] = products
 
             MongoOrderDetailRepository.create(**as_dict)
-
-
-def main():
-    OrderDetailConverter.convert_from_mysql_to_mongo()
-
-
-if __name__ == '__main__':
-    main()

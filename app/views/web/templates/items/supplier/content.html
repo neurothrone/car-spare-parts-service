@@ -1,0 +1,10 @@
+{% extends "layout/base.html" %}
+{% set active_page = "suppliers_page" %}
+
+{% block content %}
+    <h1>Suppliers</h1>
+    <hr>
+    <div>
+        {% include "items/supplier/list.html" %}
+    </div>
+{% endblock %}

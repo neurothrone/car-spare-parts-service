@@ -13,41 +13,20 @@ from generators.order_generator import OrderGenerator
 
 
 class OrderDetailGenerator:
-
-    @staticmethod
-    def generate(product, order_detail) -> None:
-        OrderDetailController.add_product_to_order_detail(product, order_detail)
+    @classmethod
+    def generate_order_details(cls, quantity_ordered: int, price_each: float,
+                               order_id: Optional[int | str], product_id: Optional[int | str]) -> None:
+        OrderDetailController.create(quantity_ordered=quantity_ordered, price_each=price_each,
+                                     order_id=order_id, product_id=product_id)
 
     @classmethod
     def populate_database(cls, amount: int) -> None:
-        CustomerGenerator.populate_database(amount)
-        OrderGenerator.populate_database(amount)
-        ProductGenerator.populate_database(amount)
-
-        quantity_ordered = random.randint(1, 10)
-        each_price = random.randint(5000, 80000)
-
+        quantity_orders = FakeData.generate_random_int(1, 9)
+        price_per_each = FakeData.generate_random_float(1, 100)
+        order_details = OrderDetailController.find_all()
         products = ProductController.find_all()
-        orders = OrderController.find_all()
+        for quantity_order, price_each, \
+            order_detail, product in zip(order_details, products, quantity_orders, price_per_each):
+            cls.generate_order_details(quantity_order, price_each, product.product_id)
 
-        for i in range(amount):
-
-            if Settings.DATABASE == Database.MONGO:
-                pass
-            else:
-                order_detail = OrderDetail()
-                order_detail.order_id = random.choice(orders).order_id
-                product = random.choice(products)
-                order_detail.product_id = product.product_id
-                order_detail.quantity_ordered = quantity_ordered
-                order_detail.price_each = each_price
-
-                OrderDetailGenerator.generate(order_detail=order_detail, product=product)
-
-
-def main():
-    OrderDetailGenerator.populate_database(amount=2)
-
-
-if __name__ == "__main__":
-    main()
+        print(f"----- {amount} Products generated -----")

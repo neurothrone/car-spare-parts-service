@@ -4,7 +4,8 @@ Settings.TESTING = True
 
 from app.data._mongo.repositories.manufacturer_repository import ManufacturerRepository as MongoManufacturerRepository
 from app.data._mysql.repositories.manufacturer_repository import ManufacturerRepository as MysqlManufacturerRepository
-from app.data._mongo.repositories.contact_person_repository import ContactPersonRepository as MongoContactPersonRepository
+from app.data._mongo.repositories.contact_person_repository import \
+    ContactPersonRepository as MongoContactPersonRepository
 
 
 class ManufacturerConverter:
@@ -13,7 +14,8 @@ class ManufacturerConverter:
         for manufacturer in MysqlManufacturerRepository.find_all():
             as_dict = manufacturer.__dict__
             as_dict = {key: value for key, value in as_dict.items() if value is not None}
-            as_dict['contact_person_id'] = MongoContactPersonRepository.find(contact_person_id=manufacturer.contact_person_id)._id
+            as_dict['contact_person_id'] = MongoContactPersonRepository.find(
+                contact_person_id=manufacturer.contact_person_id)._id
 
             del as_dict["_sa_instance_state"]
 

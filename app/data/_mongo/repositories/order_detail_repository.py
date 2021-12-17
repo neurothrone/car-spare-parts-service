@@ -4,6 +4,7 @@ from typing import Optional
 from app.data._mongo.models.order_detail import OrderDetail
 from app.data._mongo.models.product import Product
 from app.data._mongo.repositories import BaseRepository
+from app.data._mongo.models.order_detail import OrderDetail
 
 
 class OrderDetailRepository(BaseRepository):

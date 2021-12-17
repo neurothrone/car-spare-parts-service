@@ -1,6 +1,9 @@
-from app.settings import Settings, Database
-Settings.TESTING = True
 import random
+
+from app.settings import Settings, Database
+
+Settings.TESTING = True
+
 from app.controllers.contact_person_controller import ContactPersonController
 from app.controllers.manufacturer_controller import ManufacturerController
 from generators.fake_data import FakeData
@@ -56,6 +59,18 @@ class ManufacturerGenerator:
                 print(mhp.manufacturer)
 
         print(f"----- {total_products} total products in manufacturers -----")
+
+    @classmethod
+    def all_manufacturers_to_dict(cls) -> list[dict]:
+        manufacturers = []
+        for manufacturer in ManufacturerController.find_all():
+            data = manufacturer.__dict__
+            if manufacturer.contact_person_id:
+                contact_person = ContactPersonController.find_by_id(manufacturer.contact_person_id)
+                data |= contact_person.__dict__
+            del data["_sa_instance_state"]
+            manufacturers.append(data)
+        return manufacturers
 
 
 def main():

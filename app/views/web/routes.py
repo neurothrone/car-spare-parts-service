@@ -1,7 +1,6 @@
 import flask
 
 from app.settings import Database, Settings
-from generators.car_generator import CarGenerator
 
 Settings.TESTING = True
 
@@ -12,6 +11,9 @@ from app.controllers.storage_controller import StorageController
 from app.controllers.store_controller import StoreController
 from app.views.web.controller import WebController
 from app.views.web.utils import StatusCode
+from generators.car_generator import CarGenerator
+from generators.manufacturer_generator import ManufacturerGenerator
+from generators.supplier_generator import SupplierGenerator
 
 bp = flask.Blueprint("main", __name__, template_folder="templates")
 
@@ -42,6 +44,13 @@ def cars_page():
     return flask.render_template("items/car/content.html", cars=cars)
 
 
+@bp.route("/manufacturers")
+def manufacturers_page():
+    manufacturers = ManufacturerGenerator.all_manufacturers_to_dict()
+    return flask.render_template("items/manufacturer/content.html",
+                                 items=manufacturers, plural_name="manufacturers")
+
+
 @bp.route("/products")
 def products_page():
     products = ProductController.find_all()
@@ -52,6 +61,13 @@ def products_page():
 def stores_page():
     stores = StoreController.find_all()
     return flask.render_template("items/store/content.html", stores=stores)
+
+
+@bp.route("/suppliers")
+def suppliers_page():
+    suppliers = SupplierGenerator.all_suppliers_to_dict()
+    return flask.render_template("items/supplier/content.html",
+                                 items=suppliers, plural_name="suppliers")
 
 
 @bp.route("/stores/create", methods=["POST"])
