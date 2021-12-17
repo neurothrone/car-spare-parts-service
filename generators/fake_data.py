@@ -171,17 +171,19 @@ class FakeData:
                                         maximum_age=cls.MAX_AGE)
 
     @classmethod
-    def generate_datetime(cls) -> datetime:
-        return cls._faker.date_time_between_dates(datetime_start=cls.MIN_ORDER_DATE,
-                                                  datetime_end=cls.MAX_ORDER_DATE)
-
-    @classmethod
-    def generate_datetimes(cls, amount: int) -> list[datetime]:
-        return [cls.generate_datetime() for _ in range(amount)]
-
-    @classmethod
     def generates_dates(cls, amount: int) -> list[datetime.date]:
         return [cls.generate_date() for _ in range(amount)]
+
+    @classmethod
+    def generate_datetime(cls, start: datetime = None, end: datetime = None) -> datetime:
+        return cls._faker.date_time_between_dates(
+            datetime_start=cls.MIN_ORDER_DATE if not start else start,
+            datetime_end=cls.MAX_ORDER_DATE if not end else end)
+
+    @classmethod
+    def generate_datetimes(cls, amount: int,
+                           start: datetime = None, end: datetime = None) -> list[datetime]:
+        return [cls.generate_datetime(start, end) for _ in range(amount)]
 
     @classmethod
     def generate_car(cls) -> CarData:
