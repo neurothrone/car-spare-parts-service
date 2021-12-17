@@ -12,6 +12,7 @@ class StoreConverter:
     def convert_from_mysql_to_mongo(cls):
         for store in MysqlStoreRepository.find_all():
             as_dict = store.__dict__
+            as_dict = {key: value for key, value in as_dict.items() if value is not None}
             del as_dict["_sa_instance_state"]
             MongoStoreRepository.create(**as_dict)
 
