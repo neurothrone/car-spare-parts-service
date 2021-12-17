@@ -1,5 +1,3 @@
-import pprint
-
 from app.settings import Settings
 
 Settings.TESTING = True
