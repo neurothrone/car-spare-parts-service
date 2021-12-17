@@ -1,32 +1,49 @@
-import random
-from app.settings import Settings, Database
-from data._mysql.models import OrderDetail
+from __future__ import annotations
+from random import randint
+
+from app.settings import Settings
 
 Settings.TESTING = True
 
-from generators.customer_generator import CustomerGenerator
-from app.controllers.order_detail_controller import OrderDetailController
-from generators.product_generator import ProductGenerator
-from app.controllers.product_controller import ProductController
 from app.controllers.order_controller import OrderController
+from app.controllers.order_detail_controller import OrderDetailController
+from app.controllers.product_controller import ProductController
 from generators.order_generator import OrderGenerator
+from generators.product_generator import ProductGenerator
 
 
 class OrderDetailGenerator:
     @classmethod
-    def generate_order_details(cls, quantity_ordered: int, price_each: float,
-                               order_id: Optional[int | str], product_id: Optional[int | str]) -> None:
+    def generate(cls, order_id: int, product_id: int,
+                 quantity_ordered: int, price_each: float) -> None:
         OrderDetailController.create(quantity_ordered=quantity_ordered, price_each=price_each,
                                      order_id=order_id, product_id=product_id)
 
     @classmethod
     def populate_database(cls, amount: int) -> None:
-        quantity_orders = FakeData.generate_random_int(1, 9)
-        price_per_each = FakeData.generate_random_float(1, 100)
         order_details = OrderDetailController.find_all()
         products = ProductController.find_all()
-        for quantity_order, price_each, \
-            order_detail, product in zip(order_details, products, quantity_orders, price_per_each):
-            cls.generate_order_details(quantity_order, price_each, product.product_id)
 
-        print(f"----- {amount} Products generated -----")
+        if not order_details:
+            OrderGenerator.populate_database(amount)
+            order_details = OrderController.find_all()
+
+        if not products:
+            ProductGenerator.populate_database(amount)
+            products = ProductController.find_all()
+
+        for order_detail, product in zip(order_details, products):
+            cls.generate(order_id=order_detail.order_id,
+                         product_id=product.product_id,
+                         quantity_ordered=randint(1, 9),
+                         price_each=randint(1, 100))
+
+        print(f"----- {amount} Order Details generated -----")
+
+
+def main():
+    OrderDetailGenerator.populate_database(amount=10)
+
+
+if __name__ == "__main__":
+    main()
