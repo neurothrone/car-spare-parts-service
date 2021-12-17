@@ -13,6 +13,7 @@ from app.controllers.supplier_controller import SupplierController
 from app.converters.car_converter import CarConverter
 from app.converters.contact_person_converter import ContactPersonConverter
 from app.converters.customer_converter import CustomerConverter
+from app.converters.employee_converter import EmployeeConverter
 from app.converters.manufacturer_converter import ManufacturerConverter
 from app.converters.product_converter import ProductConverter
 from app.converters.storage_converter import StorageConverter
@@ -62,11 +63,17 @@ class WebController:
 
         ProductConverter.convert_from_mysql_to_mongo()
         StoreConverter.convert_from_mysql_to_mongo()
+        EmployeeConverter.convert_from_mysql_to_mongo()
 
         for product, store in zip(MysqlProductRepository.find_all(), MysqlStoreRepository.find_all()):
             MysqlStorageRepository.add_product_to_store(store, product)
 
         StorageConverter.convert_from_mysql_to_mongo()
+        ProductConverter.delete_remnants()
+
+        StoreConverter.connect_employees_to_stores()
+        EmployeeConverter.delete_remnants()
+        StoreConverter.delete_remnants()
 
         CustomerConverter.convert_from_mysql_to_mongo()
         CarConverter.convert_from_mysql_to_mongo()

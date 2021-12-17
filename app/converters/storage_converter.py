@@ -37,16 +37,3 @@ class StorageConverter:
             })
 
             store.replace_one({"_id": store._id}, store.__dict__)
-
-        # delete product_id mysql remnant
-        for product in MongoProductRepository.find_all():
-            if hasattr(product, "product_id"):
-                product.delete_field("product_id")
-
-        # delete store_id mysql remnant
-        for store in MongoStoreRepository.find_all():
-            store_as_dict = store.__dict__
-
-            if store_as_dict.get("store_id", None):
-                del store_as_dict["store_id"]
-                store.replace_one({"_id": store._id}, store.__dict__)

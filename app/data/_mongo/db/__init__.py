@@ -11,6 +11,10 @@ else:
     db = client[MongoConfig.DB_NAME]
 
 
+def drop_collection(col_name: str):
+    db.drop_collection(col_name)
+
+
 def drop_mongo_db(db_name: str):
     if db_name in client.list_database_names():
         client.drop_database(db_name)

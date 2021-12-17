@@ -1,15 +1,11 @@
-import pprint
-
 from app.settings import Settings
 
 Settings.TESTING = True
 
 from app.data._mongo.repositories.employee_repository import EmployeeRepository as MongoEmployeeRepository
+from app.data._mongo.repositories.store_repository import StoreRepository as MongoStoreRepository
 from app.data._mysql.repositories.employee_repository import EmployeeRepository as MysqlEmployeeRepository
 
-# TODO: connect employees to stores
-# TODO: add employees to stores OR save store_id in Employee model
-# TODO: tests
 
 class EmployeeConverter:
     @classmethod
@@ -17,16 +13,20 @@ class EmployeeConverter:
         for employee in MysqlEmployeeRepository.find_all():
             as_dict = employee.__dict__
 
-            del as_dict["_sa_instance_state"]
             as_dict = {key: value for key, value in as_dict.items() if value}
-            print()
-
-            pprint.pprint(as_dict)
-            # {'email': 'bernt.lindkvist@store.se',
-            #  'employee_id': 1,
-            #  'first_name': 'Bernt',
-            #  'last_name': 'Lindkvist',
-            #  'phone': '075-52 02 86'}
-            quit()
+            del as_dict["_sa_instance_state"]
 
             MongoEmployeeRepository.create(**as_dict)
+
+    @classmethod
+    def delete_remnants(cls):
+        for employee in MongoEmployeeRepository.find_all():
+            employee_as_dict = employee.__dict__
+
+            if employee_as_dict.get("employee_id", None):
+                del employee_as_dict["employee_id"]
+
+                if employee_as_dict.get("store_id", None):
+                    store = MongoStoreRepository.find(store_id=employee_as_dict["store_id"])
+                    employee_as_dict["store_id"] = store._id
+                employee.replace_one({"_id": employee._id}, employee_as_dict)

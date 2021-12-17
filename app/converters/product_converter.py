@@ -16,10 +16,9 @@ class ProductConverter:
             del as_dict["_sa_instance_state"]
             MongoProductRepository.create(**as_dict)
 
-
-def main():
-    ProductConverter.convert_from_mysql_to_mongo()
-
-
-if __name__ == '__main__':
-    main()
+    @classmethod
+    def delete_remnants(cls):
+        # delete product_id mysql remnant
+        for product in MongoProductRepository.find_all():
+            if hasattr(product, "product_id"):
+                product.delete_field("product_id")
