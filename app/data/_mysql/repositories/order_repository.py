@@ -1,5 +1,5 @@
 from __future__ import annotations
-from datetime import datetime
+from datetime import date
 from typing import Optional
 
 from app.data._mysql.db import session
@@ -16,21 +16,21 @@ class OrderRepository(BaseRepository):
         return session.query(cls.model).filter_by(order_id=_id).first()
 
     @classmethod
-    def find_by_ordered_date(cls, ordered_date: datetime,
+    def find_by_ordered_date(cls, ordered_date: date,
                              many: bool = False) -> Optional[Order | list[Order]]:
         if many:
             return session.query(cls.model).filter_by(ordered_date=ordered_date)
         return session.query(cls.model).filter_by(ordered_date=ordered_date).first()
 
     @classmethod
-    def find_by_shipped_date(cls, shipped_date: datetime,
+    def find_by_shipped_date(cls, shipped_date: date,
                              many: bool = False) -> Optional[Order | list[Order]]:
         if many:
             return session.query(cls.model).filter_by(shipped_date=shipped_date)
         return session.query(cls.model).filter_by(shipped_date=shipped_date).first()
 
     @classmethod
-    def find_by_delivery_date(cls, delivery_date: datetime.date,
+    def find_by_delivery_date(cls, delivery_date: date,
                               many: bool = False) -> Optional[Order | list[Order]]:
         if many:
             return session.query(cls.model).filter_by(delivery_date=delivery_date)
@@ -60,7 +60,7 @@ class OrderRepository(BaseRepository):
 
     @classmethod
     def has_product(cls, order: Order, product: Product) -> bool:
-        if not order.products:
+        if not product:
             return False
 
         for order_products in order.products:

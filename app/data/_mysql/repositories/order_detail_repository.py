@@ -1,4 +1,6 @@
-from typing import Optional, Union
+from __future__ import annotations
+
+from typing import Optional
 
 from app.data._mysql.db import session
 from app.data._mysql.repositories import BaseRepository
@@ -15,24 +17,23 @@ class OrderDetailRepository(BaseRepository):
 
     @classmethod
     def find_by_quantity_ordered(cls, quantity_ordered: int,
-                                 many: bool = False) -> Optional[OrderDetail, list[OrderDetail]]:
+                                 many: bool = False) -> Optional[OrderDetail | list[OrderDetail]]:
         if many:
             return session.query(cls.model).filter_by(quantity_ordered=quantity_ordered)
-        return session.query(cls.model).filter_by(quantity_ordered=quantity_ordered).first
+        return session.query(cls.model).filter_by(quantity_ordered=quantity_ordered).first()
 
     @classmethod
-    def find_by_price_each(cls, price_each: float,
-                           many: bool = False) -> Optional[Union[OrderDetail, list[OrderDetail]]]:
+    def find_by_price_each(cls, price_each: float, many: bool = False) -> Optional[OrderDetail | list[OrderDetail]]:
         if many:
             return session.query(cls.model).filter_by(price_each=price_each)
         return session.query(cls.model).filter_by(price_each=price_each).first()
 
     @classmethod
-    def add_product_to_order_detail(cls, product: Product, order_detail: OrderDetail) -> None:
-        if cls.has_product(product, order_detail):
+    def add_product_to_order_detail(cls, order_detail: OrderDetail, product: Product) -> None:
+        if cls.has_product(order_detail, product):
             return
 
-        product.order_details.append(order_detail)
+        order_detail.product.append(order_detail)
         session.commit()
 
     @classmethod
@@ -40,15 +41,15 @@ class OrderDetailRepository(BaseRepository):
         if not cls.has_product(order_detail, product):
             return
 
-        order_detail.products.remove(product)
+        order_detail.product.remove(product)
         session.commit()
 
     @classmethod
     def has_product(cls, product: Product, order_detail: OrderDetail) -> bool:
-        if not product.order_details:
+        if not order_detail.product:
             return False
 
-        for product_order_details in product.order_details:
-            if product_order_details.order_id == order_detail.order_id:
+        for product_order_details in order_detail.product:
+            if product_order_details.order_id == product.order_id:
                 return True
         return False

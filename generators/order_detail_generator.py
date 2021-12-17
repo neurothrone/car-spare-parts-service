@@ -1,19 +1,18 @@
-from __future__ import annotations
-from typing import Optional
-
-from app.controllers.product_controller import ProductController
-from app.settings import Settings
-from generators.order_generator import OrderGenerator
-from generators.product_generator import ProductGenerator
+import random
+from app.settings import Settings, Database
+from data._mysql.models import OrderDetail
 
 Settings.TESTING = True
 
+from generators.customer_generator import CustomerGenerator
 from app.controllers.order_detail_controller import OrderDetailController
-from generators.fake_data import FakeData
+from generators.product_generator import ProductGenerator
+from app.controllers.product_controller import ProductController
+from app.controllers.order_controller import OrderController
+from generators.order_generator import OrderGenerator
 
 
 class OrderDetailGenerator:
-
     @classmethod
     def generate_order_details(cls, quantity_ordered: int, price_each: float,
                                order_id: Optional[int | str], product_id: Optional[int | str]) -> None:
@@ -31,8 +30,3 @@ class OrderDetailGenerator:
             cls.generate_order_details(quantity_order, price_each, product.product_id)
 
         print(f"----- {amount} Products generated -----")
-
-
-def main():
-    if __name__ == '__main__':
-        main()

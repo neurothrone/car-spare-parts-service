@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import Optional
+from unicodedata import decimal
 
 from app.controllers import BaseController
 from app.data.models.order_detail import OrderDetail
@@ -14,7 +15,7 @@ class OrderDetailController(BaseController):
 
     @classmethod
     def create(cls, order_id: int, product_id: int,
-               quantity_ordered: str, price_each: str) -> None:
+               quantity_ordered: int, price_each: float) -> None:
         OrderDetailRepository.create(order_id=order_id, product_id=product_id,
                                      quantity_ordered=quantity_ordered, price_each=price_each)
 
@@ -31,8 +32,8 @@ class OrderDetailController(BaseController):
         return cls.repository.find_by_price_each(price_each)
 
     @classmethod
-    def add_product_to_order_detail(cls, order_detail: OrderDetail, product: Product) -> None:
-        cls.repository.add_product_to_order_detail(order_detail, product)
+    def add_product_to_order_detail(cls, product: Product, order_detail: OrderDetail) -> None:
+        cls.repository.add_product_to_order_detail(product, order_detail)
 
     @classmethod
     def remove_product_from_order_detail(cls, order_detail: OrderDetail, product: Product) -> None:

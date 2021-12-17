@@ -23,7 +23,7 @@ class BaseRepository(ABC):
 
     @classmethod
     def find(cls, many: bool = False,
-             **kwargs) -> Optional[TBaseDocument | list[TBaseDocument]]:
+             **kwargs: object) -> Optional[TBaseDocument | list[TBaseDocument]]:
         result = ResultList(cls.model(**item) for item in
                             cls.model.collection.find(kwargs))
         if many:
